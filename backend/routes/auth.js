@@ -43,7 +43,7 @@ const requestSchema = Joi.object({
 });
 
 ///////////////////////////
-// /* Register user  */  //
+// /* Register User  */  //
 ///////////////////////////
 router.post(
   "/register",
@@ -128,6 +128,14 @@ router.post(
       }
     }
   })
+);
+
+///////////////////////////
+//  /*  Login User  */   //
+///////////////////////////
+router.post(
+  "/login",
+  asyncHandler(async (req, res) => {})
 );
 
 module.exports = router;
