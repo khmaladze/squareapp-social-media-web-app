@@ -89,13 +89,17 @@ router.post(
           .json({ success: false, message: "only @gmail.com is allowed" });
       }
 
+      // Hash password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
       const user = await User.create({
         firstName: firstName,
         lastName: lastName,
         userName: userName,
         birthDate: birthDate,
         email: email,
-        password: password,
+        password: hashedPassword,
       });
 
       res.status(200).json({
