@@ -8,10 +8,6 @@ connectDB();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/api/test", (req, res) => {
-  res.json({ message: "Hello World" });
-});
-
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
