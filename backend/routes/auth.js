@@ -45,53 +45,50 @@ const requestSchema = Joi.object({
 ///////////////////////////
 // /* Register user  */  //
 ///////////////////////////
-router.post("/register", async (req, res) => {
-  try {
-    // get data from body
-    let {
-      firstName,
-      lastName,
-      userName,
-      birthDate,
-      email,
-      password,
-      confirmPassword,
-    } = req.body;
+router.post(
+  "/register",
+  asyncHandler(async (req, res) => {
+    try {
+      // get data from body
+      let {
+        firstName,
+        lastName,
+        userName,
+        birthDate,
+        email,
+        password,
+        confirmPassword,
+      } = req.body;
 
-    // check if all fields isn't empty
-    if (
-      !firstName ||
-      !lastName ||
-      !userName ||
-      !birthDate ||
-      !email ||
-      !password ||
-      !confirmPassword
-    ) {
-      res
-        .status(400)
-        .json({ success: false, message: "please add all the field" });
-    }
+      // check if all fields isn't empty
+      if (
+        !firstName ||
+        !lastName ||
+        !userName ||
+        !birthDate ||
+        !email ||
+        !password ||
+        !confirmPassword
+      ) {
+        res
+          .status(400)
+          .json({ success: false, message: "please add all the field" });
+      }
 
-    // validate request body
-    const schemaValidation = await requestSchema.validateAsync(req.body);
+      // validate request body
+      const schemaValidation = await requestSchema.validateAsync(req.body);
 
-    // validate email provider
-    if (!isValidEmail(email)) {
-      res
-        .status(400)
-        .json({ success: false, message: "only valid email is allowed" });
-    } else if (!isValidGmailProvider(email)) {
-      res
-        .status(400)
-        .json({ success: false, message: "only @gmail.com is allowed" });
-    }
+      // validate email provider
+      if (!isValidEmail(email)) {
+        res
+          .status(400)
+          .json({ success: false, message: "only valid email is allowed" });
+      } else if (!isValidGmailProvider(email)) {
+        res
+          .status(400)
+          .json({ success: false, message: "only @gmail.com is allowed" });
+      }
 
-    let userAlreadyExists = User.findOne({ email: email });
-
-    console.log(userAlreadyExists);
-
-    if (!userAlreadyExists) {
       const user = await User.create({
         firstName: firstName,
         lastName: lastName,
@@ -100,20 +97,33 @@ router.post("/register", async (req, res) => {
         email: email,
         password: password,
       });
-      res
-        .status(200)
-        .json({ success: true, message: "user register successfully.", user });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "you can't register with this email",
+
+      res.status(200).json({
+        success: true,
+        message: "user register successfully.",
+        user,
       });
+    } catch (error) {
+      if (error.code == 11000 && error.keyPattern.email) {
+        res.status(400).json({
+          success: false,
+          message: "can't register with this email. please try another email.",
+        });
+      } else if (error.details) {
+        if (error.details[0].path[0] == "birthDate") {
+          res.status(400).json({
+            success: false,
+            message:
+              "can't register with this date. please use this format year/month/day.",
+          });
+        }
+      } else {
+        res
+          .status(400)
+          .json({ success: false, message: "error, please try later" });
+      }
     }
-  } catch (error) {
-    res
-      .status(400)
-      .json({ success: false, message: "error, please try later" });
-  }
-});
+  })
+);
 
 module.exports = router;
