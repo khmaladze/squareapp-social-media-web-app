@@ -20,7 +20,7 @@ function isValidGmailProvider(email) {
 }
 
 // validation request schema
-const requestSchema = Joi.object({
+const registerRequestSchema = Joi.object({
   firstName: Joi.string()
     .pattern(/^[a-z]+$/)
     .lowercase()
@@ -76,7 +76,9 @@ router.post(
       }
 
       // validate request body
-      const schemaValidation = await requestSchema.validateAsync(req.body);
+      const schemaValidation = await registerRequestSchema.validateAsync(
+        req.body
+      );
 
       // validate email provider
       if (!isValidEmail(email)) {
@@ -135,7 +137,10 @@ router.post(
 ///////////////////////////
 router.post(
   "/login",
-  asyncHandler(async (req, res) => {})
+  asyncHandler(async (req, res) => {
+    try {
+    } catch (error) {}
+  })
 );
 
 module.exports = router;
