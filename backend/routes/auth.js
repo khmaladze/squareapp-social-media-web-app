@@ -185,6 +185,9 @@ router.post(
           token: generateToken(user._id),
         });
       } else {
+        res
+          .status(400)
+          .json({ success: false, message: "error, please try later" });
       }
     } catch (error) {
       console.log(error);
