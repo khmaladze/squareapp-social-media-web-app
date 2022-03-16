@@ -4,9 +4,6 @@ const dotenv = require("dotenv").config();
 const port = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
 
-const app = express();
-app.use(express.urlencoded({ extended: false }));
-
 // check if env file is provided
 const isValidEnv = () => {
   if (process.env.PORT && process.env.JWT_SECRET && process.env.MONGO_URI) {
@@ -16,13 +13,16 @@ const isValidEnv = () => {
   }
 };
 
-// Middleware
-app.use(bodyParser.json());
-
 // check if env file is provided. if yes it will connect database
 if (isValidEnv()) {
   connectDB();
 }
+
+const app = express();
+app.use(express.urlencoded({ extended: false }));
+
+// Middleware
+app.use(bodyParser.json());
 
 // Models
 require("./models/userModel");
