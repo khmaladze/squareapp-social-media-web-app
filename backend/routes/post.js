@@ -53,7 +53,7 @@ router.post(
         const post = await Post.create(postCreate);
         res
           .status(200)
-          .json({ success: true, message: "post created successfully.", post });
+          .json({ success: true, message: "post created successfully", post });
       }
     } catch (error) {
       console.log(error);
@@ -126,7 +126,7 @@ router.put(
       } else {
         res.status(400).json({
           success: false,
-          message: "post not found.",
+          message: "post not found",
         });
       }
     } catch (error) {
@@ -166,7 +166,7 @@ router.delete(
           await post.remove();
           res.status(200).json({
             success: true,
-            message: `post id=${req.params.id} deleted.`,
+            message: `post id=${req.params.id} deleted`,
           });
         }
       } else {
@@ -219,20 +219,20 @@ router.put(
           );
           res.status(200).json({
             success: true,
-            message: "comment added successfully.",
+            message: "comment added successfully",
             addedComment,
           });
         } else {
           res.status(400).json({
             success: false,
-            message: "post not found.",
+            message: "post not found",
           });
         }
       }
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "please try later.",
+        message: "please try later",
       });
     }
   })
