@@ -72,6 +72,7 @@ router.post(
         confirmPassword,
       } = req.body;
 
+      // check if all field is filled
       if (
         firstName &&
         lastName &&
@@ -111,14 +112,14 @@ router.post(
 
           res.status(200).json({
             success: true,
-            message: "user register successfully.",
+            message: "user register successfully",
             user,
           });
         }
       } else {
         res.status(400).json({
           success: false,
-          message: "please add all the fields.",
+          message: "please add all the fields",
         });
       }
     } catch (error) {
@@ -131,20 +132,20 @@ router.post(
       } else if (error.code == 11000 && error.keyPattern.email) {
         res.status(400).json({
           success: false,
-          message: "can't register with this email. please try another email.",
+          message: "can't register with this email. please try another email",
         });
       } else if (error.code == 11000 && error.keyPattern.userName) {
         res.status(400).json({
           success: false,
           message:
-            "can't register with this userName. please try another userName.",
+            "can't register with this userName. please try another userName",
         });
       } else if (error.details) {
         if (error.details[0].path[0] == "birthDate") {
           res.status(400).json({
             success: false,
             message:
-              "can't register with this date. please use this format year-month-day.",
+              "can't register with this date. please use this format year-month-day",
           });
         }
       } else {
@@ -198,7 +199,7 @@ router.post(
       } else {
         res
           .status(400)
-          .json({ success: false, message: "error, please try later" });
+          .json({ success: false, message: "Invalid Creadentials" });
       }
     } catch (error) {
       if (error.details) {
