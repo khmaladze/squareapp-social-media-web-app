@@ -61,4 +61,82 @@ router.post(
   })
 );
 
+///////////////////////////
+// /*  update Post  */   //
+///////////////////////////
+router.put(
+  "/update/:id",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      let post = await Post.findById(req.params.id);
+
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      if (post) {
+        if (post.postedBy.toString() !== req.user.id) {
+          res.status(400).json({
+            success: false,
+            message: "User not authorized",
+          });
+        }
+        let { text, image, video, privacy } = req.body;
+        let postUpdate = {
+          postedBy: req.user,
+        };
+        if (text) {
+          postUpdate.text = text;
+        }
+        if (image) {
+          postUpdate.image = image;
+        }
+        if (video) {
+          postUpdate.video = video;
+        }
+        if (privacy) {
+          postUpdate.privacy = privacy;
+        }
+        if (!text && !image && !video && !privacy) {
+          res.status(400).json({
+            success: false,
+            message:
+              "if you want to update post you need to add minimum  text or image or video",
+          });
+        } else {
+          const updatePost = await Post.findByIdAndUpdate(
+            req.params.id,
+            postUpdate,
+            {
+              new: true,
+            }
+          );
+
+          res.status(200).json({
+            success: true,
+            message: `post id=${req.params.id} updated successfully`,
+            updatePost,
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "post not found.",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({
+        success: false,
+        message: "please try again",
+      });
+    }
+  })
+);
+
 module.exports = router;
