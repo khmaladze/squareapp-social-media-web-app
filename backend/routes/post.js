@@ -130,8 +130,7 @@ router.put(
         });
       }
     } catch (error) {
-      console.log(error);
-      res.status(400).json({
+      res.status(500).json({
         success: false,
         message: "please try again",
       });
@@ -203,8 +202,10 @@ router.put(
         comment: req.body.comment,
         commentBy: req.user.id,
       };
+
       // post id
       const postId = req.body.postId;
+
       // if post exist add comment
       if (postId) {
         let post = await Post.findById(postId);
