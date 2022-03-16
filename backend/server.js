@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 
+// check if env file is provided
 const isValidEnv = () => {
   if (process.env.PORT && process.env.JWT_SECRET && process.env.MONGO_URI) {
     return true;
@@ -17,6 +18,8 @@ const isValidEnv = () => {
 
 // Middleware
 app.use(bodyParser.json());
+
+// check if env file is provided. if yes it will connect database
 if (isValidEnv()) {
   connectDB();
 }
@@ -28,12 +31,14 @@ require("./models/userModel");
 app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 
+// check if env file is provided. if yes it will start server
 if (isValidEnv()) {
   app.listen(port, () => {
     console.log(`Server started on port ${port}`);
   });
 } else {
   console.log("error please add .env file to run this program💻💻💻");
+  console.log("can't connect mongodb without mongo uri");
   console.log(
     JSON.stringify(
       {
