@@ -147,6 +147,10 @@ router.post(
               "can't register with this date. please use this format year-month-day.",
           });
         }
+      } else {
+        res
+          .status(500)
+          .json({ success: false, message: "error please try later" });
       }
     }
   })
@@ -205,8 +209,8 @@ router.post(
         }
       } else {
         res
-          .status(400)
-          .json({ success: false, message: "error, please try later" });
+          .status(500)
+          .json({ success: false, message: "error please try later" });
       }
     }
   })
