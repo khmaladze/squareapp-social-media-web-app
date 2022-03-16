@@ -133,6 +133,12 @@ router.post(
           success: false,
           message: "can't register with this email. please try another email.",
         });
+      } else if (error.code == 11000 && error.keyPattern.userName) {
+        res.status(400).json({
+          success: false,
+          message:
+            "can't register with this userName. please try another userName.",
+        });
       } else if (error.details) {
         if (error.details[0].path[0] == "birthDate") {
           res.status(400).json({
