@@ -19,22 +19,18 @@ router.post(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      const validatePostRequestSchema = await postRequestSchema.validateAsync(
+        req.body
+      );
+
       let { text, image, video, privacy } = req.body;
       let postCreate = {
         postedBy: req.user,
+        text,
+        image,
+        video,
       };
-      if (text) {
-        postCreate.text = text;
-      }
-      if (image) {
-        postCreate.image = image;
-      }
-      if (video) {
-        postCreate.video = video;
-      }
-      if (privacy) {
-        postCreate.privacy = privacy;
-      }
+
       if (!text && !image && !video) {
         res.status(400).json({
           success: false,
@@ -42,6 +38,18 @@ router.post(
             "if you want to add post you need to add minimum  text or image or video",
         });
       } else {
+        if (text) {
+          postCreate.text = text;
+        }
+        if (image) {
+          postCreate.image = image;
+        }
+        if (video) {
+          postCreate.video = video;
+        }
+        if (privacy) {
+          postCreate.privacy = privacy;
+        }
         const post = await Post.create(postCreate);
         res
           .status(200)
