@@ -73,57 +73,63 @@ router.post(
         confirmPassword,
       } = req.body;
 
-      // check if all fields isn't empty
       if (
-        !firstName ||
-        !lastName ||
-        !userName ||
-        !birthDate ||
-        !email ||
-        !password ||
-        !confirmPassword
+        firstName &&
+        lastName &&
+        userName &&
+        birthDate &&
+        email &&
+        password &&
+        confirmPassword
       ) {
-        res
-          .status(400)
-          .json({ success: false, message: "please add all the field" });
+        // validate request body
+        const schemaValidation = await registerRequestSchema.validateAsync(
+          req.body
+        );
+
+        // validate email provider
+        if (!isValidEmail(email)) {
+          res
+            .status(400)
+            .json({ success: false, message: "only valid email is allowed" });
+        } else if (!isValidGmailProvider(email)) {
+          res
+            .status(400)
+            .json({ success: false, message: "only @gmail.com is allowed" });
+        } else {
+          // Hash password
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(password, salt);
+
+          const user = await User.create({
+            firstName: firstName,
+            lastName: lastName,
+            userName: userName,
+            birthDate: birthDate,
+            email: email,
+            password: hashedPassword,
+          });
+
+          res.status(200).json({
+            success: true,
+            message: "user register successfully.",
+            user,
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "please add all the fields.",
+        });
       }
-
-      // validate request body
-      const schemaValidation = await registerRequestSchema.validateAsync(
-        req.body
-      );
-
-      // validate email provider
-      if (!isValidEmail(email)) {
-        res
-          .status(400)
-          .json({ success: false, message: "only valid email is allowed" });
-      } else if (!isValidGmailProvider(email)) {
-        res
-          .status(400)
-          .json({ success: false, message: "only @gmail.com is allowed" });
-      }
-
-      // Hash password
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-
-      const user = await User.create({
-        firstName: firstName,
-        lastName: lastName,
-        userName: userName,
-        birthDate: birthDate,
-        email: email,
-        password: hashedPassword,
-      });
-
-      res.status(200).json({
-        success: true,
-        message: "user register successfully.",
-        user,
-      });
     } catch (error) {
-      if (error.code == 11000 && error.keyPattern.email) {
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else if (error.code == 11000 && error.keyPattern.email) {
         res.status(400).json({
           success: false,
           message: "can't register with this email. please try another email.",
@@ -133,13 +139,9 @@ router.post(
           res.status(400).json({
             success: false,
             message:
-              "can't register with this date. please use this format year/month/day.",
+              "can't register with this date. please use this format year-month-day.",
           });
         }
-      } else {
-        res
-          .status(400)
-          .json({ success: false, message: "error, please try later" });
       }
     }
   })
