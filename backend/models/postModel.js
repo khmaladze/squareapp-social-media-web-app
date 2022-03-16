@@ -4,12 +4,15 @@ const postSchema = mongoose.Schema(
   {
     text: {
       type: String,
+      trim: true,
     },
-    images: {
+    image: {
       type: String,
+      trim: true,
     },
     video: {
       type: String,
+      trim: true,
     },
     privacy: {
       type: String,
