@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const Post = require("../models/postModel");
 const asyncHandler = require("express-async-handler");
 const Joi = require("joi");
@@ -62,7 +61,7 @@ router.post(
 );
 
 ///////////////////////////
-// /*  update Post  */   //
+// /*  Update Post  */   //
 ///////////////////////////
 router.put(
   "/update/:id",
@@ -139,7 +138,7 @@ router.put(
 );
 
 ///////////////////////////
-// /*  delete Post  */   //
+// /*  Delete Post  */   //
 ///////////////////////////
 router.delete(
   "/delete/:id",
@@ -182,7 +181,7 @@ router.delete(
 );
 
 ///////////////////////////
-// /* Post comment  */   //
+// /* Post Comment  */   //
 ///////////////////////////
 router.put(
   "/comment",
