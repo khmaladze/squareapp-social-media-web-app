@@ -197,9 +197,9 @@ router.put(
       }
 
       // comment
-      const addComent = {
+      const addComment = {
         comment: req.body.comment,
-        commentBy: req.user.id,
+        commentBy: req.user._id,
       };
 
       // post id
@@ -212,7 +212,7 @@ router.put(
           const addedComment = await Post.findByIdAndUpdate(
             postId,
             {
-              $push: { comment: addComent },
+              $push: { comment: addComment },
             },
             { new: true }
           );
