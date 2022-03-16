@@ -19,6 +19,16 @@ const postSchema = mongoose.Schema(
       enum: ["onlyMe", "friends", "public"],
       default: "onlyMe",
     },
+    comment: [
+      {
+        comment: String,
+        commentBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "User",
+        },
+      },
+    ],
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
