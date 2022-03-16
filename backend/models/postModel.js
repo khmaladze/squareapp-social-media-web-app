@@ -29,6 +29,16 @@ const postSchema = mongoose.Schema(
         },
       },
     ],
+    likes: [
+      {
+        enum: ["like", "love"],
+        postedBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "User",
+        },
+      },
+    ],
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
