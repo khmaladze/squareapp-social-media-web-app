@@ -192,10 +192,17 @@ router.post(
           .json({ success: false, message: "error, please try later" });
       }
     } catch (error) {
-      console.log(error);
-      res
-        .status(400)
-        .json({ success: false, message: "error, please try later" });
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res
+          .status(400)
+          .json({ success: false, message: "error, please try later" });
+      }
     }
   })
 );
