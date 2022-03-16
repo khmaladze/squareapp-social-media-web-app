@@ -182,4 +182,59 @@ router.delete(
   })
 );
 
+///////////////////////////
+// /* Post comment  */   //
+///////////////////////////
+router.put(
+  "/comment",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      // comment
+      const addComent = {
+        comment: req.body.comment,
+        commentBy: req.user.id,
+      };
+      // post id
+      const postId = req.body.postId;
+      // if post exist add comment
+      if (postId) {
+        let post = await Post.findById(postId);
+        if (post) {
+          const addedComment = await Post.findByIdAndUpdate(
+            postId,
+            {
+              $push: { comment: addComent },
+            },
+            { new: true }
+          );
+          res.status(200).json({
+            success: true,
+            message: "comment added successfully.",
+            addedComment,
+          });
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "post not found.",
+          });
+        }
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "please try later.",
+      });
+    }
+  })
+);
+
 module.exports = router;
