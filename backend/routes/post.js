@@ -139,4 +139,47 @@ router.put(
   })
 );
 
+///////////////////////////
+// /*  delete Post  */   //
+///////////////////////////
+router.delete(
+  "/delete/:id",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      if (post) {
+        if (post.postedBy.toString() !== req.user.id) {
+          return res.status(400).json({
+            success: false,
+            message: "User not authorized",
+          });
+        } else {
+          await post.remove();
+          res.status(200).json({
+            success: true,
+            message: `post id=${req.params.id} deleted.`,
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "post not found",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  })
+);
+
 module.exports = router;
