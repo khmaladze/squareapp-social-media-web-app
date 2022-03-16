@@ -30,6 +30,7 @@ require("./models/userModel");
 // Routes
 app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/post", require("./routes/post"));
 
 // check if env file is provided. if yes it will start server
 if (isValidEnv()) {
