@@ -24,6 +24,15 @@ router.post(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      // validate request body
       const validatePostRequestSchema = await postRequestSchema.validateAsync(
         req.body
       );
@@ -361,6 +370,15 @@ router.put(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      // postId
       const postId = req.params.postId;
 
       if (postId) {
@@ -407,6 +425,15 @@ router.put(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      // postId
       const postId = req.params.postId;
 
       if (postId) {
