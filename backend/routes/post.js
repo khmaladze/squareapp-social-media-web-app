@@ -353,4 +353,50 @@ router.put(
   })
 );
 
+///////////////////////////
+//  /* Post Like  */     //
+///////////////////////////
+router.put(
+  "/like/:postId",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const postId = req.params.postId;
+
+      if (postId) {
+        const post = await Post.findById(postId);
+
+        if (!post.like.find((x) => x.likeBy == req.user.id)) {
+          let likepost = await Post.findByIdAndUpdate(
+            postId,
+            {
+              $push: { like: { likeBy: req.user.id } },
+            },
+            { new: true }
+          );
+          if (likepost) {
+            res.status(200).json({
+              success: true,
+              message: "like add successfully",
+              likepost,
+            });
+          }
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "can't like post",
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "can't like post",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  })
+);
+
 module.exports = router;
