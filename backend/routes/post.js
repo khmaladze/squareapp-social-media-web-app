@@ -86,6 +86,9 @@ router.put(
           });
         }
         let { text, image, video, privacy } = req.body;
+        const validatePostRequestSchema = await postRequestSchema.validateAsync(
+          req.body
+        );
         let postUpdate = {
           postedBy: req.user,
         };
