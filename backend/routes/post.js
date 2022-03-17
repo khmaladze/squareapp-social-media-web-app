@@ -12,6 +12,7 @@ const postRequestSchema = Joi.object({
 
 // validation post request schema
 const postCommentRequestSchema = Joi.object({
+  postId: Joi.string(),
   comment: Joi.string().max(100).trim(),
 });
 
@@ -216,9 +217,8 @@ router.put(
       }
 
       // validate comment
-      const validatePostRequestSchema = await postRequestSchema.validateAsync(
-        req.body
-      );
+      const validateCommentRequestSchema =
+        await postCommentRequestSchema.validateAsync(req.body);
 
       // comment
       const addComment = {
