@@ -30,10 +30,9 @@ const postSchema = mongoose.Schema(
         date: { type: Date, default: Date.now },
       },
     ],
-    likes: [
+    like: [
       {
-        enum: ["like", "love"],
-        postedBy: {
+        likeBy: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: "User",
