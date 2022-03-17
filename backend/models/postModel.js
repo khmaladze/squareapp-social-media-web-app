@@ -27,6 +27,7 @@ const postSchema = mongoose.Schema(
           required: true,
           ref: "User",
         },
+        date: { type: Date, default: Date.now },
       },
     ],
     likes: [
@@ -37,6 +38,7 @@ const postSchema = mongoose.Schema(
           required: true,
           ref: "User",
         },
+        date: { type: Date, default: Date.now },
       },
     ],
     postedBy: {
