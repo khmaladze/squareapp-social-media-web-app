@@ -61,7 +61,18 @@ router.post(
           .json({ success: true, message: "post created successfully", post });
       }
     } catch (error) {
-      console.log(error);
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "please try again",
+        });
+      }
     }
   })
 );
@@ -253,6 +264,82 @@ router.put(
         }
       }
     } catch (error) {
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "please try again",
+        });
+      }
+    }
+  })
+);
+
+///////////////////////////
+// /* Delete Comment */  //
+///////////////////////////
+router.put(
+  "/delete/comment/:id",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      // validate comment
+      const validateCommentRequestSchema =
+        await postCommentRequestSchema.validateAsync(req.body);
+
+      // post id
+      const postId = req.body.postId;
+
+      // if post exist add comment
+      if (postId) {
+        let post = await Post.findById(postId);
+        if (post) {
+          if (
+            post.comment.find((x) => x._id == req.params.id) &&
+            post.comment.find(
+              (x) => x.commentBy == req.user.id && x._id == req.params.id
+            )
+          ) {
+            const updatedPost = await Post.findByIdAndUpdate(
+              postId,
+              {
+                $pull: { comment: { _id: req.params.id } },
+              },
+              { new: true }
+            );
+            res.status(200).json({
+              success: true,
+              message: "comment added successfully",
+              updatedPost,
+            });
+          } else {
+            res.status(400).json({
+              success: false,
+              message: "can't delete comment",
+            });
+          }
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "post not found",
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
       if (error.details) {
         if (error.details[0].message) {
           res
