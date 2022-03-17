@@ -296,10 +296,6 @@ router.put(
         });
       }
 
-      // validate comment
-      const validateCommentRequestSchema =
-        await postCommentRequestSchema.validateAsync(req.body);
-
       // post id
       const postId = req.body.postId;
 
@@ -307,6 +303,7 @@ router.put(
       if (postId) {
         let post = await Post.findById(postId);
         if (post) {
+          // check if this comment is commentby user
           if (
             post.comment.find((x) => x._id == req.params.id) &&
             post.comment.find(
