@@ -3,6 +3,12 @@ const connectDB = require("./config/db");
 const dotenv = require("dotenv").config();
 const port = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+const hpp = require("hpp");
+const cors = require("cors");
 
 // check if env file is provided
 const isValidEnv = () => {
@@ -31,6 +37,28 @@ require("./models/userModel");
 app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/post", require("./routes/post"));
+
+// Sanitize data
+app.use(mongoSanitize());
+
+// Set security headers
+app.use(helmet());
+
+// Prevent XSS attacks
+app.use(xss());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 mins
+  max: 100,
+});
+app.use(limiter);
+
+// Prevent http param pollution
+app.use(hpp());
+
+// Enable CORS
+app.use(cors());
 
 // check if env file is provided. if yes it will start server
 if (isValidEnv()) {
