@@ -10,6 +10,11 @@ const postRequestSchema = Joi.object({
   text: Joi.string().max(300).trim(),
 });
 
+// validation post request schema
+const postCommentRequestSchema = Joi.object({
+  comment: Joi.string().max(100).trim(),
+});
+
 ///////////////////////////
 //   /*  Add Post  */    //
 ///////////////////////////
@@ -86,9 +91,12 @@ router.put(
           });
         }
         let { text, image, video, privacy } = req.body;
+
+        // validate post request schema
         const validatePostRequestSchema = await postRequestSchema.validateAsync(
           req.body
         );
+
         let postUpdate = {
           postedBy: req.user,
         };
@@ -132,10 +140,18 @@ router.put(
         });
       }
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "please try again",
-      });
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "please try again",
+        });
+      }
     }
   })
 );
@@ -199,6 +215,11 @@ router.put(
         });
       }
 
+      // validate comment
+      const validatePostRequestSchema = await postRequestSchema.validateAsync(
+        req.body
+      );
+
       // comment
       const addComment = {
         comment: req.body.comment,
@@ -232,10 +253,18 @@ router.put(
         }
       }
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "please try later",
-      });
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "please try again",
+        });
+      }
     }
   })
 );
