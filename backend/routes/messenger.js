@@ -87,4 +87,38 @@ router.get(
   })
 );
 
+/////////////////////////////////
+// /* Get One Conversation */  //
+/////////////////////////////////
+router.get(
+  "/get/conversation/:userId",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      // check if conversation already created
+      const findConversation = await Conversation.find({
+        members: { $all: [req.user.id, req.params.userId] },
+      });
+
+      if (findConversation) {
+        res.status(200).json({
+          success: true,
+          message: "conversation get successfully",
+          findConversation,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "can't create conversation",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
+
 module.exports = router;
