@@ -156,7 +156,7 @@ router.post(
 
       const addMessage = await Message.create({
         conversationId: req.params.conversationId,
-        sender: req.params.id,
+        sender: req.user.id,
         text,
       });
 
