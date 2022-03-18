@@ -8,6 +8,8 @@ const { protect } = require("../middleware/requireUserLogin");
 // validation post request schema
 const postRequestSchema = Joi.object({
   text: Joi.string().max(300).trim(),
+  image: Joi.string().trim(),
+  video: Joi.string().trim(),
 });
 
 // validation post request schema
@@ -137,7 +139,7 @@ router.put(
           res.status(400).json({
             success: false,
             message:
-              "if you want to update post you need to add minimum  text or image or video",
+              "if you want to update post you need to add minimum  text or image or video or privacy",
           });
         } else {
           const updatePost = await Post.findByIdAndUpdate(
@@ -196,16 +198,16 @@ router.delete(
       }
 
       if (post) {
-        if (post.postedBy.toString() !== req.user.id) {
-          return res.status(400).json({
-            success: false,
-            message: "User not authorized",
-          });
-        } else {
+        if (post.postedBy.toString() === req.user.id) {
           await post.remove();
           res.status(200).json({
             success: true,
             message: `post id=${req.params.id} deleted`,
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: "User not authorized",
           });
         }
       } else {
