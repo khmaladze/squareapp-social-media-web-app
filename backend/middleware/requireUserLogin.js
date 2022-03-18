@@ -16,10 +16,17 @@ const protect = asyncHandler(async (req, res, next) => {
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Get user from the token
-      req.user = await User.findById(decoded.id).select("-password");
-
-      next();
+      // Get user from the
+      const user = await User.findById(decoded.id).select("-password");
+      if (user) {
+        req.user = user;
+        next();
+      } else {
+        res.status(401).json({
+          success: false,
+          message: "Error, You are not user. user not found",
+        });
+      }
     } catch (error) {
       res.status(401).json({ success: false, message: "Not authorized" });
     }
