@@ -386,25 +386,32 @@ router.put(
       if (postId) {
         const post = await Post.findById(postId);
 
-        if (!post.like.find((x) => x.likeBy == req.user.id)) {
-          let likepost = await Post.findByIdAndUpdate(
-            postId,
-            {
-              $push: { like: { likeBy: req.user.id } },
-            },
-            { new: true }
-          );
-          if (likepost) {
-            res.status(200).json({
-              success: true,
-              message: "like add successfully",
-              likepost,
+        if (post) {
+          if (!post.like.find((x) => x.likeBy == req.user.id)) {
+            let likepost = await Post.findByIdAndUpdate(
+              postId,
+              {
+                $push: { like: { likeBy: req.user.id } },
+              },
+              { new: true }
+            );
+            if (likepost) {
+              res.status(200).json({
+                success: true,
+                message: "like add successfully",
+                likepost,
+              });
+            }
+          } else {
+            res.status(400).json({
+              success: false,
+              message: "can't like post",
             });
           }
         } else {
           res.status(400).json({
             success: false,
-            message: "can't like post",
+            message: "post not found",
           });
         }
       } else {
@@ -440,26 +447,32 @@ router.put(
 
       if (postId) {
         const post = await Post.findById(postId);
-
-        if (post.like.find((x) => x.likeBy == req.user.id)) {
-          let likepost = await Post.findByIdAndUpdate(
-            postId,
-            {
-              $pull: { like: { likeBy: req.user.id } },
-            },
-            { new: true }
-          );
-          if (likepost) {
-            res.status(200).json({
-              success: true,
-              message: "like add successfully",
-              likepost,
+        if (post) {
+          if (post.like.find((x) => x.likeBy == req.user.id)) {
+            let likepost = await Post.findByIdAndUpdate(
+              postId,
+              {
+                $pull: { like: { likeBy: req.user.id } },
+              },
+              { new: true }
+            );
+            if (likepost) {
+              res.status(200).json({
+                success: true,
+                message: "like add successfully",
+                likepost,
+              });
+            }
+          } else {
+            res.status(400).json({
+              success: false,
+              message: "can't unlike post",
             });
           }
         } else {
           res.status(400).json({
             success: false,
-            message: "can't unlike post",
+            message: "post not found",
           });
         }
       } else {
