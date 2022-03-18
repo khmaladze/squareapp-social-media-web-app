@@ -18,6 +18,7 @@ const postCommentRequestSchema = Joi.object({
   comment: Joi.string().max(100).trim(),
 });
 
+// validate postId
 const postIdRequestSchema = Joi.object({
   postId: Joi.string().trim().required(),
 });
@@ -44,6 +45,7 @@ router.post(
       );
 
       let { text, image, video, privacy } = req.body;
+
       let postCreate = {
         postedBy: req.user,
         text,
@@ -55,25 +57,38 @@ router.post(
         res.status(400).json({
           success: false,
           message:
-            "if you want to add post you need to add minimum  text or image or video",
+            "if you want to add post you need to add minimum text or image or video",
         });
       } else {
         if (text) {
           postCreate.text = text;
         }
+
         if (image) {
           postCreate.image = image;
         }
+
         if (video) {
           postCreate.video = video;
         }
+
         if (privacy) {
           postCreate.privacy = privacy;
         }
+
         const post = await Post.create(postCreate);
-        res
-          .status(200)
-          .json({ success: true, message: "post created successfully", post });
+
+        post
+          ? res.status(200).json({
+              success: true,
+              message: "post created successfully",
+              post,
+            })
+          : res.status(400).json({
+              success: false,
+              message: "post can't create",
+              post,
+            });
       }
     } catch (error) {
       if (error.details) {
@@ -100,6 +115,7 @@ router.put(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      // check if post exist
       let post = await Post.findById(req.params.id);
 
       // Check for user
@@ -121,18 +137,23 @@ router.put(
           let postUpdate = {
             postedBy: req.user,
           };
+
           if (text) {
             postUpdate.text = text;
           }
+
           if (image) {
             postUpdate.image = image;
           }
+
           if (video) {
             postUpdate.video = video;
           }
+
           if (privacy) {
             postUpdate.privacy = privacy;
           }
+
           if (!text && !image && !video && !privacy) {
             res.status(400).json({
               success: false,
@@ -140,6 +161,7 @@ router.put(
                 "if you want to update post you need to add minimum  text or image or video or privacy",
             });
           } else {
+            // update post
             const updatePost = await Post.findByIdAndUpdate(
               req.params.id,
               postUpdate,
@@ -148,11 +170,16 @@ router.put(
               }
             );
 
-            res.status(200).json({
-              success: true,
-              message: `post id=${req.params.id} updated successfully`,
-              updatePost,
-            });
+            updatePost
+              ? res.status(200).json({
+                  success: true,
+                  message: `post id=${req.params.id} updated successfully`,
+                  updatePost,
+                })
+              : res.status(400).json({
+                  success: false,
+                  message: `post id=${req.params.id} can't update`,
+                });
           }
         } else {
           return res.status(400).json({
@@ -221,7 +248,10 @@ router.delete(
         });
       }
     } catch (error) {
-      console.log(error);
+      res.status(500).json({
+        success: false,
+        message: "please try again",
+      });
     }
   })
 );
