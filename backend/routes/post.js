@@ -18,11 +18,6 @@ const postCommentRequestSchema = Joi.object({
   comment: Joi.string().max(100).trim(),
 });
 
-// validate postId
-const postIdRequestSchema = Joi.object({
-  postId: Joi.string().trim().required(),
-});
-
 ///////////////////////////
 //   /*  Add Post  */    //
 ///////////////////////////
@@ -424,10 +419,6 @@ router.put(
       // postId
       const postId = req.params.postId;
 
-      // validate like request id
-      const validatelikeRequestSchema =
-        await validatelikeRequestSchema.validateAsync(req.body);
-
       if (postId) {
         const post = await Post.findById(postId);
 
@@ -501,10 +492,6 @@ router.put(
       // postId
       const postId = req.params.postId;
 
-      // validate like request id
-      const validatelikeRequestSchema =
-        await validatelikeRequestSchema.validateAsync(req.body);
-
       if (postId) {
         const post = await Post.findById(postId);
         if (post) {
@@ -520,7 +507,7 @@ router.put(
               res.status(200).json({
                 success: true,
                 message: "like remove successfully",
-                likepost,
+                unlikepost,
               });
             }
           } else {
