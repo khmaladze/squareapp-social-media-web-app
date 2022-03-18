@@ -107,53 +107,53 @@ router.put(
       }
 
       if (post) {
-        if (post.postedBy.toString() !== req.user.id) {
-          res.status(400).json({
+        if (post.postedBy.toString() === req.user.id) {
+          let { text, image, video, privacy } = req.body;
+
+          // validate post request schema
+          const validatePostRequestSchema =
+            await postRequestSchema.validateAsync(req.body);
+
+          let postUpdate = {
+            postedBy: req.user,
+          };
+          if (text) {
+            postUpdate.text = text;
+          }
+          if (image) {
+            postUpdate.image = image;
+          }
+          if (video) {
+            postUpdate.video = video;
+          }
+          if (privacy) {
+            postUpdate.privacy = privacy;
+          }
+          if (!text && !image && !video && !privacy) {
+            res.status(400).json({
+              success: false,
+              message:
+                "if you want to update post you need to add minimum  text or image or video or privacy",
+            });
+          } else {
+            const updatePost = await Post.findByIdAndUpdate(
+              req.params.id,
+              postUpdate,
+              {
+                new: true,
+              }
+            );
+
+            res.status(200).json({
+              success: true,
+              message: `post id=${req.params.id} updated successfully`,
+              updatePost,
+            });
+          }
+        } else {
+          return res.status(400).json({
             success: false,
             message: "User not authorized",
-          });
-        }
-        let { text, image, video, privacy } = req.body;
-
-        // validate post request schema
-        const validatePostRequestSchema = await postRequestSchema.validateAsync(
-          req.body
-        );
-
-        let postUpdate = {
-          postedBy: req.user,
-        };
-        if (text) {
-          postUpdate.text = text;
-        }
-        if (image) {
-          postUpdate.image = image;
-        }
-        if (video) {
-          postUpdate.video = video;
-        }
-        if (privacy) {
-          postUpdate.privacy = privacy;
-        }
-        if (!text && !image && !video && !privacy) {
-          res.status(400).json({
-            success: false,
-            message:
-              "if you want to update post you need to add minimum  text or image or video or privacy",
-          });
-        } else {
-          const updatePost = await Post.findByIdAndUpdate(
-            req.params.id,
-            postUpdate,
-            {
-              new: true,
-            }
-          );
-
-          res.status(200).json({
-            success: true,
-            message: `post id=${req.params.id} updated successfully`,
-            updatePost,
           });
         }
       } else {
