@@ -183,4 +183,27 @@ router.post(
   })
 );
 
+/////////////////////////////////
+//     /* Send Message */      //
+/////////////////////////////////
+router.get(
+  "/get/message/:conversationId",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const message = await Message.find({
+        conversationId: req.params.conversationId,
+      });
+      res
+        .status(200)
+        .json({ success: true, message: "messages get successfully", message });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
+
 module.exports = router;
