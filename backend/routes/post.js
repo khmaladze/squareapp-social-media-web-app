@@ -18,7 +18,7 @@ const postCommentRequestSchema = Joi.object({
   comment: Joi.string().max(100).trim(),
 });
 
-const postCommentDeleteRequestSchema = Joi.object({
+const postIdRequestSchema = Joi.object({
   postId: Joi.string().trim().required(),
 });
 
@@ -315,8 +315,7 @@ router.put(
       const postId = req.body.postId;
 
       // validate comment
-      const validateCommentRequestSchema =
-        await postCommentDeleteRequestSchema.validateAsync(req.body);
+      const validateCommentRequestSchema = await postId.validateAsync(req.body);
 
       // if post exist add comment
       if (postId) {
@@ -395,6 +394,10 @@ router.put(
       // postId
       const postId = req.params.postId;
 
+      // validate like request id
+      const validatelikeRequestSchema =
+        await validatelikeRequestSchema.validateAsync(req.body);
+
       if (postId) {
         const post = await Post.findById(postId);
 
@@ -433,7 +436,18 @@ router.put(
         });
       }
     } catch (error) {
-      console.log(error);
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "please try again",
+        });
+      }
     }
   })
 );
@@ -457,21 +471,25 @@ router.put(
       // postId
       const postId = req.params.postId;
 
+      // validate like request id
+      const validatelikeRequestSchema =
+        await validatelikeRequestSchema.validateAsync(req.body);
+
       if (postId) {
         const post = await Post.findById(postId);
         if (post) {
           if (post.like.find((x) => x.likeBy == req.user.id)) {
-            let likepost = await Post.findByIdAndUpdate(
+            let unlikepost = await Post.findByIdAndUpdate(
               postId,
               {
                 $pull: { like: { likeBy: req.user.id } },
               },
               { new: true }
             );
-            if (likepost) {
+            if (unlikepost) {
               res.status(200).json({
                 success: true,
-                message: "like add successfully",
+                message: "like remove successfully",
                 likepost,
               });
             }
@@ -494,7 +512,18 @@ router.put(
         });
       }
     } catch (error) {
-      console.log(error);
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "please try again",
+        });
+      }
     }
   })
 );
