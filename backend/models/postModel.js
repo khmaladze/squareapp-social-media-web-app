@@ -32,6 +32,11 @@ const postSchema = mongoose.Schema(
     ],
     like: [
       {
+        like: {
+          type: String,
+          enum: ["like", "love"],
+          default: "like",
+        },
         likeBy: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
