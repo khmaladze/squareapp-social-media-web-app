@@ -7,7 +7,7 @@ const Joi = require("joi");
 const { protect } = require("../middleware/requireUserLogin");
 
 /////////////////////////////////
-// / * Create Conversation */  //
+//  /* Create Conversation */  //
 /////////////////////////////////
 router.post(
   "/add/conversation",
@@ -45,7 +45,44 @@ router.post(
         });
       }
     } catch (error) {
-      console.log(error);
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
+
+/////////////////////////////////
+// /* Get User Conversation */ //
+/////////////////////////////////
+router.get(
+  "/get/my/conversation",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      // check if conversation already created
+      const findConversation = await Conversation.find({
+        members: { $in: [req.user.id] },
+      });
+
+      if (findConversation) {
+        res.status(200).json({
+          success: true,
+          message: "conversation get successfully",
+          findConversation,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "can't create conversation",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
     }
   })
 );
