@@ -18,6 +18,10 @@ const postCommentRequestSchema = Joi.object({
   comment: Joi.string().max(100).trim(),
 });
 
+const postCommentDeleteRequestSchema = Joi.object({
+  postId: Joi.string().trim().required(),
+});
+
 ///////////////////////////
 //   /*  Add Post  */    //
 ///////////////////////////
@@ -310,6 +314,10 @@ router.put(
       // post id
       const postId = req.body.postId;
 
+      // validate comment
+      const validateCommentRequestSchema =
+        await postCommentDeleteRequestSchema.validateAsync(req.body);
+
       // if post exist add comment
       if (postId) {
         let post = await Post.findById(postId);
@@ -345,9 +353,13 @@ router.put(
             message: "post not found",
           });
         }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "post not found please provide postId",
+        });
       }
     } catch (error) {
-      console.log(error);
       if (error.details) {
         if (error.details[0].message) {
           res
