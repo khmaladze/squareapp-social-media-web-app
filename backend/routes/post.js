@@ -95,7 +95,7 @@ router.post(
       } else {
         res.status(500).json({
           success: false,
-          message: "please try again",
+          message: "try later",
         });
       }
     }
@@ -198,7 +198,7 @@ router.put(
       } else {
         res.status(500).json({
           success: false,
-          message: "please try again",
+          message: "try later",
         });
       }
     }
@@ -245,7 +245,7 @@ router.delete(
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "please try again",
+        message: "try later",
       });
     }
   })
@@ -313,7 +313,7 @@ router.put(
       } else {
         res.status(500).json({
           success: false,
-          message: "please try again",
+          message: "try later",
         });
       }
     }
@@ -393,7 +393,7 @@ router.put(
       } else {
         res.status(500).json({
           success: false,
-          message: "please try again",
+          message: "try later",
         });
       }
     }
@@ -475,7 +475,7 @@ router.put(
       } else {
         res.status(500).json({
           success: false,
-          message: "please try again",
+          message: "try later",
         });
       }
     }
@@ -547,7 +547,7 @@ router.put(
       } else {
         res.status(500).json({
           success: false,
-          message: "please try again",
+          message: "try later",
         });
       }
     }
