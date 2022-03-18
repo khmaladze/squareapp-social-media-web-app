@@ -421,13 +421,22 @@ router.put(
 
       if (postId) {
         const post = await Post.findById(postId);
-
+        const { like } = req.body;
         if (post) {
+          let Addlike = {
+            likeBy: req.user.id,
+            like,
+          };
+
+          if (like) {
+            Addlike.like = like;
+          }
+
           if (!post.like.find((x) => x.likeBy == req.user.id)) {
             let likepost = await Post.findByIdAndUpdate(
               postId,
               {
-                $push: { like: { likeBy: req.user.id } },
+                $push: { like: Addlike },
               },
               { new: true }
             );
