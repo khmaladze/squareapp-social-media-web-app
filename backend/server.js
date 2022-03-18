@@ -37,6 +37,7 @@ require("./models/userModel");
 app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/post", require("./routes/post"));
+app.use("/api/messenger", require("./routes/messenger"));
 
 // Sanitize data
 app.use(mongoSanitize());
