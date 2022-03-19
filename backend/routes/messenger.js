@@ -184,7 +184,7 @@ router.post(
 );
 
 /////////////////////////////////
-//     /* Send Message */      //
+//   /* Get user Message */    //
 /////////////////////////////////
 router.get(
   "/get/message/:conversationId",
