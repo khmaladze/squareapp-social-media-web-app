@@ -10,8 +10,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { add } from "../features/auth";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +28,40 @@ export const Login = () => {
         };
         const res = await axios.post("/api/auth/login", postData);
         if (res.data.success) {
+          const getUser = res.data.user;
+          const getUserToken = res.data.token;
           toast(res.data.message);
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              _id: getUser._id,
+              firstName: getUser.firstName,
+              lastName: getUser.lastName,
+              userName: getUser.userName,
+              birthDate: getUser.birthDate,
+              email: getUser.email,
+              createdAt: getUser.createdAt,
+              updatedAt: getUser.updatedAt,
+              token: getUserToken,
+            })
+          );
+          dispatch(
+            add({
+              _id: getUser._id,
+              firstName: getUser.firstName,
+              lastName: getUser.lastName,
+              userName: getUser.userName,
+              birthDate: getUser.birthDate,
+              email: getUser.email,
+              createdAt: getUser.createdAt,
+              updatedAt: getUser.updatedAt,
+              token: getUserToken,
+            })
+          );
+          setTimeout(() => {
+            window.location.reload();
+            navigate("/");
+          }, 3000);
         }
       } else {
         toast("add all the fields");
@@ -51,7 +87,7 @@ export const Login = () => {
         </Button>
         <img src="/assets/logo.png" />
         <Typography mb={2} component="h1" variant="h1">
-          Register
+          Login
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -113,4 +149,7 @@ const Main = styled.div`
 
 const Form = styled.div`
   width: 350px;
+  h1 {
+    text-align: center;
+  }
 `;
