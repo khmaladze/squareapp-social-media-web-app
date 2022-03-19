@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { AuthRouting } from "./components/AuthRouting";
-import { MainPage } from "./pages/MainPage";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { WelcomePage } from "./pages/WelcomePage";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
+import { Home } from "./pages/Home";
 
-const App = () => {
+const Routing = () => {
   const navigate = useNavigate();
-  const [auth, setAuth] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    if (auth) {
+    if (user) {
       if (window.location.pathname === "/login") {
         navigate("/");
       }
       if (window.location.pathname === "/register") {
         navigate("/");
       }
+      if (window.location.pathname === "/") {
+        navigate("/");
+      }
     }
-    if (!auth) {
+    if (!user) {
       if (
         window.location.pathname === "/login" ||
         window.location.pathname === "/register"
@@ -31,31 +34,30 @@ const App = () => {
           navigate("/login");
         }
       } else {
-        navigate("/");
+        navigate("/welcome");
       }
     }
-  }, [auth]);
-
-  const Routing = () => {
-    return (
-      <Routes>
-        {!auth && (
-          <>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-          </>
-        )}
-      </Routes>
-    );
-  };
-
+  }, []);
   return (
-    <>
-      {auth && <AuthRouting />}
-      {!auth && <Routing />}
-    </>
+    <Routes>
+      {user && <Route path="/" element={<Home />} />}
+      {!user && (
+        <>
+          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </>
+      )}
+    </Routes>
   );
 };
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routing />
+    </BrowserRouter>
+  );
+}
 
 export default App;
