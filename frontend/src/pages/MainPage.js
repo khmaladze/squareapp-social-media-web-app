@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Typewriter from "typewriter-effect";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 export const MainPage = () => {
   return (
@@ -34,29 +35,33 @@ export const MainPage = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Button
-          variant="outlined"
-          style={{
-            background: "white",
-            color: "black",
-            border: "black 1px solid",
-            height: "50px",
-            width: "100px",
-          }}
-        >
-          LOG IN
-        </Button>
-        <Button
-          variant="contained"
-          style={{
-            background: "black",
-            color: "white",
-            height: "50px",
-            width: "100px",
-          }}
-        >
-          REGISTER
-        </Button>
+        <Link to={"/login"}>
+          <Button
+            variant="outlined"
+            style={{
+              background: "white",
+              color: "black",
+              border: "black 1px solid",
+              height: "50px",
+              width: "100px",
+            }}
+          >
+            LOG IN
+          </Button>
+        </Link>
+        <Link to={"/register"}>
+          <Button
+            variant="contained"
+            style={{
+              background: "black",
+              color: "white",
+              height: "50px",
+              width: "100px",
+            }}
+          >
+            REGISTER
+          </Button>
+        </Link>
       </Stack>
       <Footer>
         <h3>@squareapp</h3>
@@ -85,7 +90,7 @@ const Img = styled.img`
 `;
 
 const WelcomeText = styled.div`
-  margin-top: 200px;
+  margin-top: 10%;
   margin-bottom: 50px;
   min-height: 200px;
   height: 100%;
@@ -103,4 +108,8 @@ const Footer = styled.footer`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  h3 {
+    cursor: pointer;
+  }
 `;
