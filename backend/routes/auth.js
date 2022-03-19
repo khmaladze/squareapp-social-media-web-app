@@ -35,6 +35,7 @@ const registerRequestSchema = Joi.object({
     .trim()
     .required(),
   userName: Joi.string().min(2).max(30).trim().required(),
+  gender: Joi.string().valid("male", "female").trim().required(),
   birthDate: Joi.string().isoDate().required(),
   email: Joi.string().email().required(),
   password: Joi.string().lowercase().min(2).max(30).trim().required(),
@@ -67,6 +68,7 @@ router.post(
         lastName,
         userName,
         birthDate,
+        gender,
         email,
         password,
         confirmPassword,
@@ -77,6 +79,7 @@ router.post(
         firstName &&
         lastName &&
         userName &&
+        gender &&
         birthDate &&
         email &&
         password &&
@@ -105,6 +108,7 @@ router.post(
             firstName: firstName,
             lastName: lastName,
             userName: userName,
+            gender: gender,
             birthDate: birthDate,
             email: email,
             password: hashedPassword,
@@ -193,6 +197,8 @@ router.post(
 
       if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
+          success: true,
+          message: "user login successfully",
           user,
           token: generateToken(user._id),
         });
