@@ -3,6 +3,8 @@ import "./App.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { AuthRouting } from "./components/AuthRouting";
 import { MainPage } from "./pages/MainPage";
+import { Register } from "./pages/Register";
+import { Login } from "./pages/Login";
 
 const App = () => {
   const navigate = useNavigate();
@@ -18,10 +20,19 @@ const App = () => {
       }
     }
     if (!auth) {
-      if (window.location.pathname.startsWith("/")) {
+      if (
+        window.location.pathname === "/login" ||
+        window.location.pathname === "/register"
+      ) {
+        if (window.location.pathname === "/register") {
+          navigate("/register");
+        }
+        if (window.location.pathname === "/login") {
+          navigate("/login");
+        }
+      } else {
         navigate("/");
       }
-      navigate("/");
     }
   }, [auth]);
 
@@ -31,6 +42,8 @@ const App = () => {
         {!auth && (
           <>
             <Route path="/" element={<MainPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </>
         )}
       </Routes>
