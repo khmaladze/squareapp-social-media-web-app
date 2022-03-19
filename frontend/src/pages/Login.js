@@ -3,16 +3,10 @@ import styled from "styled-components";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,8 +24,6 @@ export const Login = () => {
           password,
         };
         const res = await axios.post("/api/auth/login", postData);
-        console.log(res);
-        console.log(postData);
         if (res.data.success) {
           toast(res.data.message);
         }
