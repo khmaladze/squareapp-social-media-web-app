@@ -17,7 +17,8 @@ const userSchema = mongoose.Schema(
     },
     biography: {
       type: String,
-      required: false,
+      required: true,
+      default: "add to",
     },
     gender: {
       type: String,
