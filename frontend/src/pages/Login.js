@@ -91,8 +91,8 @@ export const Login = () => {
         </Button>
         <Grid mb={2} container justifyContent="flex-end">
           <Grid item>
-            <Link onClick={() => navigate("/")} variant="body2">
-              Already have an account? Log In
+            <Link onClick={() => navigate("/register")} variant="body2">
+              Don't have an account? Register
             </Link>
           </Grid>
         </Grid>
