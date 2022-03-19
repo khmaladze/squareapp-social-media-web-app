@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&family=Roboto:wght@900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  margin: 0;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  display: block;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.welcome__text {
+  /* background: linear-gradient(180deg, #1f78f8, #1fbdea); */
+  background: linear-gradient(180deg, #1238fd, #3531ff);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 25px;
+  font-family: "Raleway", sans-serif;
+  width: 50%;
+  text-align: center;
+}
