@@ -6,6 +6,8 @@ import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
 import { useSelector } from "react-redux";
+import { Navbar } from "./components/Navbar";
+import Profile from "./pages/Profile";
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -40,16 +42,29 @@ const Routing = () => {
     }
   }, []);
   return (
-    <Routes>
-      {user && <Route path="/" element={<Home />} />}
-      {!user && (
+    <>
+      {user && (
         <>
-          <Route path="/welcome" element={<WelcomePage />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Navbar />
+          <div style={{ height: "80px" }}></div>
         </>
       )}
-    </Routes>
+      <Routes>
+        {user && (
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+          </>
+        )}
+        {!user && (
+          <>
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+          </>
+        )}
+      </Routes>
+    </>
   );
 };
 
