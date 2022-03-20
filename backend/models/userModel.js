@@ -38,6 +38,14 @@ const userSchema = mongoose.Schema(
       enum: ["Computer", "Book", "sport"],
       default: "",
     },
+    profileImage: {
+      type: String,
+      default: "",
+    },
+    backgorundImage: {
+      type: String,
+      default: "",
+    },
     birthDate: {
       type: Date,
       required: true,
