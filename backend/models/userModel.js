@@ -33,6 +33,11 @@ const userSchema = mongoose.Schema(
       type: String,
       default: "",
     },
+    hobby: {
+      type: Array,
+      enum: ["Computer", "Book", "sport"],
+      default: [],
+    },
     birthDate: {
       type: Date,
       required: true,
