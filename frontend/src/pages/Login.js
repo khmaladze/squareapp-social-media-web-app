@@ -61,7 +61,7 @@ export const Login = () => {
           setTimeout(() => {
             window.location.reload();
             navigate("/");
-          }, 3000);
+          }, 1000);
         }
       } else {
         toast("add all the fields");
@@ -85,7 +85,7 @@ export const Login = () => {
         >
           GO BACK
         </Button>
-        <img src="/assets/logo.png" />
+        <img src="/assets/logo.png" alt="logoimage" />
         <Typography mb={2} component="h1" variant="h1">
           Login
         </Typography>
