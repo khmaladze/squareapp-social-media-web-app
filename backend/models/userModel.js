@@ -25,6 +25,14 @@ const userSchema = mongoose.Schema(
       required: true,
       enum: ["male", "female"],
     },
+    friends: {
+      type: Array,
+      default: [],
+    },
+    place: {
+      type: String,
+      default: "",
+    },
     birthDate: {
       type: Date,
       required: true,
