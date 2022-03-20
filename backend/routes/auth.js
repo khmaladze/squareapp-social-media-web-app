@@ -193,19 +193,26 @@ router.post(
       }
 
       // Check for user email
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email, isBlocked: false });
 
-      if (user && (await bcrypt.compare(password, user.password))) {
-        res.json({
-          success: true,
-          message: "user login successfully",
-          user,
-          token: generateToken(user._id),
-        });
-      } else {
-        res
-          .status(400)
-          .json({ success: false, message: "Invalid Creadentials" });
+      if (!user) {
+        res.status(400).json({ success: false, message: "can't login" });
+      }
+
+      if (user) {
+        if (user && (await bcrypt.compare(password, user.password))) {
+          const sendUser = await User.findOne({ email }).select("-password");
+          res.json({
+            success: true,
+            message: "user login successfully",
+            user: sendUser,
+            token: generateToken(user._id),
+          });
+        } else {
+          res
+            .status(400)
+            .json({ success: false, message: "Invalid Creadentials" });
+        }
       }
     } catch (error) {
       if (error.details) {
