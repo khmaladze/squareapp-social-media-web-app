@@ -79,7 +79,7 @@ export const Register = () => {
         >
           GO BACK
         </Button>
-        <img src="/assets/logo.png" />
+        <img src="/assets/logo.png" alt="logoimage" />
         <Typography mb={2} component="h1" variant="h1">
           Register
         </Typography>
