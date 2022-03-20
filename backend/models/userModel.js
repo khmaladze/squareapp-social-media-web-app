@@ -34,9 +34,9 @@ const userSchema = mongoose.Schema(
       default: "",
     },
     hobby: {
-      type: Array,
+      type: String,
       enum: ["Computer", "Book", "sport"],
-      default: [],
+      default: "",
     },
     birthDate: {
       type: Date,
