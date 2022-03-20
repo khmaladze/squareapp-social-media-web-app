@@ -5,13 +5,14 @@ import { WelcomePage } from "./pages/WelcomePage";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
+import { useSelector } from "react-redux";
 
 const Routing = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
-
+  const user = useSelector((state) => state.auth.value.user);
+  console.log("user", user);
   useEffect(() => {
-    if (user) {
+    if (user !== null) {
       if (window.location.pathname === "/login") {
         navigate("/");
       }
@@ -22,7 +23,7 @@ const Routing = () => {
         navigate("/");
       }
     }
-    if (!user) {
+    if (user == null) {
       if (
         window.location.pathname === "/login" ||
         window.location.pathname === "/register"
