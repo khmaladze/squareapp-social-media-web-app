@@ -71,6 +71,7 @@ export const Navbar = () => {
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
               </Link>
               <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleClose}>Settings</MenuItem>
               <MenuItem onClick={handleSignout} style={{ color: "red" }}>
                 <LogoutIcon />
                 Log Out
