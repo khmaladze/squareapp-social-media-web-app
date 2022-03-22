@@ -38,6 +38,7 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/post", require("./routes/post"));
 app.use("/api/messenger", require("./routes/messenger"));
+app.use("/api/user", require("./routes/user"));
 
 // Sanitize data
 app.use(mongoSanitize());
