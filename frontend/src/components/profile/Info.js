@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import HomeIcon from "@mui/icons-material/Home";
+import AccessibilityIcon from "@mui/icons-material/Accessibility";
 
 const Info = ({ text, username, user, place, hobby }) => {
   return (
@@ -29,11 +30,11 @@ const Info = ({ text, username, user, place, hobby }) => {
               display: "flex",
               justifyContent: "flex-start",
               alignItems: "center",
-              padding: "5px",
               margin: "5px",
+              marginTop: "10px",
+              padding: "5px",
               minWidth: "200px",
-              width: "100%",
-              margin: "0 auto",
+              width: "95%",
               fontSize: "20px",
             }}
           >
@@ -50,13 +51,29 @@ const Info = ({ text, username, user, place, hobby }) => {
               padding: "5px",
               margin: "5px",
               minWidth: "200px",
-              width: "100%",
-              margin: "0 auto",
+              width: "95%",
               fontSize: "20px",
             }}
           >
             <HomeIcon />
             <h4>lives in: {place == "" ? "add city" : place}</h4>
+          </div>
+        </IconContainer>
+        <IconContainer>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              padding: "5px",
+              margin: "5px",
+              minWidth: "200px",
+              width: "95%",
+              fontSize: "20px",
+            }}
+          >
+            <AccessibilityIcon />
+            <h4>hobby: {hobby == "" ? "add hobby" : hobby}</h4>
           </div>
         </IconContainer>
       </InfoBackground>
