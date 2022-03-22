@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import BackgroundImage from "../components/profile/BackgroundImage";
+import Friends from "../components/profile/Friends";
 import Info from "../components/profile/Info";
 
 const Profile = () => {
@@ -26,6 +27,7 @@ const Profile = () => {
         place={user.place}
         hobby={user.hobby}
       />
+      <Friends friends={user.friends} token={user.token} />
     </>
   );
 };
