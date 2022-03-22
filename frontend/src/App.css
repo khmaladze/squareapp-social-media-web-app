@@ -9,6 +9,11 @@
   padding: 0;
 }
 
+body {
+  font-family: "Raleway", sans-serif;
+  background-color: #f7f7f7;
+}
+
 html {
   scroll-behavior: smooth;
 }
