@@ -96,4 +96,5 @@ const Main = styled.div`
   justify-content: space-between;
   align-items: center;
   background: #f9f9f9;
+  z-index: 100;
 `;
