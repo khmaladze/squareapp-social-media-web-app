@@ -52,7 +52,12 @@ const Profile = () => {
       <Friends friends={user.friends} token={user.token} />
       <AddPost jwt={user.token} onAdd={getData} />
       {data ? (
-        <GetPost data={data} jwt={user.token} onAdd={getData} />
+        <GetPost
+          data={data}
+          jwt={user.token}
+          userId={user._id}
+          onAdd={getData}
+        />
       ) : (
         "No Post Found. Add Post to see Here"
       )}
