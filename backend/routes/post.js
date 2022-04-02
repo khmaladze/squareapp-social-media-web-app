@@ -554,4 +554,19 @@ router.put(
   })
 );
 
+router.get(
+  "/my",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const post = await Post.find({ postedBy: req.user._id }).sort(
+        "-createdAt"
+      );
+      res.status(200).json({ success: true, post });
+    } catch (error) {
+      console.log(error);
+    }
+  })
+);
+
 module.exports = router;
