@@ -14,10 +14,9 @@ const Info = ({ text, username, user, place, hobby }) => {
             justifyContent: "space-between",
             alignItems: "center",
             padding: "5px",
-            margin: "5px",
+            margin: "0 auto",
             minWidth: "200px",
             width: "200px",
-            margin: "0 auto",
           }}
         >
           <h2>{user[0]}</h2>
