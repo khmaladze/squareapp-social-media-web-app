@@ -1,11 +1,33 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import AddPost from "../components/profile/AddPost";
 import BackgroundImage from "../components/profile/BackgroundImage";
 import Friends from "../components/profile/Friends";
+import GetPost from "../components/profile/GetPost";
 import Info from "../components/profile/Info";
 
 const Profile = () => {
   const user = useSelector((state) => state.auth.value.user);
+  const [data, setData] = useState("");
+  const getData = async () => {
+    try {
+      const res = await axios.get("/api/post/my", {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${user.token}`,
+        },
+      });
+      console.log(res);
+      setData(res.data.post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // getData();
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <BackgroundImage
@@ -28,6 +50,12 @@ const Profile = () => {
         hobby={user.hobby}
       />
       <Friends friends={user.friends} token={user.token} />
+      <AddPost jwt={user.token} onAdd={getData} />
+      {data ? (
+        <GetPost data={data} jwt={user.token} onAdd={getData} />
+      ) : (
+        "No Post Found. Add Post to see Here"
+      )}
     </>
   );
 };
