@@ -10,6 +10,7 @@ const postRequestSchema = Joi.object({
   text: Joi.string().max(300).trim(),
   image: Joi.string().trim(),
   video: Joi.string().trim(),
+  privacy: Joi.string().valid("onlyMe", "friends", "public").trim(),
 });
 
 // validation post request schema
@@ -46,6 +47,7 @@ router.post(
         text,
         image,
         video,
+        privacy,
       };
 
       if (!text && !image && !video) {
@@ -339,9 +341,6 @@ router.put(
       // post id
       const postId = req.body.postId;
 
-      // validate comment
-      const validateCommentRequestSchema = await postId.validateAsync(req.body);
-
       // if post exist add comment
       if (postId) {
         let post = await Post.findById(postId);
@@ -362,7 +361,7 @@ router.put(
             );
             res.status(200).json({
               success: true,
-              message: "comment added successfully",
+              message: "comment remove successfully",
               updatedPost,
             });
           } else {
