@@ -23,7 +23,12 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import { TextField } from "@mui/material";
 import axios from "axios";
-
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // Register the plugins
 registerPlugin(
   FilePondPluginImageExifOrientation,
@@ -91,7 +96,7 @@ const AddPost = ({ jwt, onAdd }) => {
       if (privacy) {
         postCreate.privacy = privacy;
       }
-      console.log(postCreate);
+
       const res = await axios.post("/api/post/add", postCreate, {
         headers: {
           "Content-Type": "application/json",
@@ -102,6 +107,8 @@ const AddPost = ({ jwt, onAdd }) => {
         setText("");
         setImage("");
         setVideo("");
+        setPrivacy("");
+        toast.success(res.data.message);
         return onAdd();
       }
       console.log(res);
@@ -111,57 +118,75 @@ const AddPost = ({ jwt, onAdd }) => {
   };
 
   return (
-    <Main>
-      <Card sx={{ maxWidth: 745, width: 745 }}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="Text"
-                label="Text "
-                name="Text"
-                autoComplete="Text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-            </Grid>
-          </Typography>
-        </CardContent>
-        <Grid item xs={12}>
-          <h4>Upload Image</h4>
-          <FilePond
-            files={image}
-            allowMultiple={false}
-            maxFiles={1}
-            onupdatefiles={setImage}
-            acceptedFileTypes={["image/*"]}
-            name="files"
-            labelIdle='Drag & Drop your files or <span className="filepond--label-action">Browse</span>'
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <h4>Upload Video</h4>
-          <FilePond
-            files={video}
-            allowMultiple={false}
-            maxFiles={1}
-            onupdatefiles={setVideo}
-            acceptedFileTypes={["video/*"]}
-            name="files"
-            labelIdle='Drag & Drop your files or <span className="filepond--label-action">Browse</span>'
-          />
-        </Grid>
-        <CardActions>
-          <Center>
-            <Button size="medium" onClick={createPost}>
-              Create Post
-            </Button>
-          </Center>
-        </CardActions>
-      </Card>
-    </Main>
+    <>
+      <ToastContainer />
+      <Main>
+        <Card sx={{ maxWidth: 745, width: 745 }}>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="Text"
+                  label="Text "
+                  name="Text"
+                  autoComplete="Text"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+              </Grid>
+            </Typography>
+          </CardContent>
+          <Grid item xs={12}>
+            <h4>Upload Image</h4>
+            <FilePond
+              files={image}
+              allowMultiple={false}
+              maxFiles={1}
+              onupdatefiles={setImage}
+              acceptedFileTypes={["image/*"]}
+              name="files"
+              labelIdle='Drag & Drop your files or <span className="filepond--label-action">Browse</span>'
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <h4>Upload Video</h4>
+            <FilePond
+              files={video}
+              allowMultiple={false}
+              maxFiles={1}
+              onupdatefiles={setVideo}
+              acceptedFileTypes={["video/*"]}
+              name="files"
+              labelIdle='Drag & Drop your files or <span className="filepond--label-action">Browse</span>'
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">privacy</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="privacy"
+                label="privacy"
+                value={privacy}
+                onChange={(e) => setPrivacy(e.target.value)}
+              >
+                <MenuItem value={"onlyMe"}>onlyMe</MenuItem>
+                <MenuItem value={"friends"}>friends</MenuItem>
+                <MenuItem value={"public"}>public</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <CardActions>
+            <Center>
+              <Button size="medium" onClick={createPost}>
+                Create Post
+              </Button>
+            </Center>
+          </CardActions>
+        </Card>
+      </Main>
+    </>
   );
 };
 
@@ -169,11 +194,11 @@ const Main = styled.div`
   width: 100%;
   min-height: 300px;
   height: 100%;
-  margin-top: 150px;
+  margin-top: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 const Center = styled.div`
