@@ -43,7 +43,7 @@ const Friends = ({ friends }) => {
                 onClick={() => handleClick(item._id)}
                 key={item._id}
                 img={
-                  item.profileImage == ""
+                  item.profileImage === ""
                     ? "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
                     : item.profileImage
                 }
@@ -91,6 +91,7 @@ const FriendProfile = styled.div`
   max-width: 150px;
   background-image: url(${(props) => props.img});
   background-size: cover;
+  cursor: pointer;
 
   h4 {
     text-align: center;
