@@ -21,7 +21,7 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Import the plugin code
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
