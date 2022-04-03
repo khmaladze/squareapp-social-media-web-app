@@ -355,7 +355,7 @@ const Main = styled.div`
 const Video = styled.div`
   video {
     height: 100%;
-    max-height: 700px;
+    max-height: 550px;
     width: 100%;
   }
 `;
