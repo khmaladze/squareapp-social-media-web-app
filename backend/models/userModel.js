@@ -64,7 +64,7 @@ const userSchema = mongoose.Schema(
       type: String,
       default: "",
     },
-    backgorundImage: {
+    backgroundImage: {
       type: String,
       default: "",
     },
