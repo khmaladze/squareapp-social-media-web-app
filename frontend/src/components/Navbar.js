@@ -70,8 +70,9 @@ export const Navbar = () => {
               <Link to="/profile">
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
               </Link>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Settings</MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Link to={"/settings"}>Settings</Link>
+              </MenuItem>
               <MenuItem onClick={handleSignout} style={{ color: "red" }}>
                 <LogoutIcon />
                 Log Out
