@@ -15,10 +15,6 @@ import AddCommentIcon from "@mui/icons-material/AddComment";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import CardHeader from "@mui/material/CardHeader";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import { red } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const GetPost = ({ data, jwt, userId, onAdd }) => {
   const [addComment, setAddComment] = useState(false);
@@ -184,16 +180,19 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                     subheader={format(item.createdAt)}
                   />
                   {item.image && (
-                    <img
+                    <div
                       style={{
                         marginBottom: "20px",
                         maxHeight: "500px",
                         height: "100%",
+                        minHeight: "500px",
                         width: "100%",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundImage: `url(${item.image})`,
                       }}
-                      src={item.image}
-                      alt="just file"
-                    />
+                    ></div>
                   )}
                   {item.video && (
                     <Video>
@@ -219,6 +218,7 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
+                          fontSize: "20px",
                         }}
                         onClick={() => unLike(item._id)}
                       >
@@ -233,6 +233,7 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
+                          fontSize: "20px",
                         }}
                         onClick={() => addLike(item._id)}
                       >
@@ -291,11 +292,37 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                             display: "flex",
                             justifyContent: "space-between",
                             alignItems: "center",
-                            width: "95%",
+                            width: "99%",
                             margin: "0 auto",
+                            borderTop: "1px solid",
+                            textAlign: "center",
                           }}
                         >
-                          <Typography>{comment.comment}</Typography>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: "25px",
+                                height: "25px",
+                                borderRadius: "50%",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                                backgroundRepeat: "no-repeat",
+                                backgroundImage: `url(${
+                                  comment.commentBy.profileImage
+                                    ? comment.commentBy.profileImage
+                                    : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
+                                })`,
+                                marginRight: "10px",
+                              }}
+                            ></div>
+                            <h4>{comment.comment}</h4>
+                          </div>
                           <div
                             style={{ cursor: "pointer" }}
                             onClick={() => deleteComment(comment._id, item._id)}
