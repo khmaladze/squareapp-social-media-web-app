@@ -55,7 +55,7 @@ const Info = ({ text, username, user, place, hobby }) => {
             }}
           >
             <HomeIcon />
-            <h4>lives in: {place == "" ? "add city" : place}</h4>
+            <h4>lives in: {place === "" ? "add city" : place}</h4>
           </div>
         </IconContainer>
         <IconContainer>
@@ -72,7 +72,7 @@ const Info = ({ text, username, user, place, hobby }) => {
             }}
           >
             <AccessibilityIcon />
-            <h4>hobby: {hobby == "" ? "add hobby" : <>{hobby}</>}</h4>
+            <h4>hobby: {hobby === "" ? "add hobby" : <>{hobby}</>}</h4>
           </div>
         </IconContainer>
       </InfoBackground>
