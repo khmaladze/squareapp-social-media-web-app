@@ -19,17 +19,17 @@ const storieSchema = mongoose.Schema(
       enum: ["onlyMe", "friends", "public"],
       default: "onlyMe",
     },
-    comment: [
-      {
-        comment: String,
-        commentBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "User",
-        },
-        date: { type: Date, default: Date.now },
-      },
-    ],
+    // comment: [
+    //   {
+    //     comment: String,
+    //     commentBy: {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       required: true,
+    //       ref: "User",
+    //     },
+    //     date: { type: Date, default: Date.now },
+    //   },
+    // ],
     like: [
       {
         like: {
@@ -45,6 +45,12 @@ const storieSchema = mongoose.Schema(
         date: { type: Date, default: Date.now },
       },
     ],
+    view: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+      date: { type: Date, default: Date.now },
+    },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
