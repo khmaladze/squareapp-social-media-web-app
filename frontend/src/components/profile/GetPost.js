@@ -14,6 +14,11 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
+import CardHeader from "@mui/material/CardHeader";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import { red } from "@mui/material/colors";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const GetPost = ({ data, jwt, userId, onAdd }) => {
   const [addComment, setAddComment] = useState(false);
@@ -101,7 +106,7 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
     }
   };
   return (
-    <>
+    <div>
       {data
         ? data.map((item) => {
             return (
@@ -109,8 +114,75 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                 <Card
                   mt={2}
                   mb={2}
-                  sx={{ maxWidth: 745, width: 745, marginTop: "20px" }}
+                  sx={{
+                    maxWidth: 745,
+                    width: 745,
+                    marginTop: "20px",
+                    marginBottom: "30px",
+                  }}
                 >
+                  <CardHeader
+                    avatar={
+                      <div
+                        style={{
+                          height: "50px",
+                          width: "50px",
+                          borderRadius: "50%",
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                          backgroundImage: `url(${
+                            item.postedBy.profileImage
+                              ? item.postedBy.profileImage
+                              : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
+                          })`,
+                        }}
+                      ></div>
+                    }
+                    action={
+                      // <IconButton aria-label="settings">
+                      //   <MoreVertIcon />
+                      // </IconButton>
+                      <div
+                        style={{
+                          height: "58px",
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                          width: "100%",
+                          // paddingTop: "10px",
+                          margin: "0 auto",
+                        }}
+                      >
+                        <>
+                          {/* {item.createdAt && (
+                        <Typography gutterBottom variant="p" component="div">
+                          created: {format(item.createdAt)}
+                        </Typography>
+                      )} */}
+                          {/* {item.updatedAt !== item.createdAt && (
+                        <Typography gutterBottom variant="p" component="div">
+                          updated: {format(item.updatedAt)}
+                        </Typography>
+                      )} */}
+                        </>
+                        <div
+                          onClick={() => deletePost(item._id)}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <DeleteOutlineIcon style={{ cursor: "pointer" }} />
+                        </div>
+                      </div>
+                    }
+                    title={
+                      item.postedBy.firstName + " " + item.postedBy.lastName
+                    }
+                    subheader={format(item.createdAt)}
+                  />
                   {item.image && (
                     <img
                       style={{
@@ -130,32 +202,6 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                       </video>
                     </Video>
                   )}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: "99%",
-                      paddingTop: "10px",
-                      margin: "0 auto",
-                    }}
-                  >
-                    <>
-                      {item.createdAt && (
-                        <Typography gutterBottom variant="p" component="div">
-                          created: {format(item.createdAt)}
-                        </Typography>
-                      )}
-                      {item.updatedAt !== item.createdAt && (
-                        <Typography gutterBottom variant="p" component="div">
-                          updated: {format(item.updatedAt)}
-                        </Typography>
-                      )}
-                    </>
-                    <div onClick={() => deletePost(item._id)}>
-                      <DeleteOutlineIcon style={{ cursor: "pointer" }} />
-                    </div>
-                  </div>
                   {item.text && (
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
@@ -166,7 +212,14 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                   <CardActions>
                     {item.like.filter((like) => like.likeBy === userId)[0] ? (
                       <div
-                        style={{ color: "red", cursor: "pointer" }}
+                        style={{
+                          color: "red",
+                          cursor: "pointer",
+                          width: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
                         onClick={() => unLike(item._id)}
                       >
                         {item.like.length}
@@ -174,7 +227,13 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                       </div>
                     ) : (
                       <div
-                        style={{ color: "red", cursor: "pointer" }}
+                        style={{
+                          color: "red",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
                         onClick={() => addLike(item._id)}
                       >
                         {item.like.length}
@@ -226,7 +285,7 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                   )}
                   {item.comment.slice(0, 2).map((comment) => {
                     return (
-                      <Grid item xs={12}>
+                      <Grid key={comment._id} item xs={12}>
                         <div
                           style={{
                             display: "flex",
@@ -252,7 +311,7 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
             );
           })
         : "loading"}
-    </>
+    </div>
   );
 };
 
