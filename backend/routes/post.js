@@ -561,7 +561,7 @@ router.get(
       const post = await Post.find({ postedBy: req.user._id })
         .sort("-createdAt")
         .populate(
-          "postedBy",
+          "postedBy comment.commentBy",
           "firstName lastName profileImage backgroundImage"
         );
       res.status(200).json({ success: true, post });
