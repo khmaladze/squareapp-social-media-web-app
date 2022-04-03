@@ -38,4 +38,22 @@ router.get(
   })
 );
 
+router.put(
+  "/update",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      let { token } = req.body;
+      const user = await User.findByIdAndUpdate(req.user._id, req.body, {
+        new: true,
+      });
+      res
+        .status(200)
+        .json({ success: true, message: "user update success", user, token });
+    } catch (error) {
+      console.log(error);
+    }
+  })
+);
+
 module.exports = router;
