@@ -124,6 +124,12 @@ const AddPost = ({ jwt, onAdd }) => {
         <Card sx={{ maxWidth: 745, width: 745 }}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
+              Emojies: 😀 ❤️ 💚 🍓 🎮
+              <p style={{ fontSize: "15px", color: "grey" }}>
+                you can simply copy emoji if you want
+              </p>
+            </Typography>
+            <Typography gutterBottom variant="h5" component="div">
               <Grid item xs={12}>
                 <TextField
                   fullWidth
