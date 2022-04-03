@@ -44,7 +44,7 @@ export const Login = () => {
               place: getUser.place,
               hobby: getUser.hobby,
               profileImage: getUser.profileImage,
-              backgorundImage: getUser.backgorundImage,
+              backgroundImage: getUser.backgroundImage,
               birthDate: getUser.birthDate,
               email: getUser.email,
               createdAt: getUser.createdAt,
