@@ -8,6 +8,7 @@ import { Home } from "./pages/Home";
 import { useSelector } from "react-redux";
 import { Navbar } from "./components/Navbar";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const Routing = () => {
           <>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
           </>
         )}
         {!user && (
