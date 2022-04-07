@@ -45,12 +45,14 @@ const storieSchema = mongoose.Schema(
         date: { type: Date, default: Date.now },
       },
     ],
-    view: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "User",
-      date: { type: Date, default: Date.now },
-    },
+    view: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        date: { type: Date, default: Date.now },
+      },
+    ],
+    expireToken: Date,
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
