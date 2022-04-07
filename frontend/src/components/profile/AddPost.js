@@ -37,7 +37,7 @@ registerPlugin(
 );
 const AddPost = ({ jwt, onAdd }) => {
   const [text, setText] = useState("");
-  const [privacy, setPrivacy] = useState("");
+  const [privacy, setPrivacy] = useState("onlyMe");
   const [image, setImage] = useState("");
   const [video, setVideo] = useState("");
   const uploadImage = async () => {
