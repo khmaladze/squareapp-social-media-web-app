@@ -2,14 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AddPost from "../components/profile/AddPost";
+import AddStorie from "../components/profile/AddStorie";
 import BackgroundImage from "../components/profile/BackgroundImage";
 import Friends from "../components/profile/Friends";
 import GetPost from "../components/profile/GetPost";
 import Info from "../components/profile/Info";
+import styled from "styled-components";
+import Button from "@mui/material/Button";
 
 const Profile = () => {
   const user = useSelector((state) => state.auth.value.user);
   const [data, setData] = useState("");
+  const [showAddStorie, setShowAddStorie] = useState(false);
   const getData = async () => {
     try {
       const res = await axios.get("/api/post/my", {
@@ -50,6 +54,34 @@ const Profile = () => {
         hobby={user.hobby}
       />
       <Friends friends={user.friends} token={user.token} />
+      {!showAddStorie ? (
+        <Center>
+          <div style={{ marginTop: "20px" }}>
+            <Button
+              size="medium"
+              variant="contained"
+              onClick={() => setShowAddStorie(true)}
+            >
+              Create Storie
+            </Button>
+          </div>
+        </Center>
+      ) : (
+        <Center>
+          <div style={{ marginTop: "20px" }}>
+            <Button
+              size="medium"
+              variant="contained"
+              onClick={() => setShowAddStorie(false)}
+            >
+              Hide Storie Create
+            </Button>
+          </div>
+        </Center>
+      )}
+      {showAddStorie && (
+        <AddStorie jwt={user.token} onAdd={() => setShowAddStorie(false)} />
+      )}
       <AddPost jwt={user.token} onAdd={getData} />
       {data ? (
         <GetPost
@@ -66,3 +98,10 @@ const Profile = () => {
 };
 
 export default Profile;
+
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
