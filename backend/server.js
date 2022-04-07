@@ -39,6 +39,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/post", require("./routes/post"));
 app.use("/api/messenger", require("./routes/messenger"));
 app.use("/api/user", require("./routes/user"));
+app.use("/api/storie", require("./routes/storie"));
 
 // Sanitize data
 app.use(mongoSanitize());
