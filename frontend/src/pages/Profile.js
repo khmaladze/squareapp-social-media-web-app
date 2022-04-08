@@ -14,6 +14,7 @@ const Profile = () => {
   const user = useSelector((state) => state.auth.value.user);
   const [data, setData] = useState("");
   const [showAddStorie, setShowAddStorie] = useState(false);
+  const [storie, setStorie] = useState("");
   const getData = async () => {
     try {
       const res = await axios.get("/api/post/my", {
@@ -28,9 +29,25 @@ const Profile = () => {
       console.log(error);
     }
   };
+  const [date, setfirst] = useState(new Date().toISOString());
+  const getStorie = async () => {
+    try {
+      const res = await axios.get("/api/storie/my", {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${user.token}`,
+        },
+      });
+      console.log(res);
+      setStorie(res.data.storie.filter((i) => i.expireToken > date));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // getData();
   useEffect(() => {
     getData();
+    getStorie();
   }, []);
   return (
     <>
@@ -45,6 +62,7 @@ const Profile = () => {
             ? user.profileImage
             : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
         }
+        storie={storie}
       />
       <Info
         text={user.biography}
