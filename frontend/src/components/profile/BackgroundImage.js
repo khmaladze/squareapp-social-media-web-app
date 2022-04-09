@@ -4,6 +4,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
+import { format } from "timeago.js";
+import axios from "axios";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import CardActions from "@mui/material/CardActions";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const style = {
   position: "absolute",
@@ -17,7 +23,7 @@ const style = {
   p: 4,
 };
 
-const BackgroundImage = ({ image, profile, storie }) => {
+const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -36,6 +42,43 @@ const BackgroundImage = ({ image, profile, storie }) => {
       setLimit(limit - 1);
     }
   };
+  const addLike = async (id) => {
+    try {
+      const res = await axios.put(`/api/storie/like/${id}`, "", {
+        headers: {
+          authorization: `Bearer ${jwt}`,
+        },
+      });
+      return onAdd();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const unLike = async (id) => {
+    try {
+      const res = await axios.put(`/api/storie/delete/like/${id}`, "", {
+        headers: {
+          authorization: `Bearer ${jwt}`,
+        },
+      });
+      return onAdd();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteStorie = async (id) => {
+    try {
+      await axios.delete(`/api/storie/delete/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${jwt}`,
+        },
+      });
+      return onAdd();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Background image={image} />
@@ -52,7 +95,25 @@ const BackgroundImage = ({ image, profile, storie }) => {
           {storie
             ? storie.slice(skip, limit).map((i) => {
                 return (
-                  <>
+                  <div key={i._id}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      {i.createdAt && (
+                        <Typography>{format(i.createdAt)}</Typography>
+                      )}
+                      <>
+                        <DeleteOutlineIcon
+                          onClick={() => deleteStorie(i._id)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </>
+                    </div>
                     {i.image && (
                       <img
                         style={{ width: "100%" }}
@@ -78,15 +139,49 @@ const BackgroundImage = ({ image, profile, storie }) => {
                         {i.text}
                       </Typography>
                     )}
-                    {storie.length > limit && storie.length > 1 && (
-                      <Button onClick={nextStorie}>next storie</Button>
-                    )}
                     {storie.length > skip &&
                       skip !== 0 &&
                       storie.length > 1 && (
                         <Button onClick={prevStorie}>prev storie</Button>
                       )}
-                  </>
+                    {storie.length > limit && storie.length > 1 && (
+                      <Button onClick={nextStorie}>next storie</Button>
+                    )}
+                    <CardActions>
+                      {i.like.filter((like) => like.likeBy === userId)[0] ? (
+                        <div
+                          style={{
+                            color: "red",
+                            cursor: "pointer",
+                            width: "50px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "20px",
+                          }}
+                          onClick={() => unLike(i._id)}
+                        >
+                          {i.like.length}
+                          <FavoriteIcon />
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            color: "red",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "20px",
+                          }}
+                          onClick={() => addLike(i._id)}
+                        >
+                          {i.like.length}
+                          <FavoriteBorderIcon />
+                        </div>
+                      )}
+                    </CardActions>
+                  </div>
                 );
               })
             : "loading"}
