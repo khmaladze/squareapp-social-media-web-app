@@ -201,51 +201,51 @@ router.post(
 //   })
 // );
 
-// ///////////////////////////
-// // /*  Delete Post  */   //
-// ///////////////////////////
-// router.delete(
-//   "/delete/:id",
-//   protect,
-//   asyncHandler(async (req, res) => {
-//     try {
-//       const post = await Post.findById(req.params.id);
+///////////////////////////
+// /*  Delete Storie */  //
+///////////////////////////
+router.delete(
+  "/delete/:id",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const storie = await Storie.findById(req.params.id);
 
-//       // Check for user
-//       if (!req.user) {
-//         res.status(400).json({
-//           success: false,
-//           message: "User not found",
-//         });
-//       }
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
 
-//       if (post) {
-//         if (post.postedBy.toString() === req.user.id) {
-//           await post.remove();
-//           res.status(200).json({
-//             success: true,
-//             message: `post id=${req.params.id} deleted`,
-//           });
-//         } else {
-//           return res.status(400).json({
-//             success: false,
-//             message: "User not authorized",
-//           });
-//         }
-//       } else {
-//         res.status(400).json({
-//           success: false,
-//           message: "post not found",
-//         });
-//       }
-//     } catch (error) {
-//       res.status(500).json({
-//         success: false,
-//         message: "try later",
-//       });
-//     }
-//   })
-// );
+      if (storie) {
+        if (storie.postedBy.toString() === req.user.id) {
+          await storie.remove();
+          res.status(200).json({
+            success: true,
+            message: `storie id=${req.params.id} deleted`,
+          });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: "User not authorized",
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "storie not found",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
 
 ///////////////////////////
 //  /* Storie Like  */   //
