@@ -30,7 +30,7 @@ export const Login = () => {
         if (res.data.success) {
           const getUser = res.data.user;
           const getUserToken = res.data.token;
-          toast(res.data.message);
+          toast.success(res.data.message);
           localStorage.setItem(
             "user",
             JSON.stringify({
@@ -78,11 +78,11 @@ export const Login = () => {
           }, 1000);
         }
       } else {
-        toast("add all the fields");
+        toast.warning("add all the fields");
       }
     } catch (error) {
       if (error && error.response && error.response.data) {
-        toast(error.response.data.message);
+        toast.error(error.response.data.message);
       }
     }
   };
