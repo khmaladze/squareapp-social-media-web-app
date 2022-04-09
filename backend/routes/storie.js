@@ -102,7 +102,7 @@ router.post(
 // /* Update Storie View   */ //
 ////////////////////////////////
 router.put(
-  "/update/:storieId",
+  "/update/add/view/:storieId",
   protect,
   asyncHandler(async (req, res) => {
     try {
@@ -120,7 +120,7 @@ router.put(
       if (storieId) {
         const storie = await Storie.findById(storieId);
         if (storie) {
-          let AddView = {
+          const AddView = {
             viewBy: req.user.id,
           };
 
