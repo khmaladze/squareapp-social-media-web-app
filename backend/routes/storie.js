@@ -98,108 +98,86 @@ router.post(
   })
 );
 
-// ///////////////////////////
-// // /*  Update Storie  */ //
-// ///////////////////////////
-// router.put(
-//   "/update/:id",
-//   protect,
-//   asyncHandler(async (req, res) => {
-//     try {
-//       // check if post exist
-//       let post = await Post.findById(req.params.id);
+////////////////////////////////
+// /* Update Storie View   */ //
+////////////////////////////////
+router.put(
+  "/update/:storieId",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
 
-//       // Check for user
-//       if (!req.user) {
-//         res.status(400).json({
-//           success: false,
-//           message: "User not found",
-//         });
-//       }
+      // storieId
+      const storieId = req.params.storieId;
 
-//       if (post) {
-//         if (post.postedBy.toString() === req.user.id) {
-//           let { text, image, video, privacy } = req.body;
+      if (storieId) {
+        const storie = await Storie.findById(storieId);
+        if (storie) {
+          let AddView = {
+            viewBy: req.user.id,
+          };
 
-//           // validate post request schema
-//           const validatePostRequestSchema =
-//             await postRequestSchema.validateAsync(req.body);
-
-//           let postUpdate = {
-//             postedBy: req.user,
-//           };
-
-//           if (text) {
-//             postUpdate.text = text;
-//           }
-
-//           if (image) {
-//             postUpdate.image = image;
-//           }
-
-//           if (video) {
-//             postUpdate.video = video;
-//           }
-
-//           if (privacy) {
-//             postUpdate.privacy = privacy;
-//           }
-
-//           if (!text && !image && !video && !privacy) {
-//             res.status(400).json({
-//               success: false,
-//               message:
-//                 "if you want to update post you need to add minimum  text or image or video or privacy",
-//             });
-//           } else {
-//             // update post
-//             const updatePost = await Post.findByIdAndUpdate(
-//               req.params.id,
-//               postUpdate,
-//               {
-//                 new: true,
-//               }
-//             );
-
-//             updatePost
-//               ? res.status(200).json({
-//                   success: true,
-//                   message: `post id=${req.params.id} updated successfully`,
-//                   updatePost,
-//                 })
-//               : res.status(400).json({
-//                   success: false,
-//                   message: `post id=${req.params.id} can't update`,
-//                 });
-//           }
-//         } else {
-//           return res.status(400).json({
-//             success: false,
-//             message: "User not authorized",
-//           });
-//         }
-//       } else {
-//         res.status(400).json({
-//           success: false,
-//           message: "post not found",
-//         });
-//       }
-//     } catch (error) {
-//       if (error.details) {
-//         if (error.details[0].message) {
-//           res
-//             .status(400)
-//             .json({ success: false, message: error.details[0].message });
-//         }
-//       } else {
-//         res.status(500).json({
-//           success: false,
-//           message: "try later",
-//         });
-//       }
-//     }
-//   })
-// );
+          if (!storie.view.find((x) => x.viewBy == req.user.id)) {
+            let addstorieview = await Storie.findByIdAndUpdate(
+              storieId,
+              {
+                $push: { view: AddView },
+              },
+              { new: true }
+            );
+            if (addstorieview) {
+              res.status(200).json({
+                success: true,
+                message: "view add successfully",
+                addstorieview,
+              });
+            }
+          } else if (storie.view.find((x) => x.viewBy == req.user.id)) {
+            res.status(400).json({
+              success: false,
+              message: "can't add storie view becouse already added",
+            });
+          } else {
+            res.status(400).json({
+              success: false,
+              message: "can't add storie view",
+            });
+          }
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "post not found",
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "can't like post",
+        });
+      }
+    } catch (error) {
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "try later",
+        });
+      }
+    }
+  })
+);
 
 ///////////////////////////
 // /*  Delete Storie */  //
