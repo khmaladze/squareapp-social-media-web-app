@@ -40,6 +40,7 @@ const Profile = () => {
       });
       console.log(res);
       setStorie(res.data.storie.filter((i) => i.expireToken > date));
+      setShowAddStorie(false);
     } catch (error) {
       console.log(error);
     }
@@ -63,6 +64,9 @@ const Profile = () => {
             : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
         }
         storie={storie}
+        userId={user._id}
+        jwt={user.token}
+        onAdd={getStorie}
       />
       <Info
         text={user.biography}
@@ -97,9 +101,7 @@ const Profile = () => {
           </div>
         </Center>
       )}
-      {showAddStorie && (
-        <AddStorie jwt={user.token} onAdd={() => setShowAddStorie(false)} />
-      )}
+      {showAddStorie && <AddStorie jwt={user.token} onAdd={getStorie} />}
       <AddPost jwt={user.token} onAdd={getData} />
       {data ? (
         <GetPost

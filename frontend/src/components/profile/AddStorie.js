@@ -29,7 +29,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+
 // Register the plugins
 registerPlugin(
   FilePondPluginImageExifOrientation,
