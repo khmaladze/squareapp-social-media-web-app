@@ -47,8 +47,11 @@ const storieSchema = mongoose.Schema(
     ],
     view: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        viewBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "User",
+        },
         date: { type: Date, default: Date.now },
       },
     ],
