@@ -247,152 +247,6 @@ router.post(
 //   })
 // );
 
-// ///////////////////////////
-// // /* Post Comment  */   //
-// ///////////////////////////
-// router.put(
-//   "/comment",
-//   protect,
-//   asyncHandler(async (req, res) => {
-//     try {
-//       // Check for user
-//       if (!req.user) {
-//         res.status(400).json({
-//           success: false,
-//           message: "User not found",
-//         });
-//       }
-
-//       // validate comment
-//       const validateCommentRequestSchema =
-//         await postCommentRequestSchema.validateAsync(req.body);
-
-//       // comment
-//       const addComment = {
-//         comment: req.body.comment,
-//         commentBy: req.user._id,
-//       };
-
-//       // post id
-//       const postId = req.body.postId;
-
-//       // if post exist add comment
-//       if (postId) {
-//         let post = await Post.findById(postId);
-//         if (post) {
-//           const addedComment = await Post.findByIdAndUpdate(
-//             postId,
-//             {
-//               $push: { comment: addComment },
-//             },
-//             { new: true }
-//           );
-//           res.status(200).json({
-//             success: true,
-//             message: "comment added successfully",
-//             addedComment,
-//           });
-//         } else {
-//           res.status(400).json({
-//             success: false,
-//             message: "post not found",
-//           });
-//         }
-//       }
-//     } catch (error) {
-//       if (error.details) {
-//         if (error.details[0].message) {
-//           res
-//             .status(400)
-//             .json({ success: false, message: error.details[0].message });
-//         }
-//       } else {
-//         res.status(500).json({
-//           success: false,
-//           message: "try later",
-//         });
-//       }
-//     }
-//   })
-// );
-
-// ///////////////////////////
-// // /* Delete Comment */  //
-// ///////////////////////////
-// router.put(
-//   "/delete/comment/:id",
-//   protect,
-//   asyncHandler(async (req, res) => {
-//     try {
-//       // Check for user
-//       if (!req.user) {
-//         res.status(400).json({
-//           success: false,
-//           message: "User not found",
-//         });
-//       }
-
-//       // post id
-//       const postId = req.body.postId;
-
-//       // if post exist add comment
-//       if (postId) {
-//         let post = await Post.findById(postId);
-//         if (post) {
-//           // check if this comment is commentby user
-//           if (
-//             post.comment.find((x) => x._id == req.params.id) &&
-//             post.comment.find(
-//               (x) => x.commentBy == req.user.id && x._id == req.params.id
-//             )
-//           ) {
-//             const updatedPost = await Post.findByIdAndUpdate(
-//               postId,
-//               {
-//                 $pull: { comment: { _id: req.params.id } },
-//               },
-//               { new: true }
-//             );
-//             res.status(200).json({
-//               success: true,
-//               message: "comment remove successfully",
-//               updatedPost,
-//             });
-//           } else {
-//             res.status(400).json({
-//               success: false,
-//               message: "can't delete comment",
-//             });
-//           }
-//         } else {
-//           res.status(400).json({
-//             success: false,
-//             message: "post not found",
-//           });
-//         }
-//       } else {
-//         res.status(400).json({
-//           success: false,
-//           message: "post not found please provide postId",
-//         });
-//       }
-//     } catch (error) {
-//       if (error.details) {
-//         if (error.details[0].message) {
-//           res
-//             .status(400)
-//             .json({ success: false, message: error.details[0].message });
-//         }
-//       } else {
-//         res.status(500).json({
-//           success: false,
-//           message: "try later",
-//         });
-//       }
-//     }
-//   })
-// );
-
 ///////////////////////////
 //  /* Storie Like  */   //
 ///////////////////////////
@@ -475,77 +329,77 @@ router.put(
   })
 );
 
-// ///////////////////////////
-// //  /* Delete Like  */   //
-// ///////////////////////////
-// router.put(
-//   "/delete/like/:postId",
-//   protect,
-//   asyncHandler(async (req, res) => {
-//     try {
-//       // Check for user
-//       if (!req.user) {
-//         res.status(400).json({
-//           success: false,
-//           message: "User not found",
-//         });
-//       }
+///////////////////////////
+//  /* Delete Like  */   //
+///////////////////////////
+router.put(
+  "/delete/like/:storieId",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
 
-//       // postId
-//       const postId = req.params.postId;
+      // storieId
+      const storieId = req.params.storieId;
 
-//       if (postId) {
-//         const post = await Post.findById(postId);
-//         if (post) {
-//           if (post.like.find((x) => x.likeBy == req.user.id)) {
-//             let unlikepost = await Post.findByIdAndUpdate(
-//               postId,
-//               {
-//                 $pull: { like: { likeBy: req.user.id } },
-//               },
-//               { new: true }
-//             );
-//             if (unlikepost) {
-//               res.status(200).json({
-//                 success: true,
-//                 message: "like remove successfully",
-//                 unlikepost,
-//               });
-//             }
-//           } else {
-//             res.status(400).json({
-//               success: false,
-//               message: "can't unlike post",
-//             });
-//           }
-//         } else {
-//           res.status(400).json({
-//             success: false,
-//             message: "post not found",
-//           });
-//         }
-//       } else {
-//         res.status(400).json({
-//           success: false,
-//           message: "can't unlike post",
-//         });
-//       }
-//     } catch (error) {
-//       if (error.details) {
-//         if (error.details[0].message) {
-//           res
-//             .status(400)
-//             .json({ success: false, message: error.details[0].message });
-//         }
-//       } else {
-//         res.status(500).json({
-//           success: false,
-//           message: "try later",
-//         });
-//       }
-//     }
-//   })
-// );
+      if (storieId) {
+        const storie = await Storie.findById(storieId);
+        if (storie) {
+          if (storie.like.find((x) => x.likeBy == req.user.id)) {
+            let unlikestorie = await Storie.findByIdAndUpdate(
+              storieId,
+              {
+                $pull: { like: { likeBy: req.user.id } },
+              },
+              { new: true }
+            );
+            if (unlikestorie) {
+              res.status(200).json({
+                success: true,
+                message: "like remove successfully",
+                unlikestorie,
+              });
+            }
+          } else {
+            res.status(400).json({
+              success: false,
+              message: "can't unlike storie",
+            });
+          }
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "storie not found",
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "can't unlike storie",
+        });
+      }
+    } catch (error) {
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "try later",
+        });
+      }
+    }
+  })
+);
 
 router.get(
   "/my",
