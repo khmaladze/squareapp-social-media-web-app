@@ -25,12 +25,49 @@ const style = {
 
 const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+
   const handleClose = () => setOpen(false);
   console.log(storie);
+  const [stories, setStories] = React.useState(storie);
   const [limit, setLimit] = React.useState(1);
   const [skip, setSkip] = React.useState(0);
+  const handleOpen = async () => {
+    console.log(stories);
+    if (storie[0]) {
+      setOpen(true);
+      if (!stories[0].view.find((x) => x.viewBy == userId)) {
+        try {
+          await axios.put(`/api/storie/update/add/view/${stories[0]._id}`, "", {
+            headers: {
+              authorization: `Bearer ${jwt}`,
+            },
+          });
+          console.log("works");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  };
+  const addStorieView = async () => {
+    try {
+      if (!stories[limit].view.find((x) => x.viewBy == userId)) {
+        await axios.put(
+          `/api/storie/update/add/view/${stories[limit]._id}`,
+          "",
+          {
+            headers: {
+              authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const nextStorie = () => {
+    addStorieView();
     setSkip(skip + 1);
     setLimit(limit + 1);
   };
@@ -220,8 +257,8 @@ const Profile = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 50%;
-  border: 5px solid ${(props) => (props.storie ? "#1237fd" : "white")};
-  cursor: ${(props) => (props.storie ? "pointer" : "auto")};
+  border: 5px solid ${(props) => (props.storie[0] ? "#1237fd" : "white")};
+  cursor: ${(props) => (props.storie[0] ? "pointer" : "auto")};
   position: absolute;
   top: 320px;
 `;
