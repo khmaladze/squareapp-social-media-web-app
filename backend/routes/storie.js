@@ -393,87 +393,87 @@ router.post(
 //   })
 // );
 
-// ///////////////////////////
-// //  /* Post Like  */     //
-// ///////////////////////////
-// router.put(
-//   "/like/:postId",
-//   protect,
-//   asyncHandler(async (req, res) => {
-//     try {
-//       // Check for user
-//       if (!req.user) {
-//         res.status(400).json({
-//           success: false,
-//           message: "User not found",
-//         });
-//       }
+///////////////////////////
+//  /* Storie Like  */   //
+///////////////////////////
+router.put(
+  "/like/:storieId",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      // Check for user
+      if (!req.user) {
+        res.status(400).json({
+          success: false,
+          message: "User not found",
+        });
+      }
 
-//       // postId
-//       const postId = req.params.postId;
+      // storieId
+      const storieId = req.params.storieId;
 
-//       if (postId) {
-//         const post = await Post.findById(postId);
-//         const { like } = req.body;
-//         if (post) {
-//           let Addlike = {
-//             likeBy: req.user.id,
-//             like,
-//           };
+      if (storieId) {
+        const storie = await Storie.findById(storieId);
+        const { like } = req.body;
+        if (storie) {
+          let Addlike = {
+            likeBy: req.user.id,
+            like,
+          };
 
-//           if (like) {
-//             Addlike.like = like;
-//           }
+          if (like) {
+            Addlike.like = like;
+          }
 
-//           if (!post.like.find((x) => x.likeBy == req.user.id)) {
-//             let likepost = await Post.findByIdAndUpdate(
-//               postId,
-//               {
-//                 $push: { like: Addlike },
-//               },
-//               { new: true }
-//             );
-//             if (likepost) {
-//               res.status(200).json({
-//                 success: true,
-//                 message: "like add successfully",
-//                 likepost,
-//               });
-//             }
-//           } else {
-//             res.status(400).json({
-//               success: false,
-//               message: "can't like post",
-//             });
-//           }
-//         } else {
-//           res.status(400).json({
-//             success: false,
-//             message: "post not found",
-//           });
-//         }
-//       } else {
-//         res.status(400).json({
-//           success: false,
-//           message: "can't like post",
-//         });
-//       }
-//     } catch (error) {
-//       if (error.details) {
-//         if (error.details[0].message) {
-//           res
-//             .status(400)
-//             .json({ success: false, message: error.details[0].message });
-//         }
-//       } else {
-//         res.status(500).json({
-//           success: false,
-//           message: "try later",
-//         });
-//       }
-//     }
-//   })
-// );
+          if (!storie.like.find((x) => x.likeBy == req.user.id)) {
+            let likestorie = await Storie.findByIdAndUpdate(
+              storieId,
+              {
+                $push: { like: Addlike },
+              },
+              { new: true }
+            );
+            if (likestorie) {
+              res.status(200).json({
+                success: true,
+                message: "like add successfully",
+                likestorie,
+              });
+            }
+          } else {
+            res.status(400).json({
+              success: false,
+              message: "can't like storie",
+            });
+          }
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "storie not found",
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "can't like storie",
+        });
+      }
+    } catch (error) {
+      if (error.details) {
+        if (error.details[0].message) {
+          res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
+        }
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "try later",
+        });
+      }
+    }
+  })
+);
 
 // ///////////////////////////
 // //  /* Delete Like  */   //
