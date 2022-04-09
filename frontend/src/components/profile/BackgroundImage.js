@@ -25,35 +25,32 @@ const style = {
 
 const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
   const [open, setOpen] = React.useState(false);
-
   const handleClose = () => setOpen(false);
-  console.log(storie);
-  const [stories, setStories] = React.useState(storie);
   const [limit, setLimit] = React.useState(1);
   const [skip, setSkip] = React.useState(0);
+
   const handleOpen = async () => {
-    console.log(stories);
     if (storie[0]) {
       setOpen(true);
-      if (!stories[0].view.find((x) => x.viewBy == userId)) {
+      if (!storie[0].view.find((x) => x.viewBy == userId)) {
         try {
-          await axios.put(`/api/storie/update/add/view/${stories[0]._id}`, "", {
+          await axios.put(`/api/storie/update/add/view/${storie[0]._id}`, "", {
             headers: {
               authorization: `Bearer ${jwt}`,
             },
           });
-          console.log("works");
         } catch (error) {
           console.log(error);
         }
       }
     }
   };
+
   const addStorieView = async () => {
     try {
-      if (!stories[limit].view.find((x) => x.viewBy == userId)) {
+      if (!storie[limit].view.find((x) => x.viewBy == userId)) {
         await axios.put(
-          `/api/storie/update/add/view/${stories[limit]._id}`,
+          `/api/storie/update/add/view/${storie[limit]._id}`,
           "",
           {
             headers: {
@@ -66,11 +63,15 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
       console.log(error);
     }
   };
+
   const nextStorie = () => {
-    addStorieView();
+    if (limit < storie.length) {
+      addStorieView();
+    }
     setSkip(skip + 1);
     setLimit(limit + 1);
   };
+
   const prevStorie = () => {
     if (skip > 0) {
       setSkip(skip - 1);
@@ -79,6 +80,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
       setLimit(limit - 1);
     }
   };
+
   const addLike = async (id) => {
     try {
       const res = await axios.put(`/api/storie/like/${id}`, "", {
@@ -91,6 +93,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
       console.log(error);
     }
   };
+
   const unLike = async (id) => {
     try {
       const res = await axios.put(`/api/storie/delete/like/${id}`, "", {
@@ -103,6 +106,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
       console.log(error);
     }
   };
+
   const deleteStorie = async (id) => {
     try {
       await axios.delete(`/api/storie/delete/${id}`, {
@@ -116,6 +120,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
       console.log(error);
     }
   };
+
   return (
     <>
       <Background image={image} />
@@ -222,9 +227,6 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                 );
               })
             : "loading"}
-          {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography> */}
         </Box>
       </Modal>
     </>
