@@ -10,6 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CardActions from "@mui/material/CardActions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import PreviewIcon from "@mui/icons-material/Preview";
 
 const style = {
   position: "absolute",
@@ -28,7 +29,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
   const handleClose = () => setOpen(false);
   const [limit, setLimit] = React.useState(1);
   const [skip, setSkip] = React.useState(0);
-
+  const [storieViewOpen, setStorieViewOpen] = React.useState(false);
   const handleOpen = async () => {
     if (storie[0]) {
       setOpen(true);
@@ -183,14 +184,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                         {i.text}
                       </Typography>
                     )}
-                    {storie.length > skip &&
-                      skip !== 0 &&
-                      storie.length > 1 && (
-                        <Button onClick={prevStorie}>prev storie</Button>
-                      )}
-                    {storie.length > limit && storie.length > 1 && (
-                      <Button onClick={nextStorie}>next storie</Button>
-                    )}
+
                     <CardActions>
                       {i.like.filter((like) => like.likeBy === userId)[0] ? (
                         <div
@@ -224,7 +218,71 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                           <FavoriteBorderIcon />
                         </div>
                       )}
+                      {i.view.length >= 1 && (
+                        <>
+                          <p>{i.view.length}</p>
+                          <PreviewIcon
+                            onClick={() => setStorieViewOpen(!storieViewOpen)}
+                          />
+                        </>
+                      )}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          float: "right",
+                          width: "100%",
+                        }}
+                      >
+                        {storie.length > skip &&
+                          skip !== 0 &&
+                          storie.length > 1 && (
+                            <Button onClick={prevStorie}>prev storie</Button>
+                          )}
+                        {storie.length > limit && storie.length > 1 && (
+                          <Button onClick={nextStorie}>next storie</Button>
+                        )}
+                      </div>
                     </CardActions>
+                    {storieViewOpen && (
+                      <div style={{ width: "100%", minHeight: "50px" }}>
+                        {i.view.map((v) => {
+                          return (
+                            <div
+                              key={v._id}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    backgroundImage: `url(${v.viewBy.profileImage})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    backgroundRepeat: "no-repeat",
+                                  }}
+                                ></div>
+                                <h4 style={{ marginLeft: "5px" }}>
+                                  {v.viewBy.firstName + " " + v.viewBy.lastName}
+                                </h4>
+                              </div>
+                              <p>{format(v.date)}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 );
               })
