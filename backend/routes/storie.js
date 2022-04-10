@@ -144,10 +144,14 @@ router.put(
               });
             }
           } else if (storie.view.find((x) => x.viewBy == req.user.id)) {
-            res.status(400).json({
-              success: false,
-              message: "can't add storie view becouse already added",
+            res.status(200).json({
+              success: true,
+              message: "like is added already",
             });
+            // res.status(400).json({
+            //   success: false,
+            //   message: "can't add storie view becouse already added",
+            // });
           } else {
             res.status(400).json({
               success: false,
