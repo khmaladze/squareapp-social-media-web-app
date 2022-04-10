@@ -55,6 +55,15 @@ const storieSchema = mongoose.Schema(
         date: { type: Date, default: Date.now },
       },
     ],
+    isBlocked: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    isBlockedDate: {
+      type: Date,
+      default: Date.now,
+    },
     expireToken: Date,
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
