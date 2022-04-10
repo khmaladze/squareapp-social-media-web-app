@@ -31,9 +31,8 @@ const Profile = () => {
     }
   };
   const [date, setfirst] = useState(new Date().toISOString());
+
   const getStorie = async () => {
-    setStorie(null);
-    setStorie(null);
     try {
       const res = await axios.get("/api/storie/my", {
         headers: {
@@ -48,7 +47,7 @@ const Profile = () => {
       console.log(error);
     }
   };
-  // getData();
+
   useEffect(() => {
     getData();
     getStorie();
