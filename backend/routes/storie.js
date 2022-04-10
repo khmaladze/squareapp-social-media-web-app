@@ -66,7 +66,8 @@ router.post(
         if (privacy) {
           storieCreate.privacy = privacy;
         }
-        storieCreate.expireToken = Date.now() + 90000000;
+        oneDay = 1000 * 60 * 60 * 24 * 1;
+        storieCreate.expireToken = Date.now() + oneDay;
         const storie = await Storie.create(storieCreate);
 
         storie
