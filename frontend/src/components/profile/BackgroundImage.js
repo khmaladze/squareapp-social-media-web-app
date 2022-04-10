@@ -266,6 +266,10 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                                 display: "flex",
                                 justifyContent: "space-between",
                                 alignItems: "center",
+                                marginTop: "7px",
+                                // borderTop: "1px solid",
+                                // borderBottom: "1px solid",
+                                // borderRight: "1px solid",
                               }}
                             >
                               <div
