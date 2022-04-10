@@ -324,16 +324,22 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                             <h4>{comment.comment}</h4>
                           </div>
                           {comment.date && (
-                            <p style={{ marginLeft: "20px" }}>
-                              {format(comment.date)}
-                            </p>
+                            <div style={{ display: "flex" }}>
+                              <p style={{ marginLeft: "20px" }}>
+                                {format(comment.date)}
+                              </p>
+                              {comment.commentBy._id == userId && (
+                                <div
+                                  style={{ cursor: "pointer", width: "5%" }}
+                                  onClick={() =>
+                                    deleteComment(comment._id, item._id)
+                                  }
+                                >
+                                  <DeleteOutlineIcon />
+                                </div>
+                              )}
+                            </div>
                           )}
-                          <div
-                            style={{ cursor: "pointer", width: "5%" }}
-                            onClick={() => deleteComment(comment._id, item._id)}
-                          >
-                            <DeleteOutlineIcon />
-                          </div>
                         </div>
                       </Grid>
                     );
