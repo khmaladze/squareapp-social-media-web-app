@@ -4,11 +4,11 @@ import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { WelcomePage } from "./pages/WelcomePage";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
-import { Home } from "./pages/Home";
 import { useSelector } from "react-redux";
 import { Navbar } from "./components/Navbar";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import Main from "./pages/Main";
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const Routing = () => {
       <Routes>
         {user && (
           <>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Main />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
           </>
