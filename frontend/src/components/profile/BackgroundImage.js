@@ -32,7 +32,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
   const handleOpen = async () => {
     if (storie[0]) {
       setOpen(true);
-      if (!storie[0].view.find((x) => x.viewBy == userId)) {
+      if (!storie[0].view.find((x) => x.viewBy._id == userId)) {
         try {
           await axios.put(`/api/storie/update/add/view/${storie[0]._id}`, "", {
             headers: {
@@ -49,7 +49,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
 
   const addStorieView = async () => {
     try {
-      if (!storie[limit].view.find((x) => x.viewBy == userId)) {
+      if (!storie[limit].view.find((x) => x.viewBy._id == userId)) {
         await axios.put(
           `/api/storie/update/add/view/${storie[limit]._id}`,
           "",
