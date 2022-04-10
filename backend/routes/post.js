@@ -73,7 +73,7 @@ router.post(
           postCreate.privacy = privacy;
         }
         fiveDay = 1000 * 60 * 60 * 24 * 5;
-        postCraete.expireToken = Date.now() + fiveDay;
+        postCreate.expireToken = Date.now() + fiveDay;
 
         const post = await Post.create(postCreate);
 
