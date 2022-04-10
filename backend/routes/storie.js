@@ -14,7 +14,7 @@ const storieRequestSchema = Joi.object({
 });
 
 ///////////////////////////
-//   /*  Add Storie  */    //
+//   /*  Add Storie  */  //
 ///////////////////////////
 router.post(
   "/add",
@@ -131,6 +131,9 @@ router.put(
                 $push: { view: AddView },
               },
               { new: true }
+            ).populate(
+              "postedBy view.viewBy",
+              "firstName lastName profileImage backgroundImage"
             );
             if (addstorieview) {
               res.status(200).json({
@@ -387,7 +390,7 @@ router.get(
       const storie = await Storie.find({ postedBy: req.user._id })
         .sort("-createdAt")
         .populate(
-          "postedBy",
+          "postedBy view.viewBy",
           "firstName lastName profileImage backgroundImage"
         );
       res.status(200).json({ success: true, storie });
