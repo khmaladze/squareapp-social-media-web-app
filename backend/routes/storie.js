@@ -383,6 +383,9 @@ router.put(
   })
 );
 
+///////////////////////////
+// /* Get My Storie  */  //
+///////////////////////////
 router.get(
   "/my",
   protect,
@@ -394,6 +397,25 @@ router.get(
           "postedBy view.viewBy",
           "firstName lastName profileImage backgroundImage"
         );
+      res.status(200).json({ success: true, storie });
+    } catch (error) {
+      console.log(error);
+    }
+  })
+);
+
+///////////////////////////////
+// /* Get Public Storie  */  //
+///////////////////////////////
+router.get(
+  "/public",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const storie = await Storie.find({ privacy: "public", isBlocked: false })
+        .sort("-createdAt")
+        .select("-view")
+        .populate("postedBy", "userName profileImage");
       res.status(200).json({ success: true, storie });
     } catch (error) {
       console.log(error);
