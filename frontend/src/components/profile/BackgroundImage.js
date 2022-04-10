@@ -224,12 +224,19 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                         </div>
                       )}
                       {i.view.length >= 1 && (
-                        <>
+                        <div
+                          style={{
+                            cursor: "pointer",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
                           <p>{i.view.length}</p>
                           <PreviewIcon
                             onClick={() => setStorieViewOpen(!storieViewOpen)}
                           />
-                        </>
+                        </div>
                       )}
                       <div
                         style={{
