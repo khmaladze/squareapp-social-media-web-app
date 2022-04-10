@@ -118,7 +118,12 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
           authorization: `Bearer ${jwt}`,
         },
       });
-      return onAdd();
+      if (storie.length > 1) {
+        return onAdd();
+      } else {
+        setOpen(false);
+        return onAdd();
+      }
     } catch (error) {
       console.log(error);
     }
