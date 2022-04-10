@@ -323,8 +323,13 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                             ></div>
                             <h4>{comment.comment}</h4>
                           </div>
+                          {comment.date && (
+                            <p style={{ marginLeft: "20px" }}>
+                              {format(comment.date)}
+                            </p>
+                          )}
                           <div
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: "pointer", width: "5%" }}
                             onClick={() => deleteComment(comment._id, item._id)}
                           >
                             <DeleteOutlineIcon />
