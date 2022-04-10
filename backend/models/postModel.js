@@ -1,3 +1,4 @@
+const { boolean } = require("joi");
 const mongoose = require("mongoose");
 
 const postSchema = mongoose.Schema(
@@ -45,6 +46,15 @@ const postSchema = mongoose.Schema(
         date: { type: Date, default: Date.now },
       },
     ],
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+    isBlockedDate: {
+      type: Date,
+      default: Date.now,
+    },
+    expireToken: Date,
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
