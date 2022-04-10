@@ -1,4 +1,3 @@
-const { boolean } = require("joi");
 const mongoose = require("mongoose");
 
 const postSchema = mongoose.Schema(
@@ -48,6 +47,7 @@ const postSchema = mongoose.Schema(
     ],
     isBlocked: {
       type: Boolean,
+      required: true,
       default: false,
     },
     isBlockedDate: {
