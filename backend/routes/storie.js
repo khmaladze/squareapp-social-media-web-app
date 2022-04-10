@@ -146,7 +146,7 @@ router.put(
           } else if (storie.view.find((x) => x.viewBy == req.user.id)) {
             res.status(200).json({
               success: true,
-              message: "like is added already",
+              message: "view is added already",
             });
             // res.status(400).json({
             //   success: false,
