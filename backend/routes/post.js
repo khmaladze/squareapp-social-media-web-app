@@ -72,6 +72,8 @@ router.post(
         if (privacy) {
           postCreate.privacy = privacy;
         }
+        fiveDay = 1000 * 60 * 60 * 24 * 5;
+        postCraete.expireToken = Date.now() + fiveDay;
 
         const post = await Post.create(postCreate);
 
@@ -553,8 +555,32 @@ router.put(
   })
 );
 
+///////////////////////////
+//  /* Get My Post  */   //
+///////////////////////////
 router.get(
   "/my",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const post = await Post.find({ postedBy: req.user._id })
+        .sort("-createdAt")
+        .populate(
+          "postedBy comment.commentBy",
+          "firstName lastName profileImage backgroundImage"
+        );
+      res.status(200).json({ success: true, post });
+    } catch (error) {
+      console.log(error);
+    }
+  })
+);
+
+/////////////////////////////////
+// /* Get All Public Post  */  //
+/////////////////////////////////
+router.get(
+  "/public",
   protect,
   asyncHandler(async (req, res) => {
     try {
