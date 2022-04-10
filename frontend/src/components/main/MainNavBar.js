@@ -5,18 +5,18 @@ import styled from "styled-components";
 const MainNavBar = () => {
   return (
     <NavBarContainer>
-      <Item>
-        <Link to={"/friend"}>friend</Link>
-      </Item>
-      <Item>
-        <Link to={"/public"}>Public</Link>
-      </Item>
-      <Item>
-        <Link to={"/message"}>Message</Link>
-      </Item>
-      <Item>
-        <Link to={"/addfriend"}>Add Friend</Link>
-      </Item>
+      <Link to={"/friend"}>
+        <Item>friend</Item>
+      </Link>
+      <Link to={"/public"}>
+        <Item>Public</Item>
+      </Link>
+      <Link to={"/message"}>
+        <Item>Message</Item>
+      </Link>
+      <Link to={"/addfriend"}>
+        <Item>Add Friend</Item>
+      </Link>
     </NavBarContainer>
   );
 };
@@ -29,6 +29,12 @@ const NavBarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  a {
+    font-family: "Raleway", sans-serif;
+    color: white;
+    width: 100%;
+    max-width: 150px;
+  }
 `;
 
 const Item = styled.div`
@@ -42,10 +48,6 @@ const Item = styled.div`
   background: #1237fd;
   color: white;
   text-align: center;
-  a {
-    font-family: "Raleway", sans-serif;
-    color: white;
-  }
   //   :nth-child(1) {
   // background: ;
   //   }
