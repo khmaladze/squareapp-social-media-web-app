@@ -44,6 +44,7 @@ export const WelcomePage = () => {
               border: "black 1px solid",
               height: "50px",
               width: "100px",
+              fontFamily: "'Raleway', sans-serif",
             }}
           >
             LOG IN
@@ -57,6 +58,7 @@ export const WelcomePage = () => {
               color: "white",
               height: "50px",
               width: "100px",
+              fontFamily: "'Raleway', sans-serif",
             }}
           >
             REGISTER
