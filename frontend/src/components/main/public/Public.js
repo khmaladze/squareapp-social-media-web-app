@@ -32,8 +32,7 @@ const Public = () => {
   const token = useSelector((state) => state.auth.value.user.token);
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
-  const [limit, setLimit] = React.useState(1);
-  const [skip, setSkip] = React.useState(0);
+  const [current, setCurrent] = React.useState(0);
   const [storieViewOpen, setStorieViewOpen] = React.useState(null);
   const [loader, setLoader] = React.useState(true);
   const handleOpen = () => setOpen(true);
@@ -66,37 +65,37 @@ const Public = () => {
       // console.log(error);
     }
   };
-  const openStorie = async (id, index) => {
+  const openStorie = async (id, index, front = true) => {
     try {
-      setSkip(index);
-      const newData = storie.filter((i) => i._id == id);
-      setCurrentStorie(newData);
-      if (newData !== null) {
-        handleOpen();
-        addStorieView(id);
+      if (front == false) {
+        setCurrent(index - 1);
+        const newData = storie.filter((i) => i._id == id);
+        setCurrentStorie(newData);
+        if (newData !== null) {
+          handleOpen();
+          addStorieView(id);
+        }
+      }
+      if (front == true) {
+        setCurrent(index + 1);
+        const newData = storie.filter((i) => i._id == id);
+        setCurrentStorie(newData);
+        if (newData !== null) {
+          handleOpen();
+          addStorieView(id);
+        }
       }
     } catch (error) {
       console.log(error);
     }
   };
+
   const nextStorie = () => {
-    if (limit < storie.length) {
-      addStorieView();
-      openStorie(storie[skip]._id, skip + 1 <= storie.length ? skip + 1 : 0);
-    }
-    setSkip(skip + 1);
-    setLimit(limit + 1);
+    openStorie(storie[current]._id, current);
   };
 
   const prevStorie = () => {
-    if (skip > 0) {
-      setSkip(skip - 1);
-      openStorie(storie[skip]._id, skip - 1 <= storie.length ? skip + 1 : 0);
-    }
-    if (limit > 1) {
-      setLimit(limit - 1);
-      openStorie(storie[skip]._id, skip - 1 <= storie.length ? skip + 1 : 0);
-    }
+    openStorie(storie[current - 1]._id, current - 1, false);
   };
 
   const addLike = async (id) => {
@@ -253,14 +252,10 @@ const Public = () => {
                               width: "100%",
                             }}
                           >
-                            {storie.length > skip &&
-                              skip !== 0 &&
-                              storie.length > 1 && (
-                                <Button onClick={prevStorie}>
-                                  prev storie
-                                </Button>
-                              )}
-                            {storie.length > limit && storie.length > 1 && (
+                            {current !== 1 && storie.length > 1 && (
+                              <Button onClick={prevStorie}>prev storie</Button>
+                            )}
+                            {storie.length > current && storie.length > 1 && (
                               <Button onClick={nextStorie}>next storie</Button>
                             )}
                           </div>
