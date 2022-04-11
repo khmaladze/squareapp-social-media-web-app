@@ -30,6 +30,13 @@ const Public = () => {
   const [currentStorie, setCurrentStorie] = useState(null);
   const userId = useSelector((state) => state.auth.value.user._id);
   const token = useSelector((state) => state.auth.value.user.token);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => setOpen(false);
+  const [limit, setLimit] = React.useState(1);
+  const [skip, setSkip] = React.useState(0);
+  const [storieViewOpen, setStorieViewOpen] = React.useState(null);
+  const [loader, setLoader] = React.useState(true);
+  const handleOpen = () => setOpen(true);
   const getStorieData = async () => {
     try {
       const res = await axios.get("/api/storie/public", {
@@ -39,17 +46,14 @@ const Public = () => {
         },
       });
       setStorie(res.data.storie);
+      if (res.data.storie.length == 0) {
+        setLoader(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => setOpen(false);
-  const [limit, setLimit] = React.useState(1);
-  const [skip, setSkip] = React.useState(0);
-  const [storieViewOpen, setStorieViewOpen] = React.useState(null);
-  const handleOpen = () => setOpen(true);
   const addStorieView = async (id) => {
     try {
       await axios.put(`/api/storie/update/add/view/${id}`, "", {
@@ -62,8 +66,9 @@ const Public = () => {
       // console.log(error);
     }
   };
-  const openStorie = async (id) => {
+  const openStorie = async (id, index) => {
     try {
+      setSkip(index);
       const newData = storie.filter((i) => i._id == id);
       setCurrentStorie(newData);
       if (newData !== null) {
@@ -77,6 +82,7 @@ const Public = () => {
   const nextStorie = () => {
     if (limit < storie.length) {
       addStorieView();
+      openStorie(storie[skip]._id, skip + 1 <= storie.length ? skip + 1 : 0);
     }
     setSkip(skip + 1);
     setLimit(limit + 1);
@@ -85,9 +91,11 @@ const Public = () => {
   const prevStorie = () => {
     if (skip > 0) {
       setSkip(skip - 1);
+      openStorie(storie[skip]._id, skip - 1 <= storie.length ? skip + 1 : 0);
     }
     if (limit > 1) {
       setLimit(limit - 1);
+      openStorie(storie[skip]._id, skip - 1 <= storie.length ? skip + 1 : 0);
     }
   };
 
@@ -141,15 +149,15 @@ const Public = () => {
   return (
     <div>
       <h1>Public</h1>
-      {storie ? (
+      {storie && storie.length > 0 ? (
         <>
           <StorieContainer>
-            {storie.slice(0, 5).map((item) => {
+            {storie.slice(0, 5).map((item, index) => {
               return (
                 <Storie
                   key={item._id}
                   img={item.postedBy.profileImage}
-                  onClick={() => openStorie(item._id)}
+                  onClick={() => openStorie(item._id, index)}
                 ></Storie>
               );
             })}
@@ -275,7 +283,11 @@ const Public = () => {
             marginBottom: "10px",
           }}
         >
-          <CircularProgress />
+          {loader ? (
+            <CircularProgress />
+          ) : (
+            <Typography>No Active Storie Found Yet...</Typography>
+          )}
         </div>
       )}
     </div>
