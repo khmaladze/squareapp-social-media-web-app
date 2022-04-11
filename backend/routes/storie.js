@@ -416,7 +416,11 @@ router.get(
   protect,
   asyncHandler(async (req, res) => {
     try {
-      const storie = await Storie.find({ privacy: "public", isBlocked: false })
+      const storie = await Storie.find({
+        privacy: "public",
+        isBlocked: false,
+        expireToken: { $gt: Date.now() },
+      })
         .sort("-createdAt")
         .select("-view")
         .populate("postedBy", "userName profileImage");
