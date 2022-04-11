@@ -584,7 +584,11 @@ router.get(
   protect,
   asyncHandler(async (req, res) => {
     try {
-      const post = await Post.find({ postedBy: req.user._id })
+      const post = await Post.find({
+        privacy: "public",
+        isBlocked: false,
+        expireToken: { $gt: Date.now() },
+      })
         .sort("-createdAt")
         .populate(
           "postedBy comment.commentBy",
