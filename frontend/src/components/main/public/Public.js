@@ -266,9 +266,13 @@ const Public = () => {
                             {prev && storie.length > 1 && (
                               <Button onClick={prevStorie}>prev storie</Button>
                             )}
-                            {storie.length > current && storie.length > 1 && (
-                              <Button onClick={nextStorie}>next storie</Button>
-                            )}
+                            {current < storie.length &&
+                              storie.length > current &&
+                              storie.length > 1 && (
+                                <Button onClick={nextStorie}>
+                                  next storie
+                                </Button>
+                              )}
                           </div>
                         </CardActions>
                       </div>
