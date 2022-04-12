@@ -35,6 +35,7 @@ const Public = () => {
   const [current, setCurrent] = React.useState(0);
   const [storieViewOpen, setStorieViewOpen] = React.useState(null);
   const [loader, setLoader] = React.useState(true);
+  const [prev, setPrev] = React.useState("");
   const handleOpen = () => setOpen(true);
   const getStorieData = async () => {
     try {
@@ -69,6 +70,11 @@ const Public = () => {
     try {
       if (front == false) {
         setCurrent(index - 1);
+        if (index - 1 > 0) {
+          setPrev(true);
+        } else {
+          setPrev(false);
+        }
         const newData = storie.filter((i) => i._id == id);
         setCurrentStorie(newData);
         if (newData !== null) {
@@ -78,6 +84,11 @@ const Public = () => {
       }
       if (front == true) {
         setCurrent(index + 1);
+        if (index == 0) {
+          setPrev(false);
+        } else if (index > 0) {
+          setPrev(true);
+        }
         const newData = storie.filter((i) => i._id == id);
         setCurrentStorie(newData);
         if (newData !== null) {
@@ -95,7 +106,7 @@ const Public = () => {
   };
 
   const prevStorie = () => {
-    openStorie(storie[current - 1]._id, current - 1, false);
+    openStorie(storie[current - 1]._id, current, false);
   };
 
   const addLike = async (id) => {
@@ -252,7 +263,7 @@ const Public = () => {
                               width: "100%",
                             }}
                           >
-                            {current !== 1 && storie.length > 1 && (
+                            {prev && storie.length > 1 && (
                               <Button onClick={prevStorie}>prev storie</Button>
                             )}
                             {storie.length > current && storie.length > 1 && (
