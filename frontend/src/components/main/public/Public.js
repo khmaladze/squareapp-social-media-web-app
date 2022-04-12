@@ -68,9 +68,10 @@ const Public = () => {
   };
   const openStorie = async (id, index, front = true) => {
     try {
+      console.log(index);
       if (front == false) {
-        setCurrent(index - 1);
-        if (index - 1 > 0) {
+        setCurrent(index);
+        if (index - 1 >= 0) {
           setPrev(true);
         } else {
           setPrev(false);
@@ -83,7 +84,11 @@ const Public = () => {
         }
       }
       if (front == true) {
-        setCurrent(index + 1);
+        if (current + 1 > storie.length) {
+          setCurrent(index);
+        } else {
+          setCurrent(index + 1);
+        }
         if (index == 0) {
           setPrev(false);
         } else if (index > 0) {
@@ -106,7 +111,7 @@ const Public = () => {
   };
 
   const prevStorie = () => {
-    openStorie(storie[current - 1]._id, current, false);
+    openStorie(storie[current - 1]._id, current - 1, false);
   };
 
   const addLike = async (id) => {
@@ -266,7 +271,9 @@ const Public = () => {
                             {prev && storie.length > 1 && (
                               <Button onClick={prevStorie}>prev storie</Button>
                             )}
-                            {current < storie.length &&
+                            {current !== storie.length &&
+                              current < storie.length &&
+                              current < storie.length &&
                               storie.length > current &&
                               storie.length > 1 && (
                                 <Button onClick={nextStorie}>
