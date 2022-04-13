@@ -85,7 +85,7 @@ const Public = () => {
       }
       if (front == true) {
         if (current + 1 > storie.length) {
-          setCurrent(index);
+          setCurrent(index - 1);
         } else {
           setCurrent(index + 1);
         }
