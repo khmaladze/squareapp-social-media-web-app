@@ -19,6 +19,10 @@ const storieSchema = mongoose.Schema(
       enum: ["onlyMe", "friends", "public"],
       default: "onlyMe",
     },
+    archived: {
+      type: Boolean,
+      default: false,
+    },
     // comment: [
     //   {
     //     comment: String,
