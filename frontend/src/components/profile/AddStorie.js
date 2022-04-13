@@ -39,6 +39,7 @@ registerPlugin(
 const AddStorie = ({ jwt, onAdd }) => {
   const [text, setText] = useState("");
   const [privacy, setPrivacy] = useState("onlyMe");
+  const [archive, setArchive] = useState("no");
   const [image, setImage] = useState("");
   const [video, setVideo] = useState("");
   const uploadImage = async () => {
@@ -98,6 +99,10 @@ const AddStorie = ({ jwt, onAdd }) => {
         postCreate.privacy = privacy;
       }
 
+      if (archive == "yes") {
+        postCreate.archived = true;
+      }
+
       const res = await axios.post("/api/storie/add", postCreate, {
         headers: {
           "Content-Type": "application/json",
@@ -109,6 +114,7 @@ const AddStorie = ({ jwt, onAdd }) => {
         setImage("");
         setVideo("");
         setPrivacy("onlyMe");
+        setArchive("no");
         toast.success(res.data.message);
         return onAdd();
       }
@@ -182,6 +188,21 @@ const AddStorie = ({ jwt, onAdd }) => {
                 <MenuItem value={"onlyMe"}>onlyMe</MenuItem>
                 <MenuItem value={"friends"}>friends</MenuItem>
                 <MenuItem value={"public"}>public</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} mt={2}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">archived</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="archived"
+                label="archived"
+                value={archive}
+                onChange={(e) => setArchive(e.target.value)}
+              >
+                <MenuItem value={"no"}>no</MenuItem>
+                <MenuItem value={"yes"}>yes</MenuItem>
               </Select>
             </FormControl>
           </Grid>
