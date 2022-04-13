@@ -11,6 +11,7 @@ const storieRequestSchema = Joi.object({
   image: Joi.string().trim(),
   video: Joi.string().trim(),
   privacy: Joi.string().valid("onlyMe", "friends", "public").trim(),
+  archived: Joi.bool(),
 });
 
 ///////////////////////////
@@ -34,7 +35,7 @@ router.post(
         req.body
       );
 
-      let { text, image, video, privacy } = req.body;
+      let { text, image, video, privacy, archived } = req.body;
 
       let storieCreate = {
         postedBy: req.user,
@@ -42,6 +43,7 @@ router.post(
         image,
         video,
         privacy,
+        archived,
       };
 
       if (!text && !image && !video) {
@@ -65,6 +67,9 @@ router.post(
 
         if (privacy) {
           storieCreate.privacy = privacy;
+        }
+        if (archived) {
+          storieCreate.archived = true;
         }
         oneDay = 1000 * 60 * 60 * 24 * 1;
         storieCreate.expireToken = Date.now() + oneDay;
@@ -90,6 +95,7 @@ router.post(
             .json({ success: false, message: error.details[0].message });
         }
       } else {
+        console.log(error);
         res.status(500).json({
           success: false,
           message: "try later",
