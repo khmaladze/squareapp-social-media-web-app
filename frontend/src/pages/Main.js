@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Public from "../components/main/public/Public";
+import Friend from "../components/main/friend/Friend";
 
 const Main = () => {
   const [page, setPage] = useState("Public");
@@ -23,7 +24,7 @@ const Main = () => {
       </NavBarContainer>
       <div style={{ height: "150px" }}></div>
       {page == "Public" && <Public />}
-      {page == "friend" && "friend"}
+      {page == "friend" && <Friend />}
     </MainPage>
   );
 };
