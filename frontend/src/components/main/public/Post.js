@@ -24,8 +24,6 @@ const Post = () => {
   const jwt = useSelector((state) => state.auth.value.user.token);
   const userId = useSelector((state) => state.auth.value.user._id);
   const [data, setData] = useState("");
-  const [showAddStorie, setShowAddStorie] = useState(false);
-  const [storie, setStorie] = useState(null);
   const getData = async () => {
     try {
       const res = await axios.get("/api/post/public", {
