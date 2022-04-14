@@ -4,6 +4,7 @@ const Storie = require("../models/storieModel");
 const asyncHandler = require("express-async-handler");
 const Joi = require("joi");
 const { protect } = require("../middleware/requireUserLogin");
+const User = require("../models/userModel");
 
 // validation storie request schema
 const storieRequestSchema = Joi.object({
@@ -432,7 +433,31 @@ router.get(
         .populate("postedBy", "userName profileImage");
       res.status(200).json({ success: true, storie });
     } catch (error) {
-      console.log(error);
+      res.status(500).json({ success: false, message: "try later" });
+    }
+  })
+);
+
+///////////////////////////////
+// /* Get Friend Storie  */  //
+///////////////////////////////
+router.get(
+  "/friend",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const storie = await Storie.find({
+        postedBy: { $in: req.user.friends.map((id) => id) },
+        privacy: "friends",
+        isBlocked: false,
+        expireToken: { $gt: Date.now() },
+      })
+        .sort("-createdAt")
+        .select("-view")
+        .populate("postedBy", "userName profileImage");
+      res.status(200).json({ success: true, storie });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "try later" });
     }
   })
 );
