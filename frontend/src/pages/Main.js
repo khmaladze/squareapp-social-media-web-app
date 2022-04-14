@@ -46,6 +46,7 @@ const NavBarContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   position: fixed;
+  z-index: 1000;
   a {
     font-family: "Raleway", sans-serif;
     color: white;
