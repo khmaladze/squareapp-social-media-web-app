@@ -601,4 +601,30 @@ router.get(
   })
 );
 
+///////////////////////////////
+// /* Get Friend Post    */  //
+///////////////////////////////
+router.get(
+  "/friend",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const post = await Post.find({
+        postedBy: { $in: req.user.friends.map((id) => id) },
+        privacy: "friends",
+        isBlocked: false,
+        expireToken: { $gt: Date.now() },
+      })
+        .sort("-createdAt")
+        .populate(
+          "postedBy comment.commentBy",
+          "firstName lastName profileImage backgroundImage"
+        );
+      res.status(200).json({ success: true, post });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "try later" });
+    }
+  })
+);
+
 module.exports = router;
