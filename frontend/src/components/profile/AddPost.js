@@ -107,7 +107,7 @@ const AddPost = ({ jwt, onAdd }) => {
         setText("");
         setImage("");
         setVideo("");
-        setPrivacy("");
+        setPrivacy("onlyMe");
         toast.success(res.data.message);
         return onAdd();
       }
