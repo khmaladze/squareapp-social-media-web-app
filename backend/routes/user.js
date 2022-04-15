@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
+const Post = require("../models/postModel");
+const Storie = require("../models/storieModel");
 const asyncHandler = require("express-async-handler");
 const Joi = require("joi");
 const { protect } = require("../middleware/requireUserLogin");
@@ -23,7 +25,9 @@ router.get(
       const friendsData = await User.find({
         _id: { $in: req.user.friends.map((id) => id) },
         isBlocked: false,
-      }).select("_id profileImage backgorundImage userName firstName lastName");
+      }).select(
+        "_id profileImage backgroundImage userName firstName lastName place hobby"
+      );
       res.status(200).json({
         success: true,
         message: "get friends list successfully",
@@ -63,22 +67,40 @@ router.put(
 // /*  Get User Profile  */ //
 //////////////////////////////
 router.get(
-  "/user/profile/:profileId",
+  "/profile/:profileId",
   protect,
   asyncHandler(async (req, res) => {
     try {
       const user = await User.find({
         _id: req.params.profileId,
         isBlocked: false,
-      }).select("_id profileImage backgorundImage userName firstName lastName");
-      const post = await User.find({
-        postedBy: user._id,
+      }).select(
+        "_id profileImage backgroundImage userName firstName lastName place hobby biography"
+      );
+      const post = await Post.find({
+        postedBy: req.params.profileId,
+        privacy: "public",
+        isBlocked: false,
+      })
+        .sort("-createdAt")
+        .populate(
+          "postedBy comment.commentBy",
+          "firstName lastName profileImage backgroundImage"
+        );
+
+      const storie = await Storie.find({
+        postedBy: req.params.profileId,
+        privacy: "public",
+        isBlocked: false,
+        expireToken: { $gt: Date.now() },
       });
+
       res.status(200).json({
         success: true,
         message: "get profile  successfully",
         user,
         post,
+        storie,
       });
     } catch (error) {
       res.status(500).json({
