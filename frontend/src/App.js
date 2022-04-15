@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Main from "./pages/Main";
 import AddFriend from "./components/addfriend/AddFriend";
+import UserProfile from "./pages/UserProfile";
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ const Routing = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/addfriend" element={<AddFriend />} />
+            <Route path="/profile/:profileId" element={<UserProfile />} />
           </>
         )}
         {!user && (
