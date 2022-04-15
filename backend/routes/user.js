@@ -59,4 +59,34 @@ router.put(
   })
 );
 
+//////////////////////////////
+// /*  Get User Profile  */ //
+//////////////////////////////
+router.get(
+  "/user/profile/:profileId",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const user = await User.find({
+        _id: req.params.profileId,
+        isBlocked: false,
+      }).select("_id profileImage backgorundImage userName firstName lastName");
+      const post = await User.find({
+        postedBy: user._id,
+      });
+      res.status(200).json({
+        success: true,
+        message: "get profile  successfully",
+        user,
+        post,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
+
 module.exports = router;
