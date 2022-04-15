@@ -38,6 +38,9 @@ router.get(
   })
 );
 
+//////////////////////////////
+// /* Update User Data   */ //
+//////////////////////////////
 router.put(
   "/update",
   protect,
