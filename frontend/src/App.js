@@ -9,6 +9,7 @@ import { Navbar } from "./components/Navbar";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Main from "./pages/Main";
+import AddFriend from "./components/addfriend/AddFriend";
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ const Routing = () => {
             <Route path="/" element={<Main />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/addfriend" element={<AddFriend />} />
           </>
         )}
         {!user && (
