@@ -335,8 +335,9 @@ const Profile = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 50%;
-  border: 5px solid ${(props) => (props.storie[0] ? "#1237fd" : "white")};
-  cursor: ${(props) => (props.storie[0] ? "pointer" : "auto")};
+  border: 5px solid
+    ${(props) => (props.storie && props.storie[0] ? "#1237fd" : "white")};
+  cursor: ${(props) => (props.storie && props.storie[0] ? "pointer" : "auto")};
   position: absolute;
   top: 320px;
 `;
