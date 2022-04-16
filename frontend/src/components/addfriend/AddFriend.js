@@ -162,7 +162,7 @@ const AddFriend = () => {
                 </UserCard>
                 <h4>
                   {alreadysend &&
-                    "you already have send friend request to this user"}
+                    "you have already send friend request to this user"}
                 </h4>
                 <h5>
                   {alreadysend &&
