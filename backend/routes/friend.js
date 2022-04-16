@@ -25,6 +25,7 @@ router.get(
     try {
       const friend = await Friend.find({
         reciver: req.user._id,
+        active: true,
       }).populate("reciver", "profileImage userName");
       console.log(friend);
       console.log(req.user);
@@ -34,6 +35,67 @@ router.get(
         success: true,
         message: "friend request get successfully",
         friendAdd: friend,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
+
+///////////////////////////////////
+// /* Response Friend Request */ //
+///////////////////////////////////
+router.post(
+  "/response",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const { response, requestId } = req.body;
+
+      const friend = await Friend.find({
+        _id: requestId,
+        reciver: req.user._id,
+      }).populate("reciver", "profileImage userName");
+
+      if (response) {
+        const me = await User.findByIdAndUpdate(
+          req.user._id,
+          { $push: { friends: friend[0].sender } },
+          {
+            new: true,
+          }
+        );
+        const user = await User.findByIdAndUpdate(
+          friend[0].sender,
+          { $push: { friends: req.user._id } },
+          {
+            new: true,
+          }
+        );
+        await Friend.findByIdAndUpdate(
+          requestId,
+          { active: false },
+          { new: true }
+        );
+        res.status(200).json({
+          success: true,
+          message: "friend response add successfully",
+          accept: true,
+        });
+      } else {
+        await Friend.findByIdAndUpdate(
+          requestId,
+          { ignore: true, active: false },
+          { new: true }
+        );
+      }
+      res.status(200).json({
+        success: true,
+        message: "friend response add successfully",
+        accept: false,
       });
     } catch (error) {
       res.status(500).json({
