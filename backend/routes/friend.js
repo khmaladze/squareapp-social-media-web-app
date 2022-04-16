@@ -16,6 +16,35 @@ const { protect } = require("../middleware/requireUserLogin");
 // });
 
 //////////////////////////////
+// /* Get Friend Request */ //
+//////////////////////////////
+router.get(
+  "/get",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const friend = await Friend.find({
+        reciver: req.user._id,
+      });
+      console.log(friend);
+      console.log(req.user);
+      console.log(req.user._id);
+      console.log(req.user.id);
+      res.status(200).json({
+        success: true,
+        message: "friend request get successfully",
+        friendAdd: friend,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
+
+//////////////////////////////
 // /*     Get User       */ //
 //////////////////////////////
 router.get(
