@@ -16,6 +16,55 @@ const { protect } = require("../middleware/requireUserLogin");
 // });
 
 //////////////////////////////
+// /*     Get User       */ //
+//////////////////////////////
+router.get(
+  "/user/:username",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const friendsData = await User.find({
+        userName: {
+          $in: req.user.friends.map((userName) => req.params.username),
+        },
+        isBlocked: false,
+      }).select(
+        "_id profileImage backgroundImage userName firstName lastName place hobby"
+      );
+      if (friendsData.length > 0) {
+        res.status(200).json({
+          success: true,
+          message: "user is your friend",
+        });
+        console.log(friendsData);
+      }
+      if (friendsData.length == 0) {
+        const user = await User.find({ userName: req.params.username }).select(
+          "_id profileImage backgroundImage userName firstName lastName place hobby"
+        );
+        if (user.length > 0) {
+          res.status(200).json({
+            success: true,
+            message: "get user successfully",
+            user,
+          });
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "user not found",
+          });
+        }
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
+
+//////////////////////////////
 // /* Add Friend Request */ //
 //////////////////////////////
 router.post(
