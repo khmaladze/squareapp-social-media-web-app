@@ -93,6 +93,16 @@ router.post(
   asyncHandler(async (req, res) => {
     try {
       const { reciver } = req.body;
+      console.log(reciver);
+      const check = await User.find({
+        _id: reciver,
+      });
+      console.log(check);
+      if (!check) {
+        return res
+          .status(400)
+          .json({ success: false, message: "user not found" });
+      }
 
       console.log("reciver", reciver);
       const friendsData = await User.find({
