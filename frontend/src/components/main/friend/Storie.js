@@ -196,6 +196,36 @@ const Storie = () => {
                             marginBottom: "20px",
                           }}
                         >
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            {i.postedBy.profileImage && (
+                              <div
+                                style={{
+                                  width: "45px",
+                                  height: "45px",
+                                  borderRadius: "50%",
+                                  backgroundPosition: "center",
+                                  backgroundSize: "cover",
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundImage: `url(${
+                                    i.postedBy.profileImage
+                                      ? i.postedBy.profileImage
+                                      : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
+                                  })`,
+                                  float: "left",
+                                  marginRight: "15px",
+                                }}
+                              ></div>
+                            )}
+                            {i.postedBy.userName && (
+                              <h5>{i.postedBy.userName}</h5>
+                            )}
+                          </div>
                           {i.createdAt && (
                             <Typography>{format(i.createdAt)}</Typography>
                           )}
