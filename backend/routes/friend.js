@@ -23,6 +23,12 @@ router.get(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      if (req.user.userName == req.params.username) {
+        res.status(200).json({
+          success: true,
+          message: "it's your username",
+        });
+      }
       const friendsData = await User.find({
         userName: {
           $in: req.user.friends.map((userName) => req.params.username),
@@ -42,12 +48,26 @@ router.get(
         const user = await User.find({ userName: req.params.username }).select(
           "_id profileImage backgroundImage userName firstName lastName place hobby"
         );
+        const alreadySend = await Friend.find({
+          sender: req.user._id,
+          reciver: user[0]._id,
+        });
         if (user.length > 0) {
-          res.status(200).json({
-            success: true,
-            message: "get user successfully",
-            user,
-          });
+          if (alreadySend.length > 0) {
+            res.status(200).json({
+              success: true,
+              message: "get user successfully",
+              user,
+              alreadySend: true,
+            });
+          } else {
+            res.status(200).json({
+              success: true,
+              message: "get user successfully",
+              user,
+              alreadySend: false,
+            });
+          }
         } else {
           res.status(400).json({
             success: false,
