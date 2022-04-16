@@ -68,25 +68,33 @@ router.get(
 // /* Add Friend Request */ //
 //////////////////////////////
 router.post(
-  "/add/:userId",
+  "/add",
   protect,
   asyncHandler(async (req, res) => {
     try {
-      const { reciver } = req.params.userId;
+      const { reciver } = req.body;
 
+      console.log("reciver", reciver);
       const friendsData = await User.find({
-        _id: { $in: req.user.friends.map((id) => req.params.userId) },
+        _id: { $in: req.user.friends.map((id) => reciver) },
         isBlocked: false,
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
       );
-      if (friendsData) {
+      console.log(friendsData);
+      //   if (friendsData.length > 0) {
+      //     res.status(400).json({
+      //       success: false,
+      //       message: "can't add friend",
+      //     });
+      //   }
+      if (friendsData.length > 0) {
         res.status(400).json({
           success: false,
           message: "user is your friend",
         });
       }
-      if (!friendsData) {
+      if (friendsData.length == 0) {
         const friendAdd = await Friend.create({
           sender: req.user,
           reciver: reciver,
