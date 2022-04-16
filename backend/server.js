@@ -32,6 +32,11 @@ app.use(bodyParser.json());
 
 // Models
 require("./models/userModel");
+require("./models/conversationModel");
+require("./models/friendModel");
+require("./models/messageModel");
+require("./models/postModel");
+require("./models/storieModel");
 
 // Routes
 app.use(express.json());
@@ -40,6 +45,7 @@ app.use("/api/post", require("./routes/post"));
 app.use("/api/messenger", require("./routes/messenger"));
 app.use("/api/user", require("./routes/user"));
 app.use("/api/storie", require("./routes/storie"));
+app.use("/api/friend", require("./routes/friend"));
 
 // Sanitize data
 app.use(mongoSanitize());
