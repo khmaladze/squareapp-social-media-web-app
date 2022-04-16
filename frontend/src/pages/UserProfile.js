@@ -4,13 +4,13 @@ import { useSelector } from "react-redux";
 // import AddPost from "../components/profile/AddPost";
 // import AddStorie from "../components/profile/AddStorie";
 // import Friends from "../components/profile/Friends";
-import Info from "../components/profile/Info";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useParams } from "react-router-dom";
 import BackgroundImage from "../components/userprofile/BackgroundImage";
 import GetPost from "../components/userprofile/GetPost";
+import Info from "../components/userprofile/Info";
 
 const UserProfile = () => {
   // const user = useSelector((state) => state.auth.value.user);
