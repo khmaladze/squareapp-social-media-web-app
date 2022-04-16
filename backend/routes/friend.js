@@ -95,16 +95,31 @@ router.post(
         });
       }
       if (friendsData.length == 0) {
-        const friendAdd = await Friend.create({
-          sender: req.user,
+        const alreadySend = await Friend.find({
+          sender: req.user._id,
           reciver: reciver,
         });
+        console.log(alreadySend);
 
-        res.status(200).json({
-          success: true,
-          message: "friend request send successfully",
-          friendAdd,
-        });
+        if (alreadySend.length > 0) {
+          res.status(400).json({
+            success: false,
+            message: "friend request already send",
+          });
+        }
+
+        if (alreadySend.length == 0) {
+          const friendAdd = await Friend.create({
+            sender: req.user,
+            reciver: reciver,
+          });
+
+          res.status(200).json({
+            success: true,
+            message: "friend request send successfully",
+            friendAdd,
+          });
+        }
       }
     } catch (error) {
       res.status(500).json({
