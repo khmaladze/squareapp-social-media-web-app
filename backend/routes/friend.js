@@ -25,7 +25,7 @@ router.get(
     try {
       const friend = await Friend.find({
         reciver: req.user._id,
-      });
+      }).populate("reciver", "profileImage userName");
       console.log(friend);
       console.log(req.user);
       console.log(req.user._id);
