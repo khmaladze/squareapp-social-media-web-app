@@ -11,6 +11,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CardActions from "@mui/material/CardActions";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PreviewIcon from "@mui/icons-material/Preview";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -30,6 +31,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
   const [limit, setLimit] = React.useState(1);
   const [skip, setSkip] = React.useState(0);
   const [storieViewOpen, setStorieViewOpen] = React.useState(false);
+  const navigate = useNavigate();
   const handleOpen = async () => {
     if (storie[0]) {
       setOpen(true);
@@ -126,6 +128,13 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const viewProfile = (id) => {
+    console.log(id);
+    if (id) {
+      return navigate(`/profile/${id}`);
     }
   };
 
@@ -279,19 +288,50 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                                   alignItems: "center",
                                 }}
                               >
-                                <div
-                                  style={{
-                                    width: "50px",
-                                    height: "50px",
-                                    backgroundImage: `url(${v.viewBy.profileImage})`,
-                                    backgroundSize: "cover",
-                                    backgroundPosition: "center",
-                                    backgroundRepeat: "no-repeat",
-                                  }}
-                                ></div>
-                                <h4 style={{ marginLeft: "5px" }}>
-                                  {v.viewBy.firstName + " " + v.viewBy.lastName}
-                                </h4>
+                                {v.viewBy._id !== userId ? (
+                                  <div
+                                    onClick={() => viewProfile(v.viewBy._id)}
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "50px",
+                                        height: "50px",
+                                        backgroundImage: `url(${v.viewBy.profileImage})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                        backgroundRepeat: "no-repeat",
+                                      }}
+                                    ></div>
+                                    <h4 style={{ marginLeft: "5px" }}>
+                                      {v.viewBy.firstName +
+                                        " " +
+                                        v.viewBy.lastName}
+                                    </h4>
+                                  </div>
+                                ) : (
+                                  <>
+                                    <div
+                                      style={{
+                                        width: "50px",
+                                        height: "50px",
+                                        backgroundImage: `url(${v.viewBy.profileImage})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                        backgroundRepeat: "no-repeat",
+                                      }}
+                                    ></div>
+                                    <h4 style={{ marginLeft: "5px" }}>
+                                      {v.viewBy.firstName +
+                                        " " +
+                                        v.viewBy.lastName}
+                                    </h4>
+                                  </>
+                                )}
                               </div>
                               <p>{format(v.date)}</p>
                             </div>
