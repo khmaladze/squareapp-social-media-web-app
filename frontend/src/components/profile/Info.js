@@ -15,8 +15,9 @@ const Info = ({ text, username, user, place, hobby }) => {
             alignItems: "center",
             padding: "5px",
             margin: "0 auto",
-            minWidth: "200px",
-            width: "200px",
+            minWidth: "150px",
+            width: "100%",
+            maxWidth: "370px",
           }}
         >
           <h2>{user[0]}</h2>
