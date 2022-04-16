@@ -228,11 +228,15 @@ const Storie = () => {
                                   })`,
                                   float: "left",
                                   marginRight: "15px",
+                                  cursor: "pointer",
                                 }}
                               ></div>
                             )}
                             {i.postedBy.userName && (
-                              <h5 onClick={() => viewProfile(i.postedBy._id)}>
+                              <h5
+                                style={{ cursor: "pointer" }}
+                                onClick={() => viewProfile(i.postedBy._id)}
+                              >
                                 {i.postedBy.userName}
                               </h5>
                             )}
