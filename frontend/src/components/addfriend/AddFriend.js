@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
@@ -14,6 +14,7 @@ const AddFriend = () => {
   const [message, setMessage] = useState(null);
   const [alreadysend, setAlreadySend] = useState(null);
   const [username, setUsername] = useState("");
+  const [data, setData] = useState([]);
   const getData = async () => {
     try {
       if (username) {
@@ -93,10 +94,105 @@ const AddFriend = () => {
       console.log(error);
     }
   };
-
+  const getRequest = async () => {
+    try {
+      const res = await axios.get(`/api/friend/get`, {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      });
+      setData(res.data.friendAdd);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const sendResponse = async (response, requestId) => {
+    try {
+      const res = await axios.post(
+        `/api/friend/response`,
+        { response, requestId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      return getRequest();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(data);
+  useEffect(() => {
+    getRequest();
+  }, []);
   return (
     <Main>
       <h1>Friend Request:</h1>
+      <div>
+        {data.map((i) => {
+          return (
+            <div key={i._id}>
+              <UserCard>
+                <div
+                  onClick={() => viewProfile(i._id)}
+                  style={{
+                    backgroundImage: `url(${
+                      i.reciver.profileImage
+                        ? i.reciver.profileImage
+                        : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
+                    })`,
+                    height: "75px",
+                    width: "75px",
+                    borderRadius: "50%",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    float: "left",
+                    marginLeft: "5px",
+                    cursor: "pointer",
+                  }}
+                ></div>
+                <h1
+                  onClick={() => viewProfile(i._id)}
+                  style={{ marginTop: "0px" }}
+                >
+                  {i.reciver.userName}
+                </h1>
+                <div>
+                  <Button
+                    onClick={() => sendResponse(true, i._id)}
+                    style={{ marginRight: "5px", background: "green" }}
+                    variant="contained"
+                  >
+                    Accept
+                  </Button>
+                  <Button
+                    onClick={() => sendResponse(false, i._id)}
+                    style={{
+                      marginRight: "5px",
+                      // fontSize: "12px",
+                      background: "red",
+                    }}
+                    variant="contained"
+                  >
+                    remove request
+                  </Button>
+                </div>
+              </UserCard>
+              <h4>
+                {alreadysend &&
+                  "you have already send friend request to this user"}
+              </h4>
+              <h5>
+                {alreadysend &&
+                  "if you want to cancel request you can click to remove request"}
+              </h5>
+            </div>
+          );
+        })}
+      </div>
       <h1>Send Requset:</h1>
       <SearchBar>
         <TextField
@@ -141,7 +237,12 @@ const AddFriend = () => {
                       cursor: "pointer",
                     }}
                   ></div>
-                  <h1 style={{ marginTop: "0px" }}>{i.userName}</h1>
+                  <h1
+                    onClick={() => viewProfile(i._id)}
+                    style={{ marginTop: "0px" }}
+                  >
+                    {i.userName}
+                  </h1>
                   {alreadysend ? (
                     <Button
                       onClick={() => removeFriendRequest(i._id)}
@@ -204,7 +305,8 @@ const UserCard = styled.div`
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  background: #1fceea;
+  // background: #1fceea;
+  border: 1px solid;
 `;
 
 export default AddFriend;
