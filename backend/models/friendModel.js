@@ -12,6 +12,13 @@ const friendSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    ignore: {
+      type: Boolean,
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );
