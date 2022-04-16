@@ -11,6 +11,7 @@ import { format } from "timeago.js";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CardActions from "@mui/material/CardActions";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -37,6 +38,7 @@ const Storie = () => {
   const [loader, setLoader] = React.useState(true);
   const [prev, setPrev] = React.useState("");
   const handleOpen = () => setOpen(true);
+  const navigate = useNavigate();
   const getStorieData = async () => {
     try {
       const res = await axios.get("/api/storie/public", {
@@ -158,6 +160,12 @@ const Storie = () => {
   //     console.log(error);
   //   }
   // };
+  const viewProfile = (id) => {
+    console.log(id);
+    if (id) {
+      return navigate(`/profile/${id}`);
+    }
+  };
   useEffect(() => {
     getStorieData();
   }, []);
@@ -205,6 +213,7 @@ const Storie = () => {
                           >
                             {i.postedBy.profileImage && (
                               <div
+                                onClick={() => viewProfile(i.postedBy._id)}
                                 style={{
                                   width: "45px",
                                   height: "45px",
@@ -223,7 +232,9 @@ const Storie = () => {
                               ></div>
                             )}
                             {i.postedBy.userName && (
-                              <h5>{i.postedBy.userName}</h5>
+                              <h5 onClick={() => viewProfile(i.postedBy._id)}>
+                                {i.postedBy.userName}
+                              </h5>
                             )}
                           </div>
                           {i.createdAt && (
