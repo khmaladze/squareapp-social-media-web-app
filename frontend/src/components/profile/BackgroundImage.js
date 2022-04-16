@@ -295,6 +295,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                                       display: "flex",
                                       justifyContent: "space-between",
                                       alignItems: "center",
+                                      cursor: "pointer",
                                     }}
                                   >
                                     <div
