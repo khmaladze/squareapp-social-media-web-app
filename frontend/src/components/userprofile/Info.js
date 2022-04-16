@@ -11,16 +11,13 @@ const Info = ({ text, username, user, place, hobby }) => {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
             padding: "5px",
-            margin: "0 auto",
-            minWidth: "150px",
-            width: "100%",
-            maxWidth: "370px",
           }}
         >
           <h2>{user[0]}</h2>
+          <div style={{ width: "30px" }}></div>
           <h2>{user[1]}</h2>
         </div>
         <h4>biography: {text}</h4>
