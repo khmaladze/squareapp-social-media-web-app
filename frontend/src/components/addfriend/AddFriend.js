@@ -141,7 +141,7 @@ const AddFriend = () => {
                       cursor: "pointer",
                     }}
                   ></div>
-                  <h1>{i.userName}</h1>
+                  <h1 style={{ marginTop: "0px" }}>{i.userName}</h1>
                   {alreadysend ? (
                     <Button
                       onClick={() => removeFriendRequest(i._id)}
