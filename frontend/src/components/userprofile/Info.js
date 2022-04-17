@@ -5,8 +5,41 @@ import HomeIcon from "@mui/icons-material/Home";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import PeopleIcon from "@mui/icons-material/People";
 import Button from "@mui/material/Button";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import axios from "axios";
 
-const Info = ({ text, username, user, place, hobby, isFriend }) => {
+const Info = ({
+  text,
+  username,
+  user,
+  place,
+  hobby,
+  isFriend,
+  userId,
+  userToken,
+}) => {
+  const addFriendRequest = async (id) => {
+    try {
+      console.log(id);
+      const res = await axios.post(
+        `/api/friend/add`,
+        { reciver: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      console.log(res);
+
+      if (res.data.success) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <InfoBackground>
@@ -23,7 +56,7 @@ const Info = ({ text, username, user, place, hobby, isFriend }) => {
           <h2>{user[1]}</h2>
         </div>
         <h4>biography: {text}</h4>
-        {isFriend && <div style={{ height: "25px" }}></div>}
+        <div style={{ height: "25px" }}></div>
         {isFriend && (
           <Button
             variant="contained"
@@ -38,6 +71,22 @@ const Info = ({ text, username, user, place, hobby, isFriend }) => {
             Already Friends <PeopleIcon />
           </Button>
         )}
+        {!isFriend && (
+          <Button
+            onClick={() => addFriendRequest(userId)}
+            variant="contained"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              maxWidth: "200px",
+              margin: "0 auto",
+            }}
+          >
+            Add Friend <GroupAddIcon />
+          </Button>
+        )}
+
         <IconContainer>
           <div
             style={{
