@@ -11,12 +11,13 @@ const AddFriend = () => {
   const navigate = useNavigate();
   const userToken = useSelector((state) => state.auth.value.user.token);
   const userId = useSelector((state) => state.auth.value.user._id);
-  const userfriends = useSelector((state) => state.auth.value.user.friends);
+  // const userfriends = useSelector((state) => state.auth.value.user.friends);
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
   const [alreadysend, setAlreadySend] = useState(null);
   const [username, setUsername] = useState("");
   const [data, setData] = useState([]);
+  const [userData, setUserData] = useState([]);
   const getData = async () => {
     try {
       if (username) {
@@ -120,14 +121,34 @@ const AddFriend = () => {
           },
         }
       );
-      return getRequest();
+      await getRequest();
+      await getFriendDetail();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
   };
   console.log(data);
+  const getFriendDetail = async () => {
+    try {
+      console.log("works");
+      const res = await axios.get("/api/user/friend", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userToken,
+        },
+      });
+      setUserData(res.data.friend);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getRequest();
+    if (userData == "") {
+      getFriendDetail();
+    }
   }, []);
   return (
     <Main>
@@ -278,7 +299,7 @@ const AddFriend = () => {
       )}
       <h5>{message && message}</h5>
       <h1 style={{ marginTop: "35px" }}>Friends</h1>
-      <Friends friends={userfriends} token={userToken} />
+      <Friends data={userData} />
     </Main>
   );
 };
