@@ -64,8 +64,9 @@ const Friends = ({ friends }) => {
         {userData !== "" ? (
           userData.slice(0, 6).map((item) => {
             return (
-              <div key={item._id}>
+              <FriendContainer>
                 <FriendProfile
+                  key={item._id}
                   onClick={() => handleClick(item._id)}
                   img={
                     item.profileImage === ""
@@ -77,13 +78,17 @@ const Friends = ({ friends }) => {
                 </FriendProfile>
 
                 <Button
-                  style={{ marginTop: "90px", width: "100%" }}
+                  style={{
+                    minWidth: "150px",
+                    maxWidth: "350px",
+                    margin: "0 auto",
+                  }}
                   variant="contained"
                   onClick={() => sendResponse(item._id)}
                 >
-                  remove friend
+                  remove friend {item.userName}
                 </Button>
-              </div>
+              </FriendContainer>
             );
           })
         ) : (
@@ -124,6 +129,7 @@ const FriendProfile = styled.div`
   width: 100%;
   max-width: 150px;
   background-image: url(${(props) => props.img});
+  background-position: center;
   background-size: cover;
   cursor: pointer;
 
