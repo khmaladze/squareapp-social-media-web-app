@@ -96,7 +96,7 @@ router.get(
         expireToken: { $gt: Date.now() },
       });
 
-      const friendsData = await User.find({
+      const isFriend = await User.find({
         _id: {
           $in: req.user.friends.filter((id) => id == req.params.profileId),
         },
@@ -107,19 +107,19 @@ router.get(
 
       const alreadySend = await Friend.find({
         sender: req.user._id,
-        reciver: user._id,
+        reciver: user[0]._id,
         active: true,
         ignore: false,
       });
 
       const alreadyReciver = await Friend.find({
-        sender: user._id,
+        sender: user[0]._id,
         reciver: req.user._id,
         active: true,
         ignore: false,
       });
 
-      if (friendsData.length > 0) {
+      if (isFriend.length > 0) {
         res.status(200).json({
           success: true,
           message: "get profile  successfully",
