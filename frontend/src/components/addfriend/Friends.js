@@ -63,9 +63,8 @@ const Friends = ({ data, onAdd }) => {
         {userData !== "" ? (
           userData.slice(0, 6).map((item) => {
             return (
-              <FriendContainer>
+              <FriendContainer key={item._id}>
                 <FriendProfile
-                  key={item._id}
                   onClick={() => handleClick(item._id)}
                   img={
                     item.profileImage === ""
