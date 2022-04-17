@@ -105,19 +105,36 @@ const Info = ({
         )}
 
         {!isFriend && isReciver && !isSender && (
-          <Button
-            onClick={() => addFriendRequest(userId)}
-            variant="contained"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              maxWidth: "200px",
-              margin: "0 auto",
-            }}
-          >
-            Accept Request
-          </Button>
+          <>
+            <Button
+              onClick={() => addFriendRequest(userId)}
+              variant="contained"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                maxWidth: "200px",
+                margin: "0 auto",
+              }}
+            >
+              Accept Request
+            </Button>
+            <Button
+              onClick={() => addFriendRequest(userId)}
+              variant="contained"
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                maxWidth: "200px",
+                margin: "0 auto",
+                background: "black",
+              }}
+            >
+              Remove Request
+            </Button>
+          </>
         )}
         <IconContainer>
           <div
