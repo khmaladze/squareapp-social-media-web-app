@@ -7,7 +7,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import PeopleIcon from "@mui/icons-material/People";
 import MessageIcon from "@mui/icons-material/Message";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import AddFriend from "../components/addfriend/AddFriend";
+// import AddFriend from "../components/addfriend/AddFriend";
 const Main = () => {
   const [page, setPage] = useState("Public");
   return (
@@ -31,8 +31,8 @@ const Main = () => {
             <MessageIcon />
           </Item>
         </Link>
-        {/* <Link to={"/addfriend"}> */}
-        <Link to={"/"}>
+        <Link to={"/addfriend"}>
+          {/* <Link to={"/"}> */}
           <Item onClick={() => setPage("addfriend")}>
             {/* Add Friend */}
             <GroupAddIcon />
@@ -42,7 +42,7 @@ const Main = () => {
       <div style={{ height: "70px" }}></div>
       {page == "Public" && <Public />}
       {page == "friend" && <Friend />}
-      {page == "addfriend" && <AddFriend />}
+      {/* {page == "addfriend" && <AddFriend />} */}
     </MainPage>
   );
 };
