@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/userModel");
 const Post = require("../models/postModel");
 const Storie = require("../models/storieModel");
+const Friend = require("../models/friendModel");
 const asyncHandler = require("express-async-handler");
 const Joi = require("joi");
 const { protect } = require("../middleware/requireUserLogin");
@@ -103,7 +104,21 @@ router.get(
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
       );
-      console.log(friendsData);
+
+      const alreadySend = await Friend.find({
+        sender: req.user._id,
+        reciver: user._id,
+        active: true,
+        ignore: false,
+      });
+
+      const alreadyReciver = await Friend.find({
+        sender: user._id,
+        reciver: req.user._id,
+        active: true,
+        ignore: false,
+      });
+
       if (friendsData.length > 0) {
         res.status(200).json({
           success: true,
@@ -114,16 +129,45 @@ router.get(
           friend: true,
         });
       } else {
-        res.status(200).json({
-          success: true,
-          message: "get profile  successfully",
-          user,
-          post,
-          storie,
-          friend: false,
-        });
+        if (alreadySend.length == 0 && alreadyReciver.length == 0) {
+          res.status(200).json({
+            success: true,
+            message: "get profile  successfully",
+            user,
+            post,
+            storie,
+            friend: false,
+            alreadySend: false,
+            alreadyReciver: false,
+          });
+        }
+        if (alreadySend.length > 0) {
+          res.status(200).json({
+            success: true,
+            message: "get profile  successfully",
+            user,
+            post,
+            storie,
+            friend: false,
+            alreadySend: true,
+            alreadyReciver: false,
+          });
+        }
+        if (alreadyReciver.length > 0) {
+          res.status(200).json({
+            success: true,
+            message: "get profile  successfully",
+            user,
+            post,
+            storie,
+            friend: false,
+            alreadySend: false,
+            alreadyReciver: true,
+          });
+        }
       }
     } catch (error) {
+      console.log(error);
       res.status(500).json({
         success: false,
         message: "try later",
