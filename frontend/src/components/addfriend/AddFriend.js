@@ -5,11 +5,13 @@ import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import Friends from "./Friends";
 
 const AddFriend = () => {
   const navigate = useNavigate();
   const userToken = useSelector((state) => state.auth.value.user.token);
   const userId = useSelector((state) => state.auth.value.user._id);
+  const userfriends = useSelector((state) => state.auth.value.user.friends);
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
   const [alreadysend, setAlreadySend] = useState(null);
@@ -275,6 +277,8 @@ const AddFriend = () => {
         </div>
       )}
       <h5>{message && message}</h5>
+      <h1>Friends</h1>
+      <Friends friends={userfriends} token={userToken} />
     </Main>
   );
 };
