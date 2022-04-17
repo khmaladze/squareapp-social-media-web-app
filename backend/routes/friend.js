@@ -106,6 +106,55 @@ router.post(
   })
 );
 
+///////////////////////////////////
+// /*     Remove Friend       */ //
+///////////////////////////////////
+router.post(
+  "/removeuser",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const { userId } = req.body;
+      const thisUser = await User.findById(userId);
+
+      const me = await User.findByIdAndUpdate(
+        req.user._id,
+        { $pull: { friends: thisUser._id } },
+        {
+          new: true,
+        }
+      );
+
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { $pull: { friends: req.user._id } },
+        {
+          new: true,
+        }
+      );
+      if (me && user) {
+        console.log("me", me);
+        console.log("user", user);
+        res.status(200).json({
+          success: true,
+          message: "friend remove successfully",
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "can't remove friend successfully",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        success: false,
+        message: "try later",
+      });
+    }
+  })
+);
+
 //////////////////////////////
 // /*     Get User       */ //
 //////////////////////////////
