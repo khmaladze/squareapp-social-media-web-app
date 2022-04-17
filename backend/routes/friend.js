@@ -245,7 +245,7 @@ router.post(
 
       console.log("reciver", reciver);
       const friendsData = await User.find({
-        _id: { $in: req.user.friends.filter((id) => reciver) },
+        _id: { $in: req.user.friends.filter((id) => id == reciver) },
         isBlocked: false,
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
