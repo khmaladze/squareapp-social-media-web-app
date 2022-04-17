@@ -17,6 +17,8 @@ const Info = ({
   isFriend,
   userId,
   userToken,
+  isSender,
+  isReciver,
 }) => {
   const addFriendRequest = async (id) => {
     try {
@@ -71,7 +73,7 @@ const Info = ({
             Already Friends <PeopleIcon />
           </Button>
         )}
-        {!isFriend && (
+        {!isFriend && !isSender && !isReciver && (
           <Button
             onClick={() => addFriendRequest(userId)}
             variant="contained"
@@ -86,7 +88,37 @@ const Info = ({
             Add Friend <GroupAddIcon />
           </Button>
         )}
+        {!isFriend && !isReciver && isSender && (
+          <Button
+            onClick={() => addFriendRequest(userId)}
+            variant="contained"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              maxWidth: "200px",
+              margin: "0 auto",
+            }}
+          >
+            Remove Request
+          </Button>
+        )}
 
+        {!isFriend && isReciver && !isSender && (
+          <Button
+            onClick={() => addFriendRequest(userId)}
+            variant="contained"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              maxWidth: "200px",
+              margin: "0 auto",
+            }}
+          >
+            Accept Request
+          </Button>
+        )}
         <IconContainer>
           <div
             style={{
