@@ -95,13 +95,32 @@ router.get(
         expireToken: { $gt: Date.now() },
       });
 
-      res.status(200).json({
-        success: true,
-        message: "get profile  successfully",
-        user,
-        post,
-        storie,
-      });
+      const friendsData = await User.find({
+        _id: { $in: req.user.friends.map((id) => req.params.profileId) },
+        isBlocked: false,
+      }).select(
+        "_id profileImage backgroundImage userName firstName lastName place hobby"
+      );
+      console.log(friendsData);
+      if (friendsData.length > 0) {
+        res.status(200).json({
+          success: true,
+          message: "get profile  successfully",
+          user,
+          post,
+          storie,
+          friend: true,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "get profile  successfully",
+          user,
+          post,
+          storie,
+          friend: false,
+        });
+      }
     } catch (error) {
       res.status(500).json({
         success: false,
