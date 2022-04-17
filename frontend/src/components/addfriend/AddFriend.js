@@ -143,7 +143,7 @@ const AddFriend = () => {
                     backgroundImage: `url(${
                       i.reciver.profileImage
                         ? i.reciver.profileImage
-                        : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
+                        : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
                     })`,
                     height: "75px",
                     width: "75px",
@@ -226,7 +226,7 @@ const AddFriend = () => {
                       backgroundImage: `url(${
                         i.profileImage
                           ? i.profileImage
-                          : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
+                          : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
                       })`,
                       height: "75px",
                       width: "75px",
@@ -277,7 +277,7 @@ const AddFriend = () => {
         </div>
       )}
       <h5>{message && message}</h5>
-      <h1>Friends</h1>
+      <h1 style={{ marginTop: "35px" }}>Friends</h1>
       <Friends friends={userfriends} token={userToken} />
     </Main>
   );

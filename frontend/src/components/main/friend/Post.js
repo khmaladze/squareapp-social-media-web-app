@@ -163,7 +163,7 @@ const Post = () => {
                           backgroundImage: `url(${
                             item.postedBy.profileImage
                               ? item.postedBy.profileImage
-                              : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
+                              : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
                           })`,
                           cursor: "pointer",
                         }}
@@ -355,7 +355,7 @@ const Post = () => {
                                 backgroundImage: `url(${
                                   comment.commentBy.profileImage
                                     ? comment.commentBy.profileImage
-                                    : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
+                                    : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
                                 })`,
                                 marginRight: "10px",
                               }}

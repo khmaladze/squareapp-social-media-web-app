@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 
 const Friends = ({ friends }) => {
   const navigate = useNavigate();
@@ -31,25 +32,58 @@ const Friends = ({ friends }) => {
   const handleClick = (id) => {
     navigate(`/profile/${id}`);
   };
+  const sendResponse = async (userId) => {
+    try {
+      const res = await axios.post(
+        `/api/friend/removeuser`,
+        { userId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (userData == "") {
+        getFriendDetail();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
-      style={{ background: "white", margin: "0 auto", borderTop: "1px solid" }}
+      style={{
+        background: "white",
+        paddingTop: "30px",
+        margin: "0 auto",
+        borderTop: "1px solid",
+      }}
     >
       <FriendContainer>
         {userData !== "" ? (
           userData.slice(0, 6).map((item) => {
             return (
-              <FriendProfile
-                onClick={() => handleClick(item._id)}
-                key={item._id}
-                img={
-                  item.profileImage === ""
-                    ? "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
-                    : item.profileImage
-                }
-              >
-                <h4>{item.userName}</h4>
-              </FriendProfile>
+              <div key={item._id}>
+                <FriendProfile
+                  onClick={() => handleClick(item._id)}
+                  img={
+                    item.profileImage === ""
+                      ? "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
+                      : item.profileImage
+                  }
+                >
+                  <h4>{item.userName}</h4>
+                </FriendProfile>
+
+                <Button
+                  style={{ marginTop: "90px", width: "100%" }}
+                  variant="contained"
+                  onClick={() => sendResponse(item._id)}
+                >
+                  remove friend
+                </Button>
+              </div>
             );
           })
         ) : (
