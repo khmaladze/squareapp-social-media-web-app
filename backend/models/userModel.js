@@ -57,6 +57,7 @@ const userSchema = mongoose.Schema(
         "SportsBaseball",
         "SportsBasketball",
         "SportsHandball",
+        "",
       ],
       default: "",
     },
