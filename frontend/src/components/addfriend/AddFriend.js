@@ -141,8 +141,8 @@ const AddFriend = () => {
                   onClick={() => viewProfile(i._id)}
                   style={{
                     backgroundImage: `url(${
-                      i.reciver.profileImage
-                        ? i.reciver.profileImage
+                      i.sender.profileImage
+                        ? i.sender.profileImage
                         : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
                     })`,
                     height: "75px",
@@ -160,7 +160,7 @@ const AddFriend = () => {
                   onClick={() => viewProfile(i._id)}
                   style={{ marginTop: "0px" }}
                 >
-                  {i.reciver.userName}
+                  {i.sender.userName}
                 </h1>
                 <div>
                   <Button
