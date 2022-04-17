@@ -6,9 +6,9 @@ import styled from "styled-components";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 
-const Friends = ({ friends }) => {
+const Friends = ({ data, onAdd }) => {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState(data);
   const token = useSelector((state) => state.auth.value.user.token);
   const getFriendDetail = async () => {
     try {
@@ -44,9 +44,8 @@ const Friends = ({ friends }) => {
           },
         }
       );
-      if (userData == "") {
-        getFriendDetail();
-      }
+      await getFriendDetail();
+      return onAdd();
     } catch (error) {
       console.log(error);
     }
