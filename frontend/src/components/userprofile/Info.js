@@ -23,11 +23,11 @@ const Info = ({ text, username, user, place, hobby, isFriend }) => {
           <h2>{user[1]}</h2>
         </div>
         <h4>biography: {text}</h4>
+        {isFriend && <div style={{ height: "25px" }}></div>}
         {isFriend && (
           <Button
             variant="contained"
             style={{
-              marginTop: "20px",
               display: "flex",
               justifyContent: "center",
               alignContent: "center",
