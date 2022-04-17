@@ -96,7 +96,9 @@ router.get(
       });
 
       const friendsData = await User.find({
-        _id: { $in: req.user.friends.map((id) => req.params.profileId) },
+        _id: {
+          $in: req.user.friends.filter((id) => id == req.params.profileId),
+        },
         isBlocked: false,
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
