@@ -19,6 +19,7 @@ const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [data, setData] = useState(null);
   const [storie, setStorie] = useState(null);
+  const [isFriend, setIsFriend] = useState(null);
   const { profileId } = useParams();
   const getData = async () => {
     try {
@@ -32,6 +33,7 @@ const UserProfile = () => {
       setUser(res.data.user);
       setStorie(res.data.storie);
       setData(res.data.post);
+      setIsFriend(res.data.friend);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +68,7 @@ const UserProfile = () => {
             image={
               user[0]?.backgroundImage
                 ? user[0]?.backgroundImage
-                : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
+                : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650217076/bing-hao-_wqj9tC0WSE-unsplash_fu2u7l.jpg"
             }
             profile={
               user[0]?.profileImage
@@ -84,6 +86,7 @@ const UserProfile = () => {
             user={[user[0].firstName, user[0].lastName]}
             place={user[0].place}
             hobby={user[0].hobby}
+            isFriend={isFriend}
           />
           {/* <Friends friends={user.friends} token={user.token} /> */}
           {data ? (
