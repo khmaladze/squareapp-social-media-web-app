@@ -18,12 +18,14 @@ import CardHeader from "@mui/material/CardHeader";
 import { useSelector } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useNavigate } from "react-router-dom";
 
 const Post = () => {
   const user = useSelector((state) => state.auth.value.user);
   const jwt = useSelector((state) => state.auth.value.user.token);
   const userId = useSelector((state) => state.auth.value.user._id);
   const [data, setData] = useState("");
+  const navigate = useNavigate();
   const getData = async () => {
     try {
       const res = await axios.get("/api/post/public", {
@@ -125,6 +127,12 @@ const Post = () => {
       console.log(error);
     }
   };
+  const viewProfile = (id) => {
+    console.log(id);
+    if (id) {
+      return navigate(`/profile/${id}`);
+    }
+  };
   return (
     <div>
       {data
@@ -144,6 +152,7 @@ const Post = () => {
                   <CardHeader
                     avatar={
                       <div
+                        onClick={() => viewProfile(item.postedBy._id)}
                         style={{
                           height: "50px",
                           width: "50px",
@@ -156,6 +165,7 @@ const Post = () => {
                               ? item.postedBy.profileImage
                               : "https://images.unsplash.com/photo-1647163927506-399a13f9f908?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"
                           })`,
+                          cursor: "pointer",
                         }}
                       ></div>
                     }
