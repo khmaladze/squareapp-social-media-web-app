@@ -169,13 +169,14 @@ router.get(
       }
       const friendsData = await User.find({
         userName: {
-          $in: req.user.friends.map((userName) => req.params.username),
+          $in: req.user.friends.filter((userName) => req.params.username),
         },
         isBlocked: false,
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
       );
-      if (friendsData.length > 0) {
+      console.log(friendsData);
+      if (friendsData.length == 1) {
         res.status(200).json({
           success: true,
           message: "user is your friend",
@@ -244,7 +245,7 @@ router.post(
 
       console.log("reciver", reciver);
       const friendsData = await User.find({
-        _id: { $in: req.user.friends.map((id) => reciver) },
+        _id: { $in: req.user.friends.filter((id) => reciver) },
         isBlocked: false,
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
@@ -318,7 +319,7 @@ router.post(
       }
       const { reciver } = req.body;
       const friendsData = await User.find({
-        _id: { $in: req.user.friends.map((id) => reciver) },
+        _id: { $in: req.user.friends.filter((id) => reciver) },
         isBlocked: false,
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
