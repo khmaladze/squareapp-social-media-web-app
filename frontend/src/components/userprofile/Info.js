@@ -3,8 +3,10 @@ import styled from "styled-components";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import HomeIcon from "@mui/icons-material/Home";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import PeopleIcon from "@mui/icons-material/People";
+import Button from "@mui/material/Button";
 
-const Info = ({ text, username, user, place, hobby }) => {
+const Info = ({ text, username, user, place, hobby, isFriend }) => {
   return (
     <>
       <InfoBackground>
@@ -21,6 +23,21 @@ const Info = ({ text, username, user, place, hobby }) => {
           <h2>{user[1]}</h2>
         </div>
         <h4>biography: {text}</h4>
+        {isFriend && (
+          <Button
+            variant="contained"
+            style={{
+              marginTop: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              maxWidth: "200px",
+              margin: "0 auto",
+            }}
+          >
+            Already Friends <PeopleIcon />
+          </Button>
+        )}
         <IconContainer>
           <div
             style={{
