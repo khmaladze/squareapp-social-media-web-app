@@ -90,6 +90,7 @@ const FriendProfile = styled.div`
   width: 100%;
   max-width: 150px;
   background-image: url(${(props) => props.img});
+  background-position: center;
   background-size: cover;
   cursor: pointer;
 
