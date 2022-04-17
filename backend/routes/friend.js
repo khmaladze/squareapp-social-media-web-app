@@ -26,11 +26,9 @@ router.get(
       const friend = await Friend.find({
         reciver: req.user._id,
         active: true,
-      }).populate("reciver", "profileImage userName");
-      console.log(friend);
-      console.log(req.user);
-      console.log(req.user._id);
-      console.log(req.user.id);
+        ignore: false,
+      }).populate("reciver sender", "profileImage userName");
+
       res.status(200).json({
         success: true,
         message: "friend request get successfully",
@@ -91,12 +89,12 @@ router.post(
           { ignore: true, active: false },
           { new: true }
         );
+        res.status(200).json({
+          success: true,
+          message: "friend response add successfully",
+          accept: false,
+        });
       }
-      res.status(200).json({
-        success: true,
-        message: "friend response add successfully",
-        accept: false,
-      });
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -308,9 +306,17 @@ router.post(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      const friend = await Friend.find({
+        sender: req.user._id,
+        ignore: false,
+      }).populate("reciver sender", "profileImage userName");
+      if (!friend.length > 0) {
+        res.status(400).json({
+          success: false,
+          message: "user can't remove",
+        });
+      }
       const { reciver } = req.body;
-      console.log(reciver);
-      console.log("reciver", reciver);
       const friendsData = await User.find({
         _id: { $in: req.user.friends.map((id) => reciver) },
         isBlocked: false,
@@ -335,7 +341,6 @@ router.post(
           sender: req.user._id,
           reciver: reciver,
         });
-        console.log(alreadySend);
 
         if (alreadySend.length > 0) {
           await Friend.deleteOne({
