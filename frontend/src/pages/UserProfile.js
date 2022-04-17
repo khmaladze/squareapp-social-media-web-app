@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 // import AddStorie from "../components/profile/AddStorie";
 // import Friends from "../components/profile/Friends";
 import styled from "styled-components";
-import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useParams } from "react-router-dom";
 import BackgroundImage from "../components/userprofile/BackgroundImage";
@@ -87,6 +86,8 @@ const UserProfile = () => {
             place={user[0].place}
             hobby={user[0].hobby}
             isFriend={isFriend}
+            userId={user[0]._id}
+            userToken={userToken}
           />
           {/* <Friends friends={user.friends} token={user.token} /> */}
           {data ? (
