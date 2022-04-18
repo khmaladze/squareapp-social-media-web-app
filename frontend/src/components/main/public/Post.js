@@ -17,8 +17,9 @@ import Grid from "@mui/material/Grid";
 import CardHeader from "@mui/material/CardHeader";
 import { useSelector } from "react-redux";
 import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
+import PublicIcon from "@mui/icons-material/Public";
 
 const Post = () => {
   const user = useSelector((state) => state.auth.value.user);
@@ -217,9 +218,14 @@ const Post = () => {
                     //     </div> */}
                     //   </div>
                     // }
+                    // action={
+                    //   <IconButton aria-label="settings">
+                    //     <MoreVertIcon />
+                    //   </IconButton>
+                    // }
                     action={
                       <IconButton aria-label="settings">
-                        <MoreVertIcon />
+                        <PublicIcon />
                       </IconButton>
                     }
                     title={
@@ -227,6 +233,7 @@ const Post = () => {
                     }
                     subheader={format(item.createdAt)}
                   />
+
                   {item.image && (
                     <div
                       style={{

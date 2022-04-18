@@ -19,6 +19,8 @@ import { useSelector } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
+import PublicIcon from "@mui/icons-material/Public";
+import PeopleIcon from "@mui/icons-material/People";
 
 const Post = () => {
   const user = useSelector((state) => state.auth.value.user);
@@ -208,9 +210,15 @@ const Post = () => {
                     //     </div> */}
                     //   </div>
                     // }
+                    // <MoreVertIcon />
+
                     action={
                       <IconButton aria-label="settings">
-                        <MoreVertIcon />
+                        {item.privacy == "public" ? (
+                          <PublicIcon />
+                        ) : (
+                          <PeopleIcon />
+                        )}
                       </IconButton>
                     }
                     title={
