@@ -89,7 +89,7 @@ router.get(
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby biography"
       );
-      console.log(user);
+
       const post = await Post.find({
         postedBy: req.params.profileId,
         privacy: "public",
@@ -163,6 +163,7 @@ router.get(
             friend: false,
             alreadySend: true,
             alreadyReciver: false,
+            requestId: alreadySend[0]._id,
           });
         }
         if (alreadyReciver.length > 0) {
@@ -175,6 +176,7 @@ router.get(
             friend: false,
             alreadySend: false,
             alreadyReciver: true,
+            requestId: alreadyReciver[0]._id,
           });
         }
       }
