@@ -170,7 +170,7 @@ const Storie = () => {
     getStorieData();
   }, []);
   return (
-    <div>
+    <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
       <h1>Public</h1>
       {storie && storie.length > 0 ? (
         <>

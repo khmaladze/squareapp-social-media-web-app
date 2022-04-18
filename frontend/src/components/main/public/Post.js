@@ -127,14 +127,18 @@ const Post = () => {
       console.log(error);
     }
   };
-  const viewProfile = (id) => {
+  const viewProfile = (id, isProfile) => {
     console.log(id);
-    if (id) {
+    console.log(isProfile);
+    if (id && isProfile) {
+      return navigate(`/profile`);
+    }
+    if (id && !isProfile) {
       return navigate(`/profile/${id}`);
     }
   };
   return (
-    <div>
+    <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
       {data
         ? data.map((item) => {
             return (
@@ -152,7 +156,12 @@ const Post = () => {
                   <CardHeader
                     avatar={
                       <div
-                        onClick={() => viewProfile(item.postedBy._id)}
+                        onClick={() =>
+                          viewProfile(
+                            item.postedBy._id,
+                            item.postedBy._id == userId
+                          )
+                        }
                         style={{
                           height: "50px",
                           width: "50px",
