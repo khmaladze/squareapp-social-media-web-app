@@ -8,9 +8,10 @@ import { useSelector } from "react-redux";
 import { Navbar } from "./components/Navbar";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
-import Main from "./pages/Main";
-import AddFriend from "./components/addfriend/AddFriend";
+import AddFriend from "./pages/AddFriend";
 import UserProfile from "./pages/UserProfile";
+import Public from "./pages/Public";
+import Friend from "./pages/Friend";
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -55,11 +56,13 @@ const Routing = () => {
       <Routes>
         {user && (
           <>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Public />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/addfriend" element={<AddFriend />} />
             <Route path="/profile/:profileId" element={<UserProfile />} />
+            <Route path="/public" element={<Public />} />
+            <Route path="/friend" element={<Friend />} />
           </>
         )}
         {!user && (
