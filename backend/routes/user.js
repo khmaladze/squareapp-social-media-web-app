@@ -52,12 +52,23 @@ router.put(
   asyncHandler(async (req, res) => {
     try {
       let { token } = req.body;
-      const user = await User.findByIdAndUpdate(req.user._id, req.body, {
-        new: true,
-      });
-      res
-        .status(200)
-        .json({ success: true, message: "user update success", user, token });
+
+      const username = req.body.userName;
+      if (username) {
+        const findIfExists = await User.find({ userName: username });
+        if (findIfExists.length > 0) {
+          res
+            .status(400)
+            .json({ success: false, message: "user can't use this username" });
+        }
+      } else {
+        const user = await User.findByIdAndUpdate(req.user._id, req.body, {
+          new: true,
+        });
+        res
+          .status(200)
+          .json({ success: true, message: "user update success", user, token });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -78,6 +89,7 @@ router.get(
       }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby biography"
       );
+      console.log(user);
       const post = await Post.find({
         postedBy: req.params.profileId,
         privacy: "public",
