@@ -343,9 +343,10 @@ router.post(
         reciver: req.user._id,
       });
       if (checkIfUserAlreadySend.length > 0) {
-        return res
-          .status(400)
-          .json({ success: false, message: "user already send" });
+        return res.status(400).json({
+          success: false,
+          message: "user already send request to you",
+        });
       }
       const friendsData = await User.find({
         _id: { $in: req.user.friends.filter((id) => id == reciver) },
