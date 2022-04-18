@@ -21,6 +21,27 @@ const Info = ({
   isReciver,
   requestId,
 }) => {
+  const removeFriendRequest = async (id) => {
+    try {
+      console.log(id);
+      const res = await axios.post(
+        `/api/friend/remove`,
+        { reciver: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      console.log(res);
+      if (res.data.success) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const addFriendRequest = async (id) => {
     try {
       console.log(id);
@@ -109,7 +130,7 @@ const Info = ({
         )}
         {!isFriend && !isReciver && isSender && (
           <Button
-            onClick={() => addFriendRequest(userId)}
+            onClick={() => removeFriendRequest(userId)}
             variant="contained"
             style={{
               display: "flex",
