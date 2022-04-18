@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { add } from "../features/auth";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ export const Login = () => {
               userName: getUser.userName,
               biography: getUser.biography,
               gender: getUser.gender,
-              friends: getUser.friends,
+              // friends: getUser.friends,
               place: getUser.place,
               hobby: getUser.hobby,
               profileImage: getUser.profileImage,
@@ -60,7 +61,7 @@ export const Login = () => {
               userName: getUser.userName,
               biography: getUser.biography,
               gender: getUser.gender,
-              friends: getUser.friends,
+              // friends: getUser.friends,
               place: getUser.place,
               hobby: getUser.hobby,
               profileImage: getUser.profileImage,
@@ -99,7 +100,9 @@ export const Login = () => {
         >
           GO BACK
         </Button>
-        <img src="/assets/logo.png" alt="logoimage" />
+        <Link to={"/welcome"}>
+          <img src="/assets/logo.png" alt="logoimage" />
+        </Link>
         <Typography mb={2} component="h1" variant="h1">
           Login
         </Typography>
@@ -141,8 +144,10 @@ export const Login = () => {
         </Button>
         <Grid mb={2} container justifyContent="flex-end">
           <Grid item>
-            <Link onClick={() => navigate("/register")} variant="body2">
-              Don't have an account? Register
+            <Link to={"/register"}>
+              <div style={{ textDecoration: "underline", color: "blue" }}>
+                Don't have an account? Register
+              </div>
             </Link>
           </Grid>
         </Grid>
