@@ -7,8 +7,6 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Friends from "../components/addfriend/Friends";
 import MainNav from "../components/MainNav";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const AddFriend = () => {
   const navigate = useNavigate();
@@ -73,13 +71,11 @@ const AddFriend = () => {
         }
       );
       console.log(res);
-
-      if (res.data.success) {
-        await getData();
-      }
       if (res.data.success == false) {
-        toast.warning(res.data.success);
         window.location.reload();
+      }
+      if (res.data.success == true) {
+        await getData();
       }
     } catch (error) {
       console.log(error);
@@ -168,7 +164,6 @@ const AddFriend = () => {
 
   return (
     <>
-      <ToastContainer />
       <MainNav />
       <Main>
         <h1>Friend Request:</h1>
