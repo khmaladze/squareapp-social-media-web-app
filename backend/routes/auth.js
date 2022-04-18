@@ -38,8 +38,9 @@ const registerRequestSchema = Joi.object({
   gender: Joi.string().valid("male", "female").trim().required(),
   birthDate: Joi.string().isoDate().required(),
   email: Joi.string().email().required(),
-  password: Joi.string().lowercase().min(2).max(30).trim().required(),
+  password: Joi.string().lowercase().min(4).max(30).trim().required(),
   confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
+  agree: Joi.any().valid(true).required(),
 });
 
 // validation login request schema
@@ -72,6 +73,7 @@ router.post(
         email,
         password,
         confirmPassword,
+        agree,
       } = req.body;
 
       // check if all field is filled
@@ -83,7 +85,8 @@ router.post(
         birthDate &&
         email &&
         password &&
-        confirmPassword
+        confirmPassword &&
+        agree
       ) {
         // validate request body
         const schemaValidation = await registerRequestSchema.validateAsync(
@@ -112,6 +115,7 @@ router.post(
             birthDate: birthDate,
             email: email,
             password: hashedPassword,
+            agree: agree,
           });
 
           res.status(200).json({
