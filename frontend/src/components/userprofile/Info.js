@@ -19,6 +19,7 @@ const Info = ({
   userToken,
   isSender,
   isReciver,
+  requestId,
 }) => {
   const addFriendRequest = async (id) => {
     try {
@@ -38,6 +39,24 @@ const Info = ({
       if (res.data.success) {
         window.location.reload();
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(requestId);
+  const sendResponse = async (response, requestId) => {
+    try {
+      const res = await axios.post(
+        `/api/friend/response`,
+        { response, requestId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -98,6 +117,7 @@ const Info = ({
               alignContent: "center",
               maxWidth: "200px",
               margin: "0 auto",
+              background: "black",
             }}
           >
             Remove Request
@@ -107,7 +127,7 @@ const Info = ({
         {!isFriend && isReciver && !isSender && (
           <>
             <Button
-              onClick={() => addFriendRequest(userId)}
+              onClick={() => sendResponse(true, requestId ? requestId : "0")}
               variant="contained"
               style={{
                 display: "flex",
@@ -120,7 +140,7 @@ const Info = ({
               Accept Request
             </Button>
             <Button
-              onClick={() => addFriendRequest(userId)}
+              onClick={() => sendResponse(false, requestId ? requestId : "0")}
               variant="contained"
               style={{
                 marginTop: "20px",
