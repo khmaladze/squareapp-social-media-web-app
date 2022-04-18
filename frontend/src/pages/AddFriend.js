@@ -5,7 +5,8 @@ import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import Friends from "./Friends";
+import Friends from "../components/addfriend/Friends";
+import MainNav from "../components/MainNav";
 
 const AddFriend = () => {
   const navigate = useNavigate();
@@ -150,97 +151,14 @@ const AddFriend = () => {
       getFriendDetail();
     }
   }, []);
-  return (
-    <Main>
-      <h1>Friend Request:</h1>
-      <div>
-        {data.map((i) => {
-          return (
-            <div key={i._id}>
-              <UserCard>
-                <div
-                  onClick={() => viewProfile(i._id)}
-                  style={{
-                    backgroundImage: `url(${
-                      i.sender.profileImage
-                        ? i.sender.profileImage
-                        : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
-                    })`,
-                    height: "75px",
-                    width: "75px",
-                    borderRadius: "50%",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    float: "left",
-                    marginLeft: "5px",
-                    cursor: "pointer",
-                  }}
-                ></div>
-                <h1
-                  onClick={() => viewProfile(i._id)}
-                  style={{ marginTop: "0px" }}
-                >
-                  {i.sender.userName}
-                </h1>
-                <div>
-                  <Button
-                    onClick={() => sendResponse(true, i._id)}
-                    style={{
-                      marginRight: "5px",
-                      // background: "green"
-                    }}
-                    variant="contained"
-                  >
-                    Accept
-                  </Button>
-                  <Button
-                    onClick={() => sendResponse(false, i._id)}
-                    style={{
-                      marginRight: "5px",
-                      // fontSize: "12px",
-                      background: "black",
-                    }}
-                    variant="contained"
-                  >
-                    remove request
-                  </Button>
-                </div>
-              </UserCard>
-              <h4>
-                {alreadysend &&
-                  "you have already send friend request to this user"}
-              </h4>
-              <h5>
-                {alreadysend &&
-                  "if you want to cancel request you can click to remove request"}
-              </h5>
-            </div>
-          );
-        })}
-      </div>
-      <h1>Send Requset:</h1>
-      <SearchBar>
-        <TextField
-          sx={{ width: "90%" }}
-          id="outlined-basic"
-          label="username"
-          variant="outlined"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <Button
-          style={{ height: "55px" }}
-          onClick={() => getData()}
-          variant="contained"
-        >
-          search
-        </Button>
-      </SearchBar>
 
-      {user && (
+  return (
+    <>
+      <MainNav />
+      <Main>
+        <h1>Friend Request:</h1>
         <div>
-          {user.map((i) => {
+          {data.map((i) => {
             return (
               <div key={i._id}>
                 <UserCard>
@@ -248,8 +166,8 @@ const AddFriend = () => {
                     onClick={() => viewProfile(i._id)}
                     style={{
                       backgroundImage: `url(${
-                        i.profileImage
-                          ? i.profileImage
+                        i.sender.profileImage
+                          ? i.sender.profileImage
                           : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
                       })`,
                       height: "75px",
@@ -267,25 +185,31 @@ const AddFriend = () => {
                     onClick={() => viewProfile(i._id)}
                     style={{ marginTop: "0px" }}
                   >
-                    {i.userName}
+                    {i.sender.userName}
                   </h1>
-                  {alreadysend ? (
+                  <div>
                     <Button
-                      onClick={() => removeFriendRequest(i._id)}
-                      style={{ marginRight: "5px", fontSize: "12px" }}
+                      onClick={() => sendResponse(true, i._id)}
+                      style={{
+                        marginRight: "5px",
+                        // background: "green"
+                      }}
+                      variant="contained"
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      onClick={() => sendResponse(false, i._id)}
+                      style={{
+                        marginRight: "5px",
+                        // fontSize: "12px",
+                        background: "black",
+                      }}
                       variant="contained"
                     >
                       remove request
                     </Button>
-                  ) : (
-                    <Button
-                      onClick={() => addFriendRequest(i._id)}
-                      style={{ marginRight: "5px" }}
-                      variant="contained"
-                    >
-                      Add Friend
-                    </Button>
-                  )}
+                  </div>
                 </UserCard>
                 <h4>
                   {alreadysend &&
@@ -299,11 +223,92 @@ const AddFriend = () => {
             );
           })}
         </div>
-      )}
-      <h5>{message && message}</h5>
-      <h1 style={{ marginTop: "35px" }}>Friends</h1>
-      <Friends data={userData} />
-    </Main>
+        <h1>Send Requset:</h1>
+        <SearchBar>
+          <TextField
+            sx={{ width: "90%" }}
+            id="outlined-basic"
+            label="username"
+            variant="outlined"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Button
+            style={{ height: "55px" }}
+            onClick={() => getData()}
+            variant="contained"
+          >
+            search
+          </Button>
+        </SearchBar>
+
+        {user && (
+          <div>
+            {user.map((i) => {
+              return (
+                <div key={i._id}>
+                  <UserCard>
+                    <div
+                      onClick={() => viewProfile(i._id)}
+                      style={{
+                        backgroundImage: `url(${
+                          i.profileImage
+                            ? i.profileImage
+                            : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
+                        })`,
+                        height: "75px",
+                        width: "75px",
+                        borderRadius: "50%",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        float: "left",
+                        marginLeft: "5px",
+                        cursor: "pointer",
+                      }}
+                    ></div>
+                    <h1
+                      onClick={() => viewProfile(i._id)}
+                      style={{ marginTop: "0px" }}
+                    >
+                      {i.userName}
+                    </h1>
+                    {alreadysend ? (
+                      <Button
+                        onClick={() => removeFriendRequest(i._id)}
+                        style={{ marginRight: "5px", fontSize: "12px" }}
+                        variant="contained"
+                      >
+                        remove request
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => addFriendRequest(i._id)}
+                        style={{ marginRight: "5px" }}
+                        variant="contained"
+                      >
+                        Add Friend
+                      </Button>
+                    )}
+                  </UserCard>
+                  <h4>
+                    {alreadysend &&
+                      "you have already send friend request to this user"}
+                  </h4>
+                  <h5>
+                    {alreadysend &&
+                      "if you want to cancel request you can click to remove request"}
+                  </h5>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        <h5>{message && message}</h5>
+        <h1 style={{ marginTop: "35px" }}>Friends</h1>
+        <Friends data={userData} />
+      </Main>
+    </>
   );
 };
 
