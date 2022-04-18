@@ -54,21 +54,22 @@ router.put(
       let { token } = req.body;
 
       const username = req.body.userName;
-      if (username) {
-        const findIfExists = await User.find({ userName: username });
+      if (username !== req.user.userName) {
+        const findIfExists = await User.find({
+          userName: username,
+        });
         if (findIfExists.length > 0) {
-          res
+          return res
             .status(400)
             .json({ success: false, message: "user can't use this username" });
         }
-      } else {
-        const user = await User.findByIdAndUpdate(req.user._id, req.body, {
-          new: true,
-        });
-        res
-          .status(200)
-          .json({ success: true, message: "user update success", user, token });
       }
+      const user = await User.findByIdAndUpdate(req.user._id, req.body, {
+        new: true,
+      });
+      res
+        .status(200)
+        .json({ success: true, message: "user update success", user, token });
     } catch (error) {
       console.log(error);
     }
