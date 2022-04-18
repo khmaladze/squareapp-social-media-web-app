@@ -354,6 +354,12 @@ const Post = () => {
                             }}
                           >
                             <div
+                              onClick={() =>
+                                viewProfile(
+                                  item.postedBy._id,
+                                  item.postedBy._id == userId
+                                )
+                              }
                               style={{
                                 width: "25px",
                                 height: "25px",
@@ -367,6 +373,7 @@ const Post = () => {
                                     : "https://res.cloudinary.com/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload/v1650180561/ben-sweet-2LowviVHZ-E-unsplash_sjlgle.jpg"
                                 })`,
                                 marginRight: "10px",
+                                cursor: "pointer",
                               }}
                             ></div>
                             <h4>{comment.comment}</h4>
