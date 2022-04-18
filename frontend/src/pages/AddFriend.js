@@ -7,6 +7,8 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Friends from "../components/addfriend/Friends";
 import MainNav from "../components/MainNav";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddFriend = () => {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ const AddFriend = () => {
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [active, setActive] = useState("");
+
   const getData = async () => {
     try {
       if (username) {
@@ -49,15 +52,16 @@ const AddFriend = () => {
       console.log(error);
     }
   };
+
   const viewProfile = (id) => {
     console.log(id);
     if (id && id !== userId) {
       return navigate(`/profile/${id}`);
     }
   };
+
   const addFriendRequest = async (id) => {
     try {
-      console.log(id);
       const res = await axios.post(
         `/api/friend/add`,
         { reciver: id },
@@ -72,6 +76,10 @@ const AddFriend = () => {
 
       if (res.data.success) {
         await getData();
+      }
+      if (res.data.success == false) {
+        toast.warning(res.data.success);
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -99,6 +107,7 @@ const AddFriend = () => {
       console.log(error);
     }
   };
+
   const getRequest = async () => {
     try {
       const res = await axios.get(`/api/friend/get`, {
@@ -111,6 +120,7 @@ const AddFriend = () => {
       console.log(error);
     }
   };
+
   const sendResponse = async (response, requestId) => {
     try {
       const res = await axios.post(
@@ -130,7 +140,9 @@ const AddFriend = () => {
       console.log(error);
     }
   };
+
   console.log(data);
+
   const getFriendDetail = async () => {
     try {
       const res = await axios.get("/api/user/friend", {
@@ -156,6 +168,7 @@ const AddFriend = () => {
 
   return (
     <>
+      <ToastContainer />
       <MainNav />
       <Main>
         <h1>Friend Request:</h1>
