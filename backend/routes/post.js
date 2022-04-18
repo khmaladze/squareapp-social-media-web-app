@@ -609,9 +609,10 @@ router.get(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      const postPrivacy = ["friends", "public"];
       const post = await Post.find({
         postedBy: { $in: req.user.friends.map((id) => id) },
-        privacy: "friends",
+        privacy: { $in: postPrivacy.map((i) => i) },
         isBlocked: false,
         expireToken: { $gt: Date.now() },
       })

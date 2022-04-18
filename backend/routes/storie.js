@@ -446,9 +446,10 @@ router.get(
   protect,
   asyncHandler(async (req, res) => {
     try {
+      const storiePrivacy = ["friends", "public"];
       const storie = await Storie.find({
         postedBy: { $in: req.user.friends.map((id) => id) },
-        privacy: "friends",
+        privacy: { $in: storiePrivacy.map((i) => i) },
         isBlocked: false,
         expireToken: { $gt: Date.now() },
       })
