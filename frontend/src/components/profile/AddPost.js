@@ -85,11 +85,11 @@ const AddPost = ({ jwt, onAdd }) => {
         postCreate.text = text;
       }
 
-      if (image) {
+      if (image.length > 0) {
         postCreate.image = await uploadImage();
       }
 
-      if (video) {
+      if (video.length > 0) {
         postCreate.video = await uploadVideo();
       }
 
