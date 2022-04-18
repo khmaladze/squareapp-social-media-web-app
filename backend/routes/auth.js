@@ -196,7 +196,9 @@ router.post(
       const user = await User.findOne({ email, isBlocked: false });
 
       if (!user) {
-        res.status(400).json({ success: false, message: "can't login" });
+        res
+          .status(400)
+          .json({ success: false, message: "Invalid Credentials" });
       }
 
       if (user) {
