@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
@@ -87,16 +86,20 @@ const Settings = () => {
   };
   const updateUser = async () => {
     try {
-      if (firstName && lastName && userName && place) {
+      if (firstName && lastName && userName) {
         let postData = {
           firstName,
           lastName,
           userName,
-          place,
           biography,
-          hobby,
           token: user.token,
         };
+        if (place) {
+          postData.place = place;
+        }
+        if (hobby) {
+          postData.hobby = hobby;
+        }
         if (profileImage) {
           postData.profileImage = await uploadProfileImage();
         }
@@ -109,10 +112,13 @@ const Settings = () => {
             authorization: `Bearer ${user.token}`,
           },
         });
-        if (res.data.success) {
+        if (res.data.success == false) {
+          toast.error(res.data.message);
+        }
+        if (res.data.success == true) {
           const getUser = res.data.user;
           const getUserToken = res.data.token;
-          toast(res.data.message);
+          toast.success(res.data.message);
           localStorage.setItem(
             "user",
             JSON.stringify({
@@ -165,7 +171,7 @@ const Settings = () => {
       }
     } catch (error) {
       if (error && error.response && error.response.data) {
-        toast(error.response.data.message);
+        toast.error(error.response.data.message);
       }
     }
   };
