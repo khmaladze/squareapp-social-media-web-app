@@ -19,6 +19,7 @@ const AddFriend = () => {
   const [username, setUsername] = useState("");
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [active, setActive] = useState("");
   const getData = async () => {
     try {
       if (username) {
@@ -132,7 +133,6 @@ const AddFriend = () => {
   console.log(data);
   const getFriendDetail = async () => {
     try {
-      console.log("works");
       const res = await axios.get("/api/user/friend", {
         headers: {
           "Content-Type": "application/json",
@@ -140,6 +140,8 @@ const AddFriend = () => {
         },
       });
       setUserData(res.data.friend);
+      if (res.data.active == false) {
+      }
     } catch (error) {
       console.log(error);
     }
@@ -163,7 +165,7 @@ const AddFriend = () => {
               <div key={i._id}>
                 <UserCard>
                   <div
-                    onClick={() => viewProfile(i._id)}
+                    onClick={() => viewProfile(i.sender._id)}
                     style={{
                       backgroundImage: `url(${
                         i.sender.profileImage
@@ -182,8 +184,8 @@ const AddFriend = () => {
                     }}
                   ></div>
                   <h1
-                    onClick={() => viewProfile(i._id)}
-                    style={{ marginTop: "0px" }}
+                    onClick={() => viewProfile(i.sender._id)}
+                    style={{ marginTop: "0px", cursor: "pointer" }}
                   >
                     {i.sender.userName}
                   </h1>
@@ -269,7 +271,7 @@ const AddFriend = () => {
                     ></div>
                     <h1
                       onClick={() => viewProfile(i._id)}
-                      style={{ marginTop: "0px" }}
+                      style={{ marginTop: "0px", cursor: "pointer" }}
                     >
                       {i.userName}
                     </h1>
