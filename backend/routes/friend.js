@@ -144,9 +144,7 @@ router.post(
             sender: req.user._id,
             reciver: thisUser._id,
           });
-          console.log("me", me);
-          console.log("user", user);
-          res.status(200).json({
+          return res.status(200).json({
             success: true,
             message: "friend remove successfully",
           });
@@ -157,7 +155,7 @@ router.post(
             reciver: req.user._id,
           });
 
-          res.status(200).json({
+          return res.status(200).json({
             success: true,
             message: "friend remove successfully",
           });
@@ -196,6 +194,14 @@ router.get(
       const user = await User.find({ userName: req.params.username }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
       );
+
+      if (user.length == 0) {
+        return res.status(200).json({
+          success: true,
+          message: "user not found",
+        });
+      }
+
       const isFriend = await User.find({
         _id: req.user._id,
         friends: {
@@ -303,6 +309,7 @@ router.get(
         });
       }
     } catch (error) {
+      console.log(error);
       res.status(500).json({
         success: false,
         message: "try later",
@@ -320,18 +327,26 @@ router.post(
   asyncHandler(async (req, res) => {
     try {
       const { reciver } = req.body;
-      console.log(reciver);
+
       const check = await User.find({
         _id: reciver,
       });
-      console.log(check);
+
       if (!check) {
         return res
           .status(400)
           .json({ success: false, message: "user not found" });
       }
 
-      console.log("reciver", reciver);
+      const checkIfUserAlreadySend = await Friend.find({
+        sender: reciver,
+        reciver: req.user._id,
+      });
+      if (checkIfUserAlreadySend.length > 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: "user already send" });
+      }
       const friendsData = await User.find({
         _id: { $in: req.user.friends.filter((id) => id == reciver) },
         isBlocked: false,
