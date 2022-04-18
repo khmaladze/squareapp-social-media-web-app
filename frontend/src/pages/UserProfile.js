@@ -21,6 +21,7 @@ const UserProfile = () => {
   const [isFriend, setIsFriend] = useState(null);
   const [isSender, setIsSender] = useState(null);
   const [isReciver, setIsReciver] = useState(null);
+  const [requestId, setRequestId] = useState(null);
   const { profileId } = useParams();
   const getData = async () => {
     try {
@@ -40,6 +41,9 @@ const UserProfile = () => {
       }
       if (res.data.alreadyReciver) {
         setIsReciver(res.data.alreadyReciver);
+      }
+      if (res.data.requestId) {
+        setRequestId(res.data.requestId);
       }
     } catch (error) {
       console.log(error);
@@ -98,6 +102,7 @@ const UserProfile = () => {
             userToken={userToken}
             isSender={isSender}
             isReciver={isReciver}
+            requestId={requestId}
           />
           {/* <Friends friends={user.friends} token={user.token} /> */}
           {data ? (
