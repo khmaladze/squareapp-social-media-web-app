@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -27,8 +28,8 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [agree, setAgree] = useState("");
-
+  const [agree, setAgree] = useState(false);
+  console.log(agree);
   const registerUser = async () => {
     try {
       if (
@@ -40,7 +41,7 @@ export const Register = () => {
         email &&
         password &&
         confirmPassword &&
-        agree
+        agree == true
       ) {
         const postData = {
           firstName,
@@ -51,14 +52,16 @@ export const Register = () => {
           email,
           password,
           confirmPassword,
+          agree,
         };
+        console.log(postData);
         const res = await axios.post("/api/auth/register", postData);
         if (res.data.success) {
           toast(res.data.message);
           navigate("/login");
         }
       } else {
-        toast("add all the fields");
+        toast.warn("add all the fields");
       }
     } catch (error) {
       if (error && error.response && error.response.data) {
@@ -79,7 +82,9 @@ export const Register = () => {
         >
           GO BACK
         </Button>
-        <img src="/assets/logo.png" alt="logoimage" />
+        <Link to={"/welcome"}>
+          <img src="/assets/logo.png" alt="logoimage" />
+        </Link>
         <Typography mb={2} component="h1" variant="h1">
           Register
         </Typography>
@@ -144,6 +149,9 @@ export const Register = () => {
               fullWidth
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
+              inputProps={{
+                max: "2010-01-01",
+              }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -192,7 +200,7 @@ export const Register = () => {
               control={
                 <Checkbox
                   value={agree}
-                  onChange={() => setAgree(true)}
+                  onClick={() => setAgree(!agree)}
                   color="primary"
                 />
               }
@@ -211,8 +219,10 @@ export const Register = () => {
         </Button>
         <Grid mb={2} container justifyContent="flex-end">
           <Grid item>
-            <Link onClick={() => navigate("/login")} variant="body2">
-              Already have an account? Log In
+            <Link to={"/login"}>
+              <div style={{ textDecoration: "underline", color: "blue" }}>
+                Already have an account? Log In
+              </div>
             </Link>
           </Grid>
         </Grid>
