@@ -186,7 +186,10 @@ const AddFriend = () => {
                 <div>
                   <Button
                     onClick={() => sendResponse(true, i._id)}
-                    style={{ marginRight: "5px", background: "green" }}
+                    style={{
+                      marginRight: "5px",
+                      // background: "green"
+                    }}
                     variant="contained"
                   >
                     Accept
@@ -196,7 +199,7 @@ const AddFriend = () => {
                     style={{
                       marginRight: "5px",
                       // fontSize: "12px",
-                      background: "red",
+                      background: "black",
                     }}
                     variant="contained"
                   >
