@@ -7,7 +7,7 @@ const Friend = require("../models/friendModel");
 const asyncHandler = require("express-async-handler");
 const Joi = require("joi");
 const { protect } = require("../middleware/requireUserLogin");
-
+const mongoose = require("mongoose");
 // validation post request schema
 // const postRequestSchema = Joi.object({
 //   text: Joi.string().max(300).trim(),
@@ -131,12 +131,37 @@ router.post(
         }
       );
       if (me && user) {
-        console.log("me", me);
-        console.log("user", user);
-        res.status(200).json({
-          success: true,
-          message: "friend remove successfully",
+        const deleteRequest = await Friend.find({
+          sender: req.user._id,
+          reciver: thisUser._id,
         });
+        const deleteRequestSecond = await Friend.find({
+          sender: thisUser._id,
+          reciver: req.user._id,
+        });
+        if (deleteRequest.length > 0) {
+          await Friend.deleteOne({
+            sender: req.user._id,
+            reciver: thisUser._id,
+          });
+          console.log("me", me);
+          console.log("user", user);
+          res.status(200).json({
+            success: true,
+            message: "friend remove successfully",
+          });
+        }
+        if (deleteRequestSecond.length > 0) {
+          await Friend.find({
+            sender: thisUser._id,
+            reciver: req.user._id,
+          });
+
+          res.status(200).json({
+            success: true,
+            message: "friend remove successfully",
+          });
+        }
       } else {
         res.status(400).json({
           success: false,
@@ -162,57 +187,120 @@ router.get(
   asyncHandler(async (req, res) => {
     try {
       if (req.user.userName == req.params.username) {
-        res.status(200).json({
+        return res.status(200).json({
           success: true,
           message: "it's your username",
         });
       }
-      const friendsData = await User.find({
-        userName: {
-          $in: req.user.friends.filter((userName) => req.params.username),
-        },
-        isBlocked: false,
-      }).select(
+
+      const user = await User.find({ userName: req.params.username }).select(
         "_id profileImage backgroundImage userName firstName lastName place hobby"
       );
-      console.log(friendsData);
-      if (friendsData.length == 1) {
-        res.status(200).json({
+      const isFriend = await User.find({
+        _id: req.user._id,
+        friends: {
+          $in: [mongoose.Types.ObjectId(user[0]._id)],
+        },
+      });
+      if (isFriend.length > 0) {
+        return res.status(200).json({
           success: true,
           message: "user is your friend",
         });
-        console.log(friendsData);
       }
-      if (friendsData.length == 0) {
-        const user = await User.find({ userName: req.params.username }).select(
-          "_id profileImage backgroundImage userName firstName lastName place hobby"
-        );
-        const alreadySend = await Friend.find({
-          sender: req.user._id,
-          reciver: user[0]._id,
-        });
-        if (user.length > 0) {
-          if (alreadySend.length > 0) {
-            res.status(200).json({
-              success: true,
-              message: "get user successfully",
-              user,
-              alreadySend: true,
-            });
-          } else {
-            res.status(200).json({
-              success: true,
-              message: "get user successfully",
-              user,
-              alreadySend: false,
-            });
-          }
-        } else {
-          res.status(400).json({
-            success: false,
-            message: "user not found",
+      const alreadySend = await Friend.find({
+        sender: req.user._id,
+        reciver: user[0]._id,
+        active: true,
+        ignore: false,
+      });
+
+      const alreadyRecive = await Friend.find({
+        sender: user[0]._id,
+        reciver: req.user._id,
+        active: true,
+        ignore: false,
+      });
+
+      const alreadyResponse = await Friend.find({
+        sender: req.user._id,
+        reciver: user[0]._id,
+        active: false,
+        ignore: true,
+      });
+
+      if (user.length > 0) {
+        if (alreadyResponse.length > 0) {
+          return res.status(200).json({ success: true, message: "no data" });
+        }
+        if (
+          alreadySend.length > 0 &&
+          alreadyRecive.length == 0 &&
+          isFriend.length == 0
+        ) {
+          return res.status(200).json({
+            success: true,
+            message: "get user successfully",
+            user,
+            alreadySend: true,
+            alreadyRecive: false,
+            alreadyFriend: false,
           });
         }
+
+        if (
+          alreadySend.length == 0 &&
+          alreadyRecive.length == 0 &&
+          isFriend.length > 0
+        ) {
+          return res.status(200).json({
+            success: true,
+            message: "get user successfully",
+            user,
+            alreadySend: false,
+            alreadyRecive: false,
+            alreadyFriend: true,
+          });
+        }
+        if (
+          alreadySend.length == 0 &&
+          alreadyRecive.length == 0 &&
+          isFriend.length == 0
+        ) {
+          return res.status(200).json({
+            success: true,
+            message: "get user successfully",
+            user,
+            alreadySend: false,
+            alreadyRecive: false,
+            alreadyFriend: false,
+          });
+        }
+
+        if (alreadyRecive.length > 0) {
+          return res.status(200).json({
+            success: true,
+            message: "user already send you request",
+            // user,
+            alreadySend: false,
+            alreadyRecive: true,
+            alreadyFriend: false,
+          });
+        } else {
+          return res.status(200).json({
+            success: true,
+            message: "no data",
+            // user,
+            alreadySend: false,
+            alreadyRecive: false,
+            alreadyFriend: false,
+          });
+        }
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "user not found",
+        });
       }
     } catch (error) {
       res.status(500).json({
@@ -354,18 +442,18 @@ router.post(
           });
         }
 
-        if (alreadySend.length == 0) {
-          const friendAdd = await Friend.create({
-            sender: req.user,
-            reciver: reciver,
-          });
+        // if (alreadySend.length == 0) {
+        //   const friendAdd = await Friend.create({
+        //     sender: req.user,
+        //     reciver: reciver,
+        //   });
 
-          res.status(200).json({
-            success: true,
-            message: "friend request send successfully",
-            friendAdd,
-          });
-        }
+        //   res.status(200).json({
+        //     success: true,
+        //     message: "friend request send successfully",
+        //     friendAdd,
+        //   });
+        // }
       }
     } catch (error) {
       res.status(500).json({
