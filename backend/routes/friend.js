@@ -346,7 +346,7 @@ router.post(
       //     });
       //   }
       if (friendsData.length > 0) {
-        res.status(400).json({
+        return res.status(400).json({
           success: false,
           message: "user is your friend",
         });
@@ -355,6 +355,8 @@ router.post(
         const alreadySend = await Friend.find({
           sender: req.user._id,
           reciver: reciver,
+          active: true,
+          ignore: false,
         });
         console.log(alreadySend);
 
