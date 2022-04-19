@@ -17,7 +17,6 @@ import Grid from "@mui/material/Grid";
 import CardHeader from "@mui/material/CardHeader";
 import { useSelector } from "react-redux";
 import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import PeopleIcon from "@mui/icons-material/People";
@@ -92,19 +91,7 @@ const Post = () => {
       console.log(error);
     }
   };
-  //   const deletePost = async (id) => {
-  //     try {
-  //       await axios.delete(`/api/post/delete/${id}`, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           authorization: `Bearer ${jwt}`,
-  //         },
-  //       });
-  //       return getData();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+
   const addLike = async (id) => {
     try {
       const res = await axios.put(`/api/post/like/${id}`, "", {
@@ -117,6 +104,7 @@ const Post = () => {
       console.log(error);
     }
   };
+
   const unLike = async (id) => {
     try {
       const res = await axios.put(`/api/post/delete/like/${id}`, "", {
@@ -129,12 +117,14 @@ const Post = () => {
       console.log(error);
     }
   };
+
   const viewProfile = (id) => {
     console.log(id);
     if (id) {
       return navigate(`/profile/${id}`);
     }
   };
+
   return (
     <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
       {data
@@ -171,47 +161,6 @@ const Post = () => {
                         }}
                       ></div>
                     }
-                    // action={
-                    //   // <IconButton aria-label="settings">
-                    //   //   <MoreVertIcon />
-                    //   // </IconButton>
-                    //   <div
-                    //     style={{
-                    //       height: "58px",
-                    //       display: "flex",
-                    //       justifyContent: "flex-end",
-                    //       alignItems: "center",
-                    //       width: "100%",
-                    //       // paddingTop: "10px",
-                    //       margin: "0 auto",
-                    //     }}
-                    //   >
-                    //     <>
-                    //       {/* {item.createdAt && (
-                    //     <Typography gutterBottom variant="p" component="div">
-                    //       created: {format(item.createdAt)}
-                    //     </Typography>
-                    //   )} */}
-                    //       {/* {item.updatedAt !== item.createdAt && (
-                    //     <Typography gutterBottom variant="p" component="div">
-                    //       updated: {format(item.updatedAt)}
-                    //     </Typography>
-                    //   )} */}
-                    //     </>
-                    //     {/* <div
-                    //       onClick={() => deletePost(item._id)}
-                    //       style={{
-                    //         display: "flex",
-                    //         alignItems: "center",
-                    //         justifyContent: "center",
-                    //       }}
-                    //     >
-                    //       <DeleteOutlineIcon style={{ cursor: "pointer" }} />
-                    //     </div> */}
-                    //   </div>
-                    // }
-                    // <MoreVertIcon />
-
                     action={
                       <IconButton aria-label="settings">
                         {item.privacy == "public" ? (
