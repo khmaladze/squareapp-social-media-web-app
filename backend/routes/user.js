@@ -91,17 +91,6 @@ router.get(
         "_id profileImage backgroundImage userName firstName lastName place hobby biography"
       );
 
-      const post = await Post.find({
-        postedBy: req.params.profileId,
-        privacy: "public",
-        isBlocked: false,
-      })
-        .sort("-createdAt")
-        .populate(
-          "postedBy comment.commentBy",
-          "firstName lastName profileImage backgroundImage"
-        );
-
       const storie = await Storie.find({
         postedBy: req.params.profileId,
         privacy: "public",
@@ -133,6 +122,18 @@ router.get(
       });
 
       if (isFriend.length > 0) {
+        const postPrivacy = ["public", "friends"];
+        const post = await Post.find({
+          postedBy: req.params.profileId,
+          privacy: postPrivacy.map((i) => i),
+          isBlocked: false,
+        })
+          .sort("-createdAt")
+          .populate(
+            "postedBy comment.commentBy",
+            "firstName lastName profileImage backgroundImage"
+          );
+
         res.status(200).json({
           success: true,
           message: "get profile  successfully",
@@ -142,6 +143,17 @@ router.get(
           friend: true,
         });
       } else {
+        const post = await Post.find({
+          postedBy: req.params.profileId,
+          privacy: "public",
+          isBlocked: false,
+        })
+          .sort("-createdAt")
+          .populate(
+            "postedBy comment.commentBy",
+            "firstName lastName profileImage backgroundImage"
+          );
+
         if (alreadySend.length == 0 && alreadyReciver.length == 0) {
           res.status(200).json({
             success: true,
