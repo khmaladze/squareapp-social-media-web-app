@@ -16,7 +16,9 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
+import PublicIcon from "@mui/icons-material/Public";
+import PeopleIcon from "@mui/icons-material/People";
 
 const GetPost = ({ data, jwt, userId, onAdd }) => {
   const [addComment, setAddComment] = useState(false);
@@ -163,10 +165,13 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
                           updated: {format(item.updatedAt)}
                         </Typography>
                       )} */}
-
                           <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                          </IconButton>
+                            {item.privacy == "public" ? (
+                              <PublicIcon />
+                            ) : (
+                              <PeopleIcon />
+                            )}
+                          </IconButton>{" "}
                         </>
                         {/* <div
                           onClick={() => deletePost(item._id)}
