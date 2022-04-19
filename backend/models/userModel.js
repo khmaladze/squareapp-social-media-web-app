@@ -5,25 +5,30 @@ const userSchema = mongoose.Schema(
     firstName: {
       type: String,
       required: true,
+      trim: true,
     },
     lastName: {
       type: String,
       required: true,
+      trim: true,
     },
     userName: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     biography: {
       type: String,
       required: true,
       default: "add to",
+      trim: true,
     },
     gender: {
       type: String,
       required: true,
       enum: ["male", "female"],
+      trim: true,
     },
     friends: {
       type: Array,
@@ -32,6 +37,7 @@ const userSchema = mongoose.Schema(
     place: {
       type: String,
       default: "",
+      trim: true,
     },
     hobby: {
       type: String,
@@ -60,18 +66,22 @@ const userSchema = mongoose.Schema(
         "",
       ],
       default: "",
+      trim: true,
     },
     profileImage: {
       type: String,
       default: "",
+      trim: true,
     },
     backgroundImage: {
       type: String,
       default: "",
+      trim: true,
     },
     birthDate: {
       type: Date,
       required: true,
+      trim: true,
     },
     agree: {
       type: Boolean,
@@ -88,10 +98,12 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     password: {
       type: String,
       required: true,
+      trim: true,
     },
   },
   { timestamps: true }
