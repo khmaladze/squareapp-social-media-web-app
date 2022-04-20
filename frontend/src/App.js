@@ -12,6 +12,7 @@ import AddFriend from "./pages/AddFriend";
 import UserProfile from "./pages/UserProfile";
 import Public from "./pages/Public";
 import Friend from "./pages/Friend";
+import Message from "./pages/Message";
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -56,20 +57,21 @@ const Routing = () => {
       <Routes>
         {user && (
           <>
-            <Route path="/" element={<Public />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/addfriend" element={<AddFriend />} />
-            <Route path="/profile/:profileId" element={<UserProfile />} />
-            <Route path="/public" element={<Public />} />
-            <Route path="/friend" element={<Friend />} />
+            <Route path="/" exact element={<Public />} />
+            <Route path="/profile" exact element={<Profile />} />
+            <Route path="/settings" exact element={<Settings />} />
+            <Route path="/addfriend" exact element={<AddFriend />} />
+            <Route path="/profile/:profileId" exact element={<UserProfile />} />
+            <Route path="/public" exact element={<Public />} />
+            <Route path="/friend" exact element={<Friend />} />
+            <Route path="/message" exact element={<Message />} />
           </>
         )}
         {!user && (
           <>
-            <Route path="/welcome" element={<WelcomePage />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/welcome" exact element={<WelcomePage />} />
+            <Route path="/register" exact element={<Register />} />
+            <Route path="/login" exact element={<Login />} />
           </>
         )}
       </Routes>
