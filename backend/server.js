@@ -68,13 +68,47 @@ app.use(hpp());
 // Enable CORS
 app.use(cors());
 
-let server;
-
 // check if env file is provided. if yes it will start server
 if (isValidEnv()) {
-  server = app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.log(`Server started on port ${port}`);
   });
+
+  if (server) {
+    const io = require("socket.io")(server, {
+      pingTimeout: 60000,
+      cors: { origin: "http://localhost:3000" },
+    });
+
+    io.on("connection", (socket) => {
+      socket.on("setup", (userData) => {
+        socket.emit("connected");
+      });
+
+      socket.on("join chat", (room) => {
+        socket.join(room);
+      });
+
+      socket.on("new message", (roomId, newMessageRecived) => {
+        const chats = [
+          newMessageRecived.sender._id,
+          newMessageRecived.reciver._id,
+        ];
+        if (!roomId && !newMessageRecived.reciver)
+          return console.log("user not defined");
+
+        chats.forEach((item) => {
+          if (item == newMessageRecived.sender._id) return;
+          socket.in(roomId).emit("message recived", newMessageRecived);
+        });
+      });
+
+      socket.off("setup", () => {
+        console.log("USER DISCONNECTED");
+        socket.leave(userData._id);
+      });
+    });
+  }
 } else {
   console.log("error please add .env file to run this program💻💻💻");
   console.log("can't connect mongodb without mongo uri");
@@ -89,35 +123,4 @@ if (isValidEnv()) {
       2
     )
   );
-}
-
-if (server) {
-  const io = require("socket.io")(server, {
-    pingTimeout: 60000,
-    cors: { origin: "http://localhost:3000" },
-  });
-
-  io.on("connection", (socket) => {
-    socket.on("setup", (userData) => {
-      socket.emit("connected");
-    });
-
-    socket.on("join chat", (room) => {
-      socket.join(room);
-    });
-
-    socket.on("new message", (roomId, newMessageRecived) => {
-      const chats = [
-        newMessageRecived.sender._id,
-        newMessageRecived.reciver._id,
-      ];
-      if (!roomId && !newMessageRecived.reciver)
-        return console.log("user not defined");
-
-      chats.forEach((item) => {
-        if (item == newMessageRecived.sender._id) return;
-        socket.in(roomId).emit("message recived", newMessageRecived);
-      });
-    });
-  });
 }
