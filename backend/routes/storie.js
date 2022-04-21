@@ -402,7 +402,35 @@ router.get(
   protect,
   asyncHandler(async (req, res) => {
     try {
-      const storie = await Storie.find({ postedBy: req.user._id })
+      const storie = await Storie.find({
+        postedBy: req.user._id,
+        expireToken: { $gt: Date.now() },
+      })
+        .sort("-createdAt")
+        .populate(
+          "postedBy view.viewBy",
+          "firstName lastName profileImage backgroundImage"
+        );
+      res.status(200).json({ success: true, storie });
+    } catch (error) {
+      console.log(error);
+    }
+  })
+);
+
+////////////////////////////////////
+// /* Get My Storie archived  */  //
+////////////////////////////////////
+router.get(
+  "/my/archive",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const storie = await Storie.find({
+        postedBy: req.user._id,
+        archived: true,
+        expireToken: { $lt: Date.now() },
+      })
         .sort("-createdAt")
         .populate(
           "postedBy view.viewBy",
