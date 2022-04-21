@@ -249,22 +249,26 @@ const Message = () => {
                 paddingRight: "5px",
               }}
             >
-              <h1>{username}</h1>
-              <div
-                style={{
-                  backgroundImage: `url(${profileImage})`,
-                  height: "77px",
-                  width: "77px",
-                  borderRadius: "50%",
-                  border: "1px solid",
-                  marginLeft: "15px",
-                  marginTop: "5px",
-                  marginBottom: "5px",
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                }}
-              ></div>
+              <Link to={`/profile/${userId}`}>
+                <h1>{username}</h1>
+              </Link>
+              <Link to={`/profile/${userId}`}>
+                <div
+                  style={{
+                    backgroundImage: `url(${profileImage})`,
+                    height: "77px",
+                    width: "77px",
+                    borderRadius: "50%",
+                    border: "1px solid",
+                    marginLeft: "15px",
+                    marginTop: "5px",
+                    marginBottom: "5px",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                ></div>
+              </Link>
             </div>
 
             <Button
