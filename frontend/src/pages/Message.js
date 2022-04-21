@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
@@ -310,18 +310,25 @@ const Message = () => {
                       <h4 style={{ maxWidth: "70%" }}>{i.text}</h4>
                       <h5>{format(i.createdAt)}</h5>
                     </div>
-
-                    <div
-                      style={{
-                        backgroundImage: `url(${i.sender.profileImage})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        borderRadius: "50%",
-                        // border: "0.7px solid",
-                        height: "50px",
-                        width: "50px",
-                      }}
-                    ></div>
+                    <Link
+                      to={
+                        i.sender._id == user._id
+                          ? "/profile"
+                          : `/profile/${i.sender._id}`
+                      }
+                    >
+                      <div
+                        style={{
+                          backgroundImage: `url(${i.sender.profileImage})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          borderRadius: "50%",
+                          // border: "0.7px solid",
+                          height: "50px",
+                          width: "50px",
+                        }}
+                      ></div>
+                    </Link>
                   </div>
                 );
               })}
