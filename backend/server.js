@@ -98,17 +98,26 @@ if (server) {
   });
 
   io.on("connection", (socket) => {
-    console.log("connect");
-
     socket.on("setup", (userData) => {
-      socket.join(userData._id);
-      console.log(userData);
       socket.emit("connected");
     });
 
     socket.on("join chat", (room) => {
       socket.join(room);
-      console.log('user joined room: "" ' + room);
+    });
+
+    socket.on("new message", (roomId, newMessageRecived) => {
+      const chats = [
+        newMessageRecived.sender._id,
+        newMessageRecived.reciver._id,
+      ];
+      if (!roomId && !newMessageRecived.reciver)
+        return console.log("user not defined");
+
+      chats.forEach((item) => {
+        if (item == newMessageRecived.sender._id) return;
+        socket.in(roomId).emit("message recived", newMessageRecived);
+      });
     });
   });
 }
