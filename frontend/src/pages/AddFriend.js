@@ -137,8 +137,6 @@ const AddFriend = () => {
     }
   };
 
-  // console.log(data);
-
   const getFriendDetail = async () => {
     try {
       const res = await axios.get("/api/user/friend", {
