@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import MainNav from "../components/MainNav";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import io from "socket.io-client";
+import { format } from "timeago.js";
 
 const ENDPOINT = "http://localhost:3000";
 var socket, selectedChatCompare;
@@ -15,6 +16,7 @@ var socket, selectedChatCompare;
 const Message = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
   const token = useSelector((state) => state.auth.value.user.token);
   const user = useSelector((state) => state.auth.value.user);
   const [chatSelected, setChatSelected] = useState(false);
@@ -24,6 +26,8 @@ const Message = () => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [conversation, setConversation] = useState("");
   const [messages, setMessages] = useState([]);
+  const [text, setText] = useState("");
+
   const getFriendDetail = async () => {
     try {
       const res = await axios.get("/api/user/friend", {
@@ -48,20 +52,9 @@ const Message = () => {
     navigate(`/profile/${id}`);
   };
 
-  const getConversation = async () => {
-    try {
-      console.log(userId);
-      console.log(userId);
-      const res = await axios.get(`/api/messenger/get/conversation/${userId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+  const scrollToBottom = (id) => {
+    const element = document.getElementById(id);
+    element.scrollTop = element.scrollHeight;
   };
 
   const messageUser = async (id, image, username) => {
@@ -70,9 +63,64 @@ const Message = () => {
       setProfileImage(image);
       setUsername(username);
       setChatSelected(true);
-      getConversation();
+      const res = await axios.get(`/api/messenger/get/message/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      setMessages(res.data.message);
+      socket.emit(
+        "join chat",
+        res.data.message[0].conversationId
+          ? res.data.message[0].conversationId
+          : String(user._id + id)
+      );
+      scrollToBottom(1);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const sendMessage = async (id) => {
+    try {
+      const res = await axios.post(
+        `/api/messenger/send/message/${id}`,
+        { text },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      console.log(res);
+      if (res.data.success) {
+        setText("");
+        setUserId(userId);
+        setProfileImage(profileImage);
+        setUsername(username);
+        setChatSelected(true);
+        const res = await axios.get(`/api/messenger/get/message/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        });
+        setMessages(res.data.message);
+        socket.emit(
+          "new message",
+          res.data.message[0].conversationId,
+          res.data.message[messages.length]
+        );
+        scrollToBottom(1);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        console.log(error.response.data.message);
+        setResponseMessage(error.response.data.message);
+      }
     }
   };
 
@@ -80,11 +128,21 @@ const Message = () => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("connection", () => setSocketConnected(true));
-    console.log(userId);
-    if (userId) {
-      getConversation();
-    }
   }, []);
+
+  useEffect(() => {
+    socket.on("message recived", (newMessageRecived) => {
+      if (newMessageRecived) {
+        setMessages([...messages, newMessageRecived]);
+        scrollToBottom(1);
+      }
+    });
+  });
+
+  const closeChat = () => {
+    setChatSelected(false);
+    setMessages([]);
+  };
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
@@ -209,16 +267,69 @@ const Message = () => {
             </div>
 
             <Button
-              onClick={() => setChatSelected(false)}
+              onClick={() => closeChat()}
               variant="contained"
               style={{ height: "50px" }}
             >
               Close
             </Button>
           </div>
-          <div>message</div>
+          <div>
+            <div style={{ maxHeight: "500px", overflow: "scroll" }} id="1">
+              {messages.map((i) => {
+                return (
+                  <div
+                    key={i._id}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      width: "95%",
+                      margin: "auto",
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                      // border: "1px solid",
+                      padding: "7px",
+                      maxWidth: "1200px",
+                      background: `${
+                        i.sender._id == user._id ? "#1f78f8" : "#d1d1d1"
+                      }`,
+                      color: `${i.sender._id == user._id ? "white" : "black"}`,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "97%",
+                        paddingRight: "10px",
+                      }}
+                    >
+                      <h4 style={{ maxWidth: "70%" }}>{i.text}</h4>
+                      <h5>{format(i.createdAt)}</h5>
+                    </div>
+
+                    <div
+                      style={{
+                        backgroundImage: `url(${i.sender.profileImage})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        borderRadius: "50%",
+                        // border: "0.7px solid",
+                        height: "50px",
+                        width: "50px",
+                      }}
+                    ></div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {responseMessage.length > 0 && <h3>{responseMessage}</h3>}
           <div
             style={{
+              marginTop: "15px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
@@ -231,8 +342,14 @@ const Message = () => {
               aria-label="empty textarea"
               placeholder="Empty"
               style={{ width: "90%", minHeight: "70px" }}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
             />
-            <Button variant="contained" style={{ height: "50px" }}>
+            <Button
+              variant="contained"
+              style={{ height: "50px" }}
+              onClick={() => sendMessage(userId)}
+            >
               Send
             </Button>
           </div>
