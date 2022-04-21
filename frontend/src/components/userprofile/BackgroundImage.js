@@ -42,7 +42,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
           });
           return onAdd();
         } catch (error) {
-          console.log(error);
+          // console.log(error);
         }
       }
     }
@@ -63,7 +63,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
         return onAdd();
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -93,7 +93,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
       });
       return onAdd();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -106,7 +106,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
       });
       return onAdd();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

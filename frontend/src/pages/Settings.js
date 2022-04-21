@@ -63,7 +63,7 @@ const Settings = () => {
       );
       return res.data.secure_url;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const uploadBackgroundImage = async () => {
@@ -81,7 +81,7 @@ const Settings = () => {
       );
       return res.data.secure_url;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const updateUser = async () => {

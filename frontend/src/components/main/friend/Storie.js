@@ -52,7 +52,7 @@ const Storie = () => {
         setLoader(false);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -70,7 +70,7 @@ const Storie = () => {
   };
   const openStorie = async (id, index, front = true) => {
     try {
-      console.log(index);
+      // console.log(index);
       if (front == false) {
         setCurrent(index);
         if (index - 1 >= 0) {
@@ -104,7 +104,7 @@ const Storie = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -125,7 +125,7 @@ const Storie = () => {
       });
       return getStorieData();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -138,7 +138,7 @@ const Storie = () => {
       });
       return getStorieData();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -161,7 +161,7 @@ const Storie = () => {
   //   }
   // };
   const viewProfile = (id) => {
-    console.log(id);
+    // console.log(id);
     if (id) {
       return navigate(`/profile/${id}`);
     }

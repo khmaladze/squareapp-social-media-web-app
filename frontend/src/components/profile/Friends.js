@@ -19,7 +19,7 @@ const Friends = ({ friends }) => {
       });
       setUserData(res.data.friend);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

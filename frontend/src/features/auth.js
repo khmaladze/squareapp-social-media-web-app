@@ -6,7 +6,7 @@ const initialStateValue = {
   user,
 };
 
-console.log("redux", initialStateValue);
+// console.log("redux", initialStateValue);
 
 export const authSlice = createSlice({
   name: "auth",

@@ -24,10 +24,10 @@ const Profile = () => {
           authorization: `Bearer ${user.token}`,
         },
       });
-      console.log(res);
+      // console.log(res);
       setData(res.data.post);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const [date, setfirst] = useState(new Date().toISOString());
@@ -40,11 +40,11 @@ const Profile = () => {
           authorization: `Bearer ${user.token}`,
         },
       });
-      console.log(res);
+      // console.log(res);
       setStorie(res.data.storie.filter((i) => i.expireToken > date));
       setShowAddStorie(false);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

@@ -35,10 +35,10 @@ const Post = () => {
           authorization: `Bearer ${user.token}`,
         },
       });
-      console.log(res);
+      // console.log(res);
       setData(res.data.post);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   useEffect(() => {
@@ -70,11 +70,11 @@ const Post = () => {
       setComment("");
       return getData();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const deleteComment = async (id, postId) => {
-    console.log(postId);
+    // console.log(postId);
     try {
       await axios.put(
         `/api/post/delete/comment/${id}`,
@@ -88,7 +88,7 @@ const Post = () => {
       );
       return getData();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   //   const deletePost = async (id) => {
@@ -113,7 +113,7 @@ const Post = () => {
       });
       return getData();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const unLike = async (id) => {
@@ -125,12 +125,12 @@ const Post = () => {
       });
       return getData();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const viewProfile = (id, isProfile) => {
-    console.log(id);
-    console.log(isProfile);
+    // console.log(id);
+    // console.log(isProfile);
     if (id && isProfile) {
       return navigate(`/profile`);
     }

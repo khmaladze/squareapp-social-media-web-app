@@ -34,25 +34,25 @@ const AddFriend = () => {
             authorization: `Bearer ${userToken}`,
           },
         });
-        console.log(res);
+        // console.log(res);
         if (res.data.message) {
           setMessage(res.data.message);
-          console.log(message);
+          // console.log(message);
         }
         if (res.data.success) {
           setUser(res.data.user);
         }
-        console.log(alreadysend);
+        // console.log(alreadysend);
         setAlreadySend(res.data.alreadySend);
-        console.log(user);
+        // console.log(user);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
   const viewProfile = (id) => {
-    console.log(id);
+    // console.log(id);
     if (id && id !== userId) {
       return navigate(`/profile/${id}`);
     }
@@ -70,7 +70,7 @@ const AddFriend = () => {
           },
         }
       );
-      console.log(res);
+      // console.log(res);
       if (res.data.success == false) {
         window.location.reload();
       }
@@ -78,13 +78,13 @@ const AddFriend = () => {
         await getData();
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
   const removeFriendRequest = async (id) => {
     try {
-      console.log(id);
+      // console.log(id);
       const res = await axios.post(
         `/api/friend/remove`,
         { reciver: id },
@@ -95,12 +95,12 @@ const AddFriend = () => {
           },
         }
       );
-      console.log(res);
+      // console.log(res);
       if (res.data.success) {
         await getData();
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -113,7 +113,7 @@ const AddFriend = () => {
       });
       setData(res.data.friendAdd);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -133,11 +133,11 @@ const AddFriend = () => {
       await getFriendDetail();
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
-  console.log(data);
+  // console.log(data);
 
   const getFriendDetail = async () => {
     try {
@@ -151,7 +151,7 @@ const AddFriend = () => {
       if (res.data.active == false) {
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

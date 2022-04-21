@@ -38,7 +38,7 @@ const Message = () => {
       });
       setUserData(res.data.friend);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -78,7 +78,7 @@ const Message = () => {
       );
       scrollToBottom(1);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -94,7 +94,7 @@ const Message = () => {
           },
         }
       );
-      console.log(res);
+      // console.log(res);
       if (res.data.success) {
         setText("");
         setUserId(userId);
@@ -119,9 +119,7 @@ const Message = () => {
         }
       }
     } catch (error) {
-      console.log(error);
       if (error.response) {
-        console.log(error.response.data.message);
         setResponseMessage(error.response.data.message);
       }
     }

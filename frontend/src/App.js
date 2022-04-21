@@ -17,7 +17,7 @@ import Message from "./pages/Message";
 const Routing = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.value.user);
-  console.log("user", user);
+  // console.log("user", user);
   useEffect(() => {
     if (user !== null) {
       if (window.location.pathname === "/login") {

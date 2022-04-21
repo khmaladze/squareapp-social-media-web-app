@@ -55,7 +55,7 @@ const AddPost = ({ jwt, onAdd }) => {
       );
       return res.data.secure_url;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -74,7 +74,7 @@ const AddPost = ({ jwt, onAdd }) => {
       );
       return res.data.secure_url;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -111,9 +111,9 @@ const AddPost = ({ jwt, onAdd }) => {
         toast.success(res.data.message);
         return onAdd();
       }
-      console.log(res);
+      // console.log(res);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

@@ -23,7 +23,7 @@ const Info = ({
 }) => {
   const removeFriendRequest = async (id) => {
     try {
-      console.log(id);
+      // console.log(id);
       const res = await axios.post(
         `/api/friend/remove`,
         { reciver: id },
@@ -34,17 +34,17 @@ const Info = ({
           },
         }
       );
-      console.log(res);
+      // console.log(res);
       if (res.data.success) {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const addFriendRequest = async (id) => {
     try {
-      console.log(id);
+      // console.log(id);
       const res = await axios.post(
         `/api/friend/add`,
         { reciver: id },
@@ -55,16 +55,16 @@ const Info = ({
           },
         }
       );
-      console.log(res);
+      // console.log(res);
 
       if (res.data.success) {
         window.location.reload();
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
-  console.log(requestId);
+  // console.log(requestId);
   const sendResponse = async (response, requestId) => {
     try {
       const res = await axios.post(
@@ -79,7 +79,7 @@ const Info = ({
       );
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   return (

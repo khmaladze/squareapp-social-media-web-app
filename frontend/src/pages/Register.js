@@ -29,7 +29,7 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agree, setAgree] = useState(false);
-  console.log(agree);
+  // console.log(agree);
   const registerUser = async () => {
     try {
       if (
@@ -54,7 +54,7 @@ export const Register = () => {
           confirmPassword,
           agree,
         };
-        console.log(postData);
+        // console.log(postData);
         const res = await axios.post("/api/auth/register", postData);
         if (res.data.success) {
           toast(res.data.message);

@@ -20,7 +20,7 @@ const Friends = ({ data, onAdd }) => {
       });
       setUserData(res.data.friend);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -47,7 +47,7 @@ const Friends = ({ data, onAdd }) => {
       await getFriendDetail();
       return onAdd();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   return (

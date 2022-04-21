@@ -31,7 +31,7 @@ const UserProfile = () => {
           authorization: `Bearer ${userToken}`,
         },
       });
-      console.log(res);
+      // console.log(res);
       setUser(res.data.user);
       setStorie(res.data.storie);
       setData(res.data.post);
@@ -46,11 +46,11 @@ const UserProfile = () => {
         setRequestId(res.data.requestId);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   //   const [date, setfirst] = useState(new Date().toISOString());
-  console.log(user);
+  // console.log(user);
   //   const getStorie = async () => {
   //     try {
   //       const res = await axios.get("/api/storie/my", {

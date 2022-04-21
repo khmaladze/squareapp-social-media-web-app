@@ -47,11 +47,11 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
       setComment("");
       return onAdd();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const deleteComment = async (id, postId) => {
-    console.log(postId);
+    // console.log(postId);
     try {
       await axios.put(
         `/api/post/delete/comment/${id}`,
@@ -65,7 +65,7 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
       );
       return onAdd();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   // const deletePost = async (id) => {
@@ -90,7 +90,7 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
       });
       return onAdd();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const unLike = async (id) => {
@@ -102,7 +102,7 @@ const GetPost = ({ data, jwt, userId, onAdd }) => {
       });
       return onAdd();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   return (
