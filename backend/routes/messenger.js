@@ -55,19 +55,15 @@ router.post(
 //   /* Get user Message */    //
 /////////////////////////////////
 router.get(
-  "/get/message",
+  "/get/message/:userId",
   protect,
   asyncHandler(async (req, res) => {
     try {
-      const keyword = req.user._id
-        ? {
-            $or: [{ sender: req.user._id }, { reciver: req.user._id }],
-          }
-        : {};
-
+      const users = [req.user._id, req.params.userId];
       const message = await Message.find({
-        keyword,
-      });
+        sender: users.map((i) => i),
+        reciver: users.map((i) => i),
+      }).populate("reciver sender", "_id userName profileImage");
       res
         .status(200)
         .json({ success: true, message: "messages get successfully", message });
