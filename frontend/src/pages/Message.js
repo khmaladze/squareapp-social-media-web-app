@@ -276,7 +276,7 @@ const Message = () => {
             </Button>
           </div>
           <div>
-            <div style={{ maxHeight: "500px", overflow: "scroll" }} id="1">
+            <div style={{ maxHeight: "500px", overflowY: "scroll" }} id="1">
               {messages.map((i) => {
                 return (
                   <div
