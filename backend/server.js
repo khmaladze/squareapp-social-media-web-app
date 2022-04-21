@@ -32,7 +32,6 @@ app.use(bodyParser.json());
 
 // Models
 require("./models/userModel");
-require("./models/conversationModel");
 require("./models/friendModel");
 require("./models/messageModel");
 require("./models/postModel");
@@ -69,9 +68,11 @@ app.use(hpp());
 // Enable CORS
 app.use(cors());
 
+let server;
+
 // check if env file is provided. if yes it will start server
 if (isValidEnv()) {
-  app.listen(port, () => {
+  server = app.listen(port, () => {
     console.log(`Server started on port ${port}`);
   });
 } else {
@@ -88,4 +89,26 @@ if (isValidEnv()) {
       2
     )
   );
+}
+
+if (server) {
+  const io = require("socket.io")(server, {
+    pingTimeout: 60000,
+    cors: { origin: "http://localhost:3000" },
+  });
+
+  io.on("connection", (socket) => {
+    console.log("connect");
+
+    socket.on("setup", (userData) => {
+      socket.join(userData._id);
+      console.log(userData);
+      socket.emit("connected");
+    });
+
+    socket.on("join chat", (room) => {
+      socket.join(room);
+      console.log('user joined room: "" ' + room);
+    });
+  });
 }
