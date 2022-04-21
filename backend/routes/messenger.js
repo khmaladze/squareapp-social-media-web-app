@@ -26,6 +26,7 @@ router.post(
         reciver: req.params.userId,
         sender: req.user.id,
         text,
+        conversationId: String(req.user._id + req.params.userId),
       });
 
       res.status(200).json({
@@ -60,10 +61,16 @@ router.get(
   asyncHandler(async (req, res) => {
     try {
       const users = [req.user._id, req.params.userId];
+      const conversationId = [
+        String(req.user._id + req.params.userId),
+        String(req.params.userId + req.user._id),
+      ];
       const message = await Message.find({
         sender: users.map((i) => i),
         reciver: users.map((i) => i),
+        conversationId: conversationId.map((i) => i),
       }).populate("reciver sender", "_id userName profileImage");
+      console.log();
       res
         .status(200)
         .json({ success: true, message: "messages get successfully", message });
