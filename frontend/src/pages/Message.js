@@ -114,6 +114,9 @@ const Message = () => {
           res.data.message[messages.length]
         );
         scrollToBottom(1);
+        if (responseMessage.length > 0) {
+          setResponseMessage("");
+        }
       }
     } catch (error) {
       console.log(error);
