@@ -16,13 +16,14 @@ const Profile = () => {
   const [data, setData] = useState("");
   const [showAddStorie, setShowAddStorie] = useState(false);
   const [storie, setStorie] = useState(null);
-  const getData = async () => {
+  const getData = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/post/my", {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${user.token}`,
         },
+        cancelToken: ourRequest.token,
       });
       // console.log(res);
       setData(res.data.post);
@@ -32,13 +33,14 @@ const Profile = () => {
   };
   const [date, setfirst] = useState(new Date().toISOString());
 
-  const getStorie = async () => {
+  const getStorie = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/storie/my", {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${user.token}`,
         },
+        cancelToken: ourRequest.token,
       });
       // console.log(res);
       setStorie(res.data.storie.filter((i) => i.expireToken > date));
@@ -49,8 +51,14 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    getData();
-    getStorie();
+    const ourRequest = axios.CancelToken.source(); // <-- 1st step
+
+    getData(ourRequest);
+    getStorie(ourRequest);
+
+    return () => {
+      ourRequest.cancel();
+    };
   }, []);
   return (
     <>
