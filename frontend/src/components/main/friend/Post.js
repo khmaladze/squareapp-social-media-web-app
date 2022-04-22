@@ -27,13 +27,14 @@ const Post = () => {
   const userId = useSelector((state) => state.auth.value.user._id);
   const [data, setData] = useState("");
   const navigate = useNavigate();
-  const getData = async () => {
+  const getData = async (ourRequest) => {
     try {
       const res = await axios.get("/api/post/friend", {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${user.token}`,
         },
+        cancelToken: ourRequest.token,
       });
       // console.log(res);
       setData(res.data.post);
@@ -42,7 +43,12 @@ const Post = () => {
     }
   };
   useEffect(() => {
-    getData();
+    const ourRequest = axios.CancelToken.source(); // <-- 1st step
+
+    getData(ourRequest);
+    return () => {
+      ourRequest.cancel();
+    };
   }, []);
   const [addComment, setAddComment] = useState(false);
   const [commentId, setCommentId] = useState("");
