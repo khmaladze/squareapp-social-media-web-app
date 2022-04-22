@@ -10,13 +10,14 @@ const Friends = ({ data, onAdd }) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(data);
   const token = useSelector((state) => state.auth.value.user.token);
-  const getFriendDetail = async () => {
+  const getFriendDetail = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/user/friend", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
+        cancelToken: ourRequest.token,
       });
       setUserData(res.data.friend);
     } catch (error) {
@@ -25,9 +26,13 @@ const Friends = ({ data, onAdd }) => {
   };
 
   useEffect(() => {
+    const ourRequest = axios.CancelToken.source(); // <-- 1st step
     if (userData == "") {
-      getFriendDetail();
+      getFriendDetail(ourRequest);
     }
+    return () => {
+      ourRequest.cancel();
+    };
   }, []);
   const handleClick = (id) => {
     navigate(`/profile/${id}`);
