@@ -39,13 +39,14 @@ const Storie = () => {
   const [prev, setPrev] = React.useState("");
   const handleOpen = () => setOpen(true);
   const navigate = useNavigate();
-  const getStorieData = async () => {
+  const getStorieData = async (ourRequest) => {
     try {
       const res = await axios.get("/api/storie/public", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
+        cancelToken: ourRequest.token,
       });
       setStorie(res.data.storie);
       if (res.data.storie.length == 0) {
@@ -167,7 +168,12 @@ const Storie = () => {
     }
   };
   useEffect(() => {
-    getStorieData();
+    const ourRequest = axios.CancelToken.source(); // <-- 1st step
+
+    getStorieData(ourRequest);
+    return () => {
+      ourRequest.cancel();
+    };
   }, []);
   return (
     <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
