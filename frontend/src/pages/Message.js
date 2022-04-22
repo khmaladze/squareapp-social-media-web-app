@@ -28,13 +28,14 @@ const Message = () => {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
 
-  const getFriendDetail = async () => {
+  const getFriendDetail = async (ourRequest) => {
     try {
       const res = await axios.get("/api/user/friend", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
+        cancelToken: ourRequest.token,
       });
       setUserData(res.data.friend);
     } catch (error) {
@@ -44,7 +45,12 @@ const Message = () => {
 
   useEffect(() => {
     if (userData == "") {
-      getFriendDetail();
+      const ourRequest = axios.CancelToken.source(); // <-- 1st step
+
+      getFriendDetail(ourRequest);
+      return () => {
+        ourRequest.cancel();
+      };
     }
   }, []);
 
