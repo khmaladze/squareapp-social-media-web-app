@@ -27,6 +27,7 @@ const Post = () => {
   const userId = useSelector((state) => state.auth.value.user._id);
   const [data, setData] = useState("");
   const navigate = useNavigate();
+
   const getData = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/post/friend", {
@@ -42,6 +43,7 @@ const Post = () => {
       // console.log(error);
     }
   };
+
   useEffect(() => {
     const ourRequest = axios.CancelToken.source(); // <-- 1st step
 
@@ -50,6 +52,7 @@ const Post = () => {
       ourRequest.cancel();
     };
   }, []);
+
   const [addComment, setAddComment] = useState(false);
   const [commentId, setCommentId] = useState("");
   const [comment, setComment] = useState("");
