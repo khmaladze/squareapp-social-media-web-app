@@ -21,7 +21,7 @@ const AddFriend = () => {
   const [userData, setUserData] = useState([]);
   const [active, setActive] = useState("");
 
-  const getData = async () => {
+  const getData = async (ourRequest = "") => {
     try {
       if (username) {
         setUser(null);
@@ -33,6 +33,7 @@ const AddFriend = () => {
             "Content-Type": "application/json",
             authorization: `Bearer ${userToken}`,
           },
+          cancelToken: ourRequest.token,
         });
         // console.log(res);
         if (res.data.message) {
@@ -118,6 +119,23 @@ const AddFriend = () => {
     }
   };
 
+  const getFriendDetail = async (ourRequest = "") => {
+    try {
+      const res = await axios.get("/api/user/friend", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userToken,
+        },
+        cancelToken: ourRequest.token,
+      });
+      setUserData(res.data.friend);
+      // if (res.data.active == false) {
+      // }
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+
   const sendResponse = async (response, requestId) => {
     try {
       const res = await axios.post(
@@ -133,23 +151,6 @@ const AddFriend = () => {
       await getRequest();
       await getFriendDetail();
       window.location.reload();
-    } catch (error) {
-      // console.log(error);
-    }
-  };
-
-  const getFriendDetail = async (ourRequest = "") => {
-    try {
-      const res = await axios.get("/api/user/friend", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + userToken,
-        },
-        cancelToken: ourRequest.token,
-      });
-      setUserData(res.data.friend);
-      if (res.data.active == false) {
-      }
     } catch (error) {
       // console.log(error);
     }
