@@ -104,12 +104,13 @@ const AddFriend = () => {
     }
   };
 
-  const getRequest = async () => {
+  const getRequest = async (ourRequest = "") => {
     try {
       const res = await axios.get(`/api/friend/get`, {
         headers: {
           authorization: `Bearer ${userToken}`,
         },
+        cancelToken: ourRequest.token,
       });
       setData(res.data.friendAdd);
     } catch (error) {
@@ -137,13 +138,14 @@ const AddFriend = () => {
     }
   };
 
-  const getFriendDetail = async () => {
+  const getFriendDetail = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/user/friend", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + userToken,
         },
+        cancelToken: ourRequest.token,
       });
       setUserData(res.data.friend);
       if (res.data.active == false) {
@@ -154,10 +156,15 @@ const AddFriend = () => {
   };
 
   useEffect(() => {
-    getRequest();
+    const ourRequest = axios.CancelToken.source(); // <-- 1st step
+
+    getRequest(ourRequest);
     if (userData == "") {
-      getFriendDetail();
+      getFriendDetail(ourRequest);
     }
+    return () => {
+      ourRequest.cancel();
+    };
   }, []);
 
   return (
