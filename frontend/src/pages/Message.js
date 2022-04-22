@@ -28,7 +28,7 @@ const Message = () => {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
 
-  const getFriendDetail = async (ourRequest) => {
+  const getFriendDetail = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/user/friend", {
         headers: {

@@ -27,7 +27,8 @@ const Post = () => {
   const userId = useSelector((state) => state.auth.value.user._id);
   const [data, setData] = useState("");
   const navigate = useNavigate();
-  const getData = async (ourRequest) => {
+
+  const getData = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/post/public", {
         headers: {
@@ -42,6 +43,7 @@ const Post = () => {
       // console.log(error);
     }
   };
+
   useEffect(() => {
     const ourRequest = axios.CancelToken.source(); // <-- 1st step
 

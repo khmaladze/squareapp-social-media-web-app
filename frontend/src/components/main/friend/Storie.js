@@ -39,7 +39,8 @@ const Storie = () => {
   const [prev, setPrev] = React.useState("");
   const handleOpen = () => setOpen(true);
   const navigate = useNavigate();
-  const getStorieData = async (ourRequest) => {
+
+  const getStorieData = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/storie/friend", {
         headers: {

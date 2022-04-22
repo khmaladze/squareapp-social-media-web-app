@@ -27,7 +27,7 @@ const Post = () => {
   const userId = useSelector((state) => state.auth.value.user._id);
   const [data, setData] = useState("");
   const navigate = useNavigate();
-  const getData = async (ourRequest) => {
+  const getData = async (ourRequest = "") => {
     try {
       const res = await axios.get("/api/post/friend", {
         headers: {
