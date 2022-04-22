@@ -54,7 +54,6 @@ export const Register = () => {
           confirmPassword,
           agree,
         };
-        // console.log(postData);
         const res = await axios.post("/api/auth/register", postData);
         if (res.data.success) {
           toast(res.data.message);
