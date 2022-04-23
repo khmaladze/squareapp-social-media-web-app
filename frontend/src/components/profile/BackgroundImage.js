@@ -175,7 +175,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                     </div>
                     {i.image && (
                       <img
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", maxHeight: "70vh" }}
                         src={i.image}
                         alt="imagee"
                       />
@@ -184,7 +184,7 @@ const BackgroundImage = ({ image, profile, storie, userId, jwt, onAdd }) => {
                       <video
                         controls
                         controlsList="nodownload"
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", maxHeight: "70vh" }}
                       >
                         <source src={i.video}></source>
                       </video>
