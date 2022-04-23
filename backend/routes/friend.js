@@ -341,6 +341,8 @@ router.post(
       const checkIfUserAlreadySend = await Friend.find({
         sender: reciver,
         reciver: req.user._id,
+        active: true,
+        ignore: false,
       });
       if (checkIfUserAlreadySend.length > 0) {
         return res.status(400).json({
