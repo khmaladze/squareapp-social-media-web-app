@@ -75,7 +75,7 @@ export const Login = () => {
           );
           setTimeout(() => {
             window.location.reload();
-            navigate("/");
+            navigate("/public");
           }, 1000);
         }
       } else {
