@@ -27,13 +27,13 @@ export const Navbar = () => {
     dispatch(clear());
     setAnchorEl(null);
     window.location.reload();
-    navigate("/");
+    navigate("/welcome");
   };
 
   return (
     <>
       <Main>
-        <Link to="/">
+        <Link to="/public">
           <img
             style={{ height: "50px", cursor: "pointer" }}
             src="/assets/logo.png"
