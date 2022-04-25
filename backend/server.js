@@ -17,8 +17,7 @@ const isValidEnv = () => {
     process.env.PORT &&
     process.env.JWT_SECRET &&
     process.env.MONGO_URI &&
-    process.env.NODE_ENV &&
-    process.env.CHAT
+    process.env.NODE_ENV
   ) {
     return true;
   } else {
@@ -106,7 +105,7 @@ if (isValidEnv()) {
     console.log(`Server started on port ${port}`);
   });
 
-  // if (server && process.env.CHAT == true) {
+  // if (server) {
   //   const io = require("socket.io")(server, {
   //     pingTimeout: 60000,
   //     cors: { origin: "http://localhost:5000" },
@@ -152,7 +151,6 @@ if (isValidEnv()) {
         PORT: "PORT number",
         JWT_SECRET: "your jwt secret",
         MONGO_URI: "your mongodb uri",
-        CHAT: `${true + " or " + false}`,
       },
       null,
       2
