@@ -13,7 +13,13 @@ const path = require("path");
 
 // check if env file is provided
 const isValidEnv = () => {
-  if (process.env.PORT && process.env.JWT_SECRET && process.env.MONGO_URI) {
+  if (
+    process.env.PORT &&
+    process.env.JWT_SECRET &&
+    process.env.MONGO_URI &&
+    process.env.NODE_ENV &&
+    process.env.CHAT
+  ) {
     return true;
   } else {
     return false;
@@ -100,7 +106,7 @@ if (isValidEnv()) {
     console.log(`Server started on port ${port}`);
   });
 
-  if (server) {
+  if (server && process.env.CHAT == true) {
     const io = require("socket.io")(server, {
       pingTimeout: 60000,
       cors: { origin: "http://localhost:5000" },
@@ -146,6 +152,7 @@ if (isValidEnv()) {
         PORT: "PORT number",
         JWT_SECRET: "your jwt secret",
         MONGO_URI: "your mongodb uri",
+        CHAT: `${true + " or " + false}`,
       },
       null,
       2
