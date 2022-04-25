@@ -28,7 +28,7 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [agree, setAgree] = useState(false);
+  // const [agree, setAgree] = useState(false);
   // console.log(agree);
   const registerUser = async () => {
     try {
@@ -40,8 +40,9 @@ export const Register = () => {
         birthDate &&
         email &&
         password &&
-        confirmPassword &&
-        agree == true
+        confirmPassword
+        // &&
+        // agree == true
       ) {
         const postData = {
           firstName,
@@ -52,7 +53,7 @@ export const Register = () => {
           email,
           password,
           confirmPassword,
-          agree,
+          // agree,
         };
         const res = await axios.post("/api/auth/register", postData);
         if (res.data.success) {
@@ -196,7 +197,7 @@ export const Register = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -207,7 +208,7 @@ export const Register = () => {
               }
               label="I Agree Privacy Terms And Agreements."
             />
-          </Grid>
+          </Grid> */}
         </Grid>
         <Button
           type="submit"
