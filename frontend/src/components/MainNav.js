@@ -8,12 +8,15 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 export const MainNav = () => {
   const navigate = useNavigate();
-  const reload = (page = "") => {
+  const reload = async (page = "") => {
     if (window.location.pathname == "/message") {
-      window.location.reload();
+      await window.location.reload();
       if (page.length > 0) {
-        navigate(page);
+        await navigate(page);
       }
+    }
+    if (page.length > 0) {
+      await navigate(page);
     }
   };
   return (
