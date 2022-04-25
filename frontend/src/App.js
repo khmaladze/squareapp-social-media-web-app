@@ -13,7 +13,7 @@ import UserProfile from "./pages/UserProfile";
 import Public from "./pages/Public";
 import Friend from "./pages/Friend";
 import Message from "./pages/Message";
-import NotFound from "./components/NotFound";
+import NotFound from "./components/Redirect";
 
 const Routing = () => {
   const navigate = useNavigate();
