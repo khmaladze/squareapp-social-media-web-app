@@ -9,6 +9,7 @@ const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
 const cors = require("cors");
+const path = require("path");
 
 // check if env file is provided
 const isValidEnv = () => {
@@ -50,7 +51,20 @@ app.use("/api/friend", require("./routes/friend"));
 app.use(mongoSanitize());
 
 // Set security headers
-app.use(helmet());
+// app.use(helmet.crossOriginEmbedderPolicy());
+// app.use(helmet.crossOriginOpenerPolicy());
+// app.use(helmet.crossOriginResourcePolicy());
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.expectCt());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+// app.use(helmet.originAgentCluster());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
 
 // Prevent XSS attacks
 app.use(xss());
@@ -67,6 +81,18 @@ app.use(hpp());
 
 // Enable CORS
 app.use(cors());
+app.options("*", cors());
+
+// Serve frontend
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(
+      path.resolve(__dirname, "../", "frontend", "build", "index.html")
+    )
+  );
+}
 
 // check if env file is provided. if yes it will start server
 if (isValidEnv()) {
@@ -115,6 +141,8 @@ if (isValidEnv()) {
   console.log(
     JSON.stringify(
       {
+        NODE_ENV:
+          "production (if you want to host) or development (if you want to add or change something)",
         PORT: "PORT number",
         JWT_SECRET: "your jwt secret",
         MONGO_URI: "your mongodb uri",
