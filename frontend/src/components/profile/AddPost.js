@@ -21,6 +21,8 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Import the plugin code
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+// Import the plugin code
+import FilePondPluginFileValidateSize from "filepond-plugin-file-validate-size";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import InputLabel from "@mui/material/InputLabel";
@@ -29,8 +31,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 // Register the plugins
 registerPlugin(
+  FilePondPluginFileValidateSize,
   FilePondPluginImageExifOrientation,
   FilePondPluginImagePreview,
   FilePondPluginFileValidateType
@@ -150,6 +154,8 @@ const AddPost = ({ jwt, onAdd }) => {
               allowMultiple={false}
               maxFiles={1}
               onupdatefiles={setImage}
+              allowFileSizeValidation={true}
+              maxFileSize={"5MB"}
               acceptedFileTypes={["image/*"]}
               name="files"
               labelIdle='Drag & Drop your files or <span className="filepond--label-action">Browse</span>'
@@ -163,6 +169,7 @@ const AddPost = ({ jwt, onAdd }) => {
               maxFiles={1}
               onupdatefiles={setVideo}
               acceptedFileTypes={["video/*"]}
+              maxFileSize={"7MB"}
               name="files"
               labelIdle='Drag & Drop your files or <span className="filepond--label-action">Browse</span>'
             />
