@@ -106,41 +106,41 @@ if (isValidEnv()) {
     console.log(`Server started on port ${port}`);
   });
 
-  if (server && process.env.CHAT == true) {
-    const io = require("socket.io")(server, {
-      pingTimeout: 60000,
-      cors: { origin: "http://localhost:5000" },
-    });
+  // if (server && process.env.CHAT == true) {
+  //   const io = require("socket.io")(server, {
+  //     pingTimeout: 60000,
+  //     cors: { origin: "http://localhost:5000" },
+  //   });
 
-    io.on("connection", (socket) => {
-      socket.on("setup", (userData) => {
-        socket.emit("connected");
-      });
+  //   io.on("connection", (socket) => {
+  //     socket.on("setup", (userData) => {
+  //       socket.emit("connected");
+  //     });
 
-      socket.on("join chat", (room) => {
-        socket.join(room);
-      });
+  //     socket.on("join chat", (room) => {
+  //       socket.join(room);
+  //     });
 
-      socket.on("new message", (roomId, newMessageRecived) => {
-        const chats = [
-          newMessageRecived.sender._id,
-          newMessageRecived.reciver._id,
-        ];
-        if (!roomId && !newMessageRecived.reciver)
-          return console.log("user not defined");
+  //     socket.on("new message", (roomId, newMessageRecived) => {
+  //       const chats = [
+  //         newMessageRecived.sender._id,
+  //         newMessageRecived.reciver._id,
+  //       ];
+  //       if (!roomId && !newMessageRecived.reciver)
+  //         return console.log("user not defined");
 
-        chats.forEach((item) => {
-          if (item == newMessageRecived.sender._id) return;
-          socket.in(roomId).emit("message recived", newMessageRecived);
-        });
-      });
+  //       chats.forEach((item) => {
+  //         if (item == newMessageRecived.sender._id) return;
+  //         socket.in(roomId).emit("message recived", newMessageRecived);
+  //       });
+  //     });
 
-      socket.off("setup", () => {
-        console.log("USER DISCONNECTED");
-        socket.leave(userData._id);
-      });
-    });
-  }
+  //     socket.off("setup", () => {
+  //       console.log("USER DISCONNECTED");
+  //       socket.leave(userData._id);
+  //     });
+  //   });
+  // }
 } else {
   console.log("error please add .env file to run this program💻💻💻");
   console.log("can't connect mongodb without mongo uri");

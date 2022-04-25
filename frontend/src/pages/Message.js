@@ -7,11 +7,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import MainNav from "../components/MainNav";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 import { format } from "timeago.js";
 
-const ENDPOINT = "http://localhost:5000";
-var socket, selectedChatCompare;
+// const ENDPOINT = "http://localhost:5000";
+// var socket, selectedChatCompare;
 
 const Message = () => {
   const navigate = useNavigate();
@@ -76,12 +76,12 @@ const Message = () => {
         },
       });
       setMessages(res.data.message);
-      socket.emit(
-        "join chat",
-        res.data.message[0].conversationId
-          ? res.data.message[0].conversationId
-          : String(user._id + id)
-      );
+      // socket.emit(
+      //   "join chat",
+      //   res.data.message[0].conversationId
+      //     ? res.data.message[0].conversationId
+      //     : String(user._id + id)
+      // );
       scrollToBottom(1);
     } catch (error) {
       // console.log(error);
@@ -114,11 +114,11 @@ const Message = () => {
           },
         });
         setMessages(res.data.message);
-        socket.emit(
-          "new message",
-          res.data.message[0].conversationId,
-          res.data.message[messages.length]
-        );
+        // socket.emit(
+        //   "new message",
+        //   res.data.message[0].conversationId,
+        //   res.data.message[messages.length]
+        // );
         scrollToBottom(1);
         if (responseMessage.length > 0) {
           setResponseMessage("");
@@ -131,34 +131,34 @@ const Message = () => {
     }
   };
 
-  const pageTime = async () => {
-    const reloadPage = async () => {
-      await navigate("/public");
-      await window.location.reload();
-    };
-    setTimeout(() => {
-      reloadPage();
-    }, 15000);
-  };
+  // const pageTime = async () => {
+  //   const reloadPage = async () => {
+  //     await navigate("/public");
+  //     await window.location.reload();
+  //   };
+  //   setTimeout(() => {
+  //     reloadPage();
+  //   }, 15000);
+  // };
 
-  useEffect(() => {
-    pageTime();
-  }, []);
+  // useEffect(() => {
+  //   pageTime();
+  // }, []);
 
-  useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", user);
-    socket.on("connection", () => setSocketConnected(true));
-  }, []);
+  // useEffect(() => {
+  //   socket = io(ENDPOINT);
+  //   socket.emit("setup", user);
+  //   socket.on("connection", () => setSocketConnected(true));
+  // }, []);
 
-  useEffect(() => {
-    socket.on("message recived", (newMessageRecived) => {
-      if (newMessageRecived) {
-        setMessages([...messages, newMessageRecived]);
-        scrollToBottom(1);
-      }
-    });
-  });
+  // useEffect(() => {
+  //   socket.on("message recived", (newMessageRecived) => {
+  //     if (newMessageRecived) {
+  //       setMessages([...messages, newMessageRecived]);
+  //       scrollToBottom(1);
+  //     }
+  //   });
+  // });
 
   const closeChat = () => {
     setChatSelected(false);
