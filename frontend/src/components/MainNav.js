@@ -10,13 +10,14 @@ export const MainNav = () => {
   const navigate = useNavigate();
   const reload = async (page = "") => {
     if (window.location.pathname == "/message") {
-      await window.location.reload();
       if (page.length > 0) {
         await navigate(page);
       }
-    }
-    if (page.length > 0) {
-      await navigate(page);
+      window.location.reload();
+    } else {
+      if (page.length > 0) {
+        await navigate(page);
+      }
     }
   };
   return (
