@@ -121,7 +121,7 @@ router.get(
           privacy: { $in: postPrivacy.map((i) => i) },
           isBlocked: false,
           expireToken: { $gt: Date.now() },
-        });
+        }).sort("-createdAt");
         const post = await Post.find({
           postedBy: req.params.profileId,
           privacy: postPrivacy.map((i) => i),
@@ -147,7 +147,7 @@ router.get(
           privacy: "public",
           isBlocked: false,
           expireToken: { $gt: Date.now() },
-        });
+        }).sort("-createdAt");
         const post = await Post.find({
           postedBy: req.params.profileId,
           privacy: "public",
