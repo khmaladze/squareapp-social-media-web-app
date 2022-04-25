@@ -91,13 +91,6 @@ router.get(
         "_id profileImage backgroundImage userName firstName lastName place hobby biography"
       );
 
-      const storie = await Storie.find({
-        postedBy: req.params.profileId,
-        privacy: "public",
-        isBlocked: false,
-        expireToken: { $gt: Date.now() },
-      });
-
       const isFriend = await User.find({
         _id: {
           $in: req.user.friends.filter((id) => id == req.params.profileId),
@@ -123,6 +116,12 @@ router.get(
 
       if (isFriend.length > 0) {
         const postPrivacy = ["public", "friends"];
+        const storie = await Storie.find({
+          postedBy: req.params.profileId,
+          privacy: { $in: postPrivacy.map((i) => i) },
+          isBlocked: false,
+          expireToken: { $gt: Date.now() },
+        });
         const post = await Post.find({
           postedBy: req.params.profileId,
           privacy: postPrivacy.map((i) => i),
@@ -143,6 +142,12 @@ router.get(
           friend: true,
         });
       } else {
+        const storie = await Storie.find({
+          postedBy: req.params.profileId,
+          privacy: "public",
+          isBlocked: false,
+          expireToken: { $gt: Date.now() },
+        });
         const post = await Post.find({
           postedBy: req.params.profileId,
           privacy: "public",
