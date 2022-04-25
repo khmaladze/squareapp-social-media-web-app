@@ -10,7 +10,7 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import io from "socket.io-client";
 import { format } from "timeago.js";
 
-const ENDPOINT = "http://localhost:3000";
+const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 
 const Message = () => {
@@ -45,7 +45,7 @@ const Message = () => {
 
   useEffect(() => {
     if (userData == "") {
-      const ourRequest = axios.CancelToken.source(); // <-- 1st step
+      const ourRequest = axios.CancelToken.source();
 
       getFriendDetail(ourRequest);
       return () => {

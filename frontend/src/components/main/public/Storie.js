@@ -164,7 +164,9 @@ const Storie = () => {
   // };
   const viewProfile = (id) => {
     // console.log(id);
-    if (id) {
+    if (id == userId) {
+      return navigate(`/profile`);
+    } else {
       return navigate(`/profile/${id}`);
     }
   };
