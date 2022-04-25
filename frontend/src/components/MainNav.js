@@ -1,27 +1,31 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PublicIcon from "@mui/icons-material/Public";
 import PeopleIcon from "@mui/icons-material/People";
 import MessageIcon from "@mui/icons-material/Message";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 export const MainNav = () => {
-  const reload = () => {
+  const navigate = useNavigate();
+  const reload = (page = "") => {
     if (window.location.pathname == "/message") {
       window.location.reload();
+      if (page.length > 0) {
+        navigate(page);
+      }
     }
   };
   return (
     <MainPage>
       <NavBarContainer>
-        <Link to={"/public"} onClick={() => reload()}>
+        <Link to={"/public"} onClick={() => reload("/public")}>
           <Item>
             {/* Public */}
             <PublicIcon />
           </Item>
         </Link>
-        <Link to={"/friend"} onClick={() => reload()}>
+        <Link to={"/friend"} onClick={() => reload("/friend")}>
           <Item>
             {/* friend  */}
             <PeopleIcon />
@@ -33,7 +37,7 @@ export const MainNav = () => {
             <MessageIcon />
           </Item>
         </Link>
-        <Link to={"/addfriend"} onClick={() => reload()}>
+        <Link to={"/addfriend"} onClick={() => reload("/addfriend")}>
           <Item>
             {/* Add Friend */}
             <GroupAddIcon />
