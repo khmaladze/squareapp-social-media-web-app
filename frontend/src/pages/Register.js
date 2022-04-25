@@ -56,15 +56,17 @@ export const Register = () => {
         };
         const res = await axios.post("/api/auth/register", postData);
         if (res.data.success) {
-          toast(res.data.message);
-          navigate("/login");
+          toast.success(res.data.message);
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
         }
       } else {
         toast.warn("add all the fields");
       }
     } catch (error) {
       if (error && error.response && error.response.data) {
-        toast(error.response.data.message);
+        toast.warn(error.response.data.message);
       }
     }
   };
