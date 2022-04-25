@@ -131,6 +131,16 @@ const Message = () => {
     }
   };
 
+  const pageTime = () => {
+    setTimeout(() => {
+      navigate("/public");
+    }, 15000);
+  };
+
+  useEffect(() => {
+    pageTime();
+  }, []);
+
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
