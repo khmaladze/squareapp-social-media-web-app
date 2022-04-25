@@ -45,7 +45,7 @@ const Post = () => {
   };
 
   useEffect(() => {
-    const ourRequest = axios.CancelToken.source(); // <-- 1st step
+    const ourRequest = axios.CancelToken.source();
 
     getData(ourRequest);
     return () => {

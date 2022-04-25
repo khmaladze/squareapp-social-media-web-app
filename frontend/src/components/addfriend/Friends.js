@@ -26,7 +26,7 @@ const Friends = ({ data, onAdd }) => {
   };
 
   useEffect(() => {
-    const ourRequest = axios.CancelToken.source(); // <-- 1st step
+    const ourRequest = axios.CancelToken.source();
     if (userData == "") {
       getFriendDetail(ourRequest);
     }

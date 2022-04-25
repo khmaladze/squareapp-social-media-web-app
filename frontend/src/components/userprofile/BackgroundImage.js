@@ -10,7 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CardActions from "@mui/material/CardActions";
 // import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import PreviewIcon from "@mui/icons-material/Preview";
+// import PreviewIcon from "@mui/icons-material/Preview";
 
 const style = {
   position: "absolute",

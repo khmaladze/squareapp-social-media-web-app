@@ -169,8 +169,7 @@ const Storie = () => {
     }
   };
   useEffect(() => {
-    const ourRequest = axios.CancelToken.source(); // <-- 1st step
-
+    const ourRequest = axios.CancelToken.source();
     getStorieData(ourRequest);
     return () => {
       ourRequest.cancel();
