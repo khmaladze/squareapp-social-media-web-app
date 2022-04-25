@@ -149,6 +149,7 @@ const Message = () => {
   const closeChat = () => {
     setChatSelected(false);
     setMessages([]);
+    window.location.reload();
   };
 
   return (
