@@ -13,6 +13,7 @@ import UserProfile from "./pages/UserProfile";
 import Public from "./pages/Public";
 import Friend from "./pages/Friend";
 import Message from "./pages/Message";
+import NotFound from "./components/NotFound";
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -21,13 +22,16 @@ const Routing = () => {
   useEffect(() => {
     if (user !== null) {
       if (window.location.pathname === "/login") {
-        navigate("/");
+        navigate("/public");
       }
       if (window.location.pathname === "/register") {
-        navigate("/");
+        navigate("/public");
       }
       if (window.location.pathname === "/") {
-        navigate("/");
+        navigate("/public");
+      }
+      if (window.location.pathname === "/public") {
+        navigate("/public");
       }
     }
     if (user == null) {
@@ -57,7 +61,6 @@ const Routing = () => {
       <Routes>
         {user && (
           <>
-            <Route path="/" exact element={<Public />} />
             <Route path="/profile" exact element={<Profile />} />
             <Route path="/settings" exact element={<Settings />} />
             <Route path="/addfriend" exact element={<AddFriend />} />
@@ -65,6 +68,7 @@ const Routing = () => {
             <Route path="/public" exact element={<Public />} />
             <Route path="/friend" exact element={<Friend />} />
             <Route path="/message" exact element={<Message />} />
+            <Route path="*" exact element={<NotFound />} />
           </>
         )}
         {!user && (
