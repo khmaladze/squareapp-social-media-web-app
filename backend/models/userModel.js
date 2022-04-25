@@ -83,12 +83,12 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    agree: {
-      type: Boolean,
-      enum: ["true"],
-      required: true,
-      default: true,
-    },
+    // agree: {
+    //   type: Boolean,
+    //   enum: ["true"],
+    //   required: true,
+    //   default: true,
+    // },
     isBlocked: {
       type: Boolean,
       required: true,
