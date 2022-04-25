@@ -7,28 +7,33 @@ import MessageIcon from "@mui/icons-material/Message";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 export const MainNav = () => {
+  const reload = () => {
+    if (window.location.pathname == "/message") {
+      window.location.reload();
+    }
+  };
   return (
     <MainPage>
       <NavBarContainer>
-        <Link to={"/public"}>
+        <Link to={"/public"} onClick={() => reload()}>
           <Item>
             {/* Public */}
             <PublicIcon />
           </Item>
         </Link>
-        <Link to={"/friend"}>
+        <Link to={"/friend"} onClick={() => reload()}>
           <Item>
             {/* friend  */}
             <PeopleIcon />
           </Item>
         </Link>
-        <Link to={"/message"}>
+        <Link to={"/message"} onClick={() => reload()}>
           <Item>
             {/* Message */}
             <MessageIcon />
           </Item>
         </Link>
-        <Link to={"/addfriend"}>
+        <Link to={"/addfriend"} onClick={() => reload()}>
           <Item>
             {/* Add Friend */}
             <GroupAddIcon />
