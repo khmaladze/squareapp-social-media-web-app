@@ -67,7 +67,7 @@ export const WelcomePage = () => {
       </Stack>
       <Footer>
         <h3>@squareapp</h3>
-        <h3>Terms & Privacy Police</h3>
+        {/* <h3></h3> */}
       </Footer>
     </Main>
   );
@@ -108,7 +108,8 @@ const Footer = styled.footer`
   height: 80px;
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  // justify-content: space-around;
+  justify-content: center;
   align-items: center;
 
   h3 {
