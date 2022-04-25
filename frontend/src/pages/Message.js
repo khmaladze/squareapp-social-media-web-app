@@ -132,9 +132,12 @@ const Message = () => {
   };
 
   const pageTime = async () => {
-    setTimeout(() => {
+    const reloadPage = async () => {
       await navigate("/public");
-      window.location.reload()
+      await window.location.reload();
+    };
+    setTimeout(() => {
+      reloadPage();
     }, 15000);
   };
 
