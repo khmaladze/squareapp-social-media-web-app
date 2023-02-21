@@ -40,45 +40,45 @@ const AddStorie = ({ jwt, onAdd }) => {
   const [text, setText] = useState("");
   const [privacy, setPrivacy] = useState("onlyMe");
   const [archive, setArchive] = useState("no");
-  const [image, setImage] = useState("");
-  const [video, setVideo] = useState("");
-  const uploadImage = async () => {
-    try {
-      const data = new FormData();
-      data.append("file", image[0].file);
-      data.append("upload_preset", "dfgjapGJOIJDFOAISJDASPIDOasdsdl");
-      data.append(
-        "cloud_name",
-        "asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h"
-      );
-      const res = await axios.post(
-        "https://api.cloudinary.com/v1_1/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload",
-        data
-      );
-      return res.data.secure_url;
-    } catch (error) {
-      // console.log(error);
-    }
-  };
+  // const [image, setImage] = useState("");
+  // const [video, setVideo] = useState("");
+  // const uploadImage = async () => {
+  //   try {
+  //     const data = new FormData();
+  //     data.append("file", image[0].file);
+  //     data.append("upload_preset", "dfgjapGJOIJDFOAISJDASPIDOasdsdl");
+  //     data.append(
+  //       "cloud_name",
+  //       "asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h"
+  //     );
+  //     const res = await axios.post(
+  //       "https://api.cloudinary.com/v1_1/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload",
+  //       data
+  //     );
+  //     return res.data.secure_url;
+  //   } catch (error) {
+  //     // console.log(error);
+  //   }
+  // };
 
-  const uploadVideo = async () => {
-    try {
-      const data = new FormData();
-      data.append("file", video[0].file);
-      data.append("upload_preset", "dfgjapGJOIJDFOAISJDASPIDOasdsdl");
-      data.append(
-        "cloud_name",
-        "asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h"
-      );
-      const res = await axios.post(
-        "https://api.cloudinary.com/v1_1/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/video/upload",
-        data
-      );
-      return res.data.secure_url;
-    } catch (error) {
-      // console.log(error);
-    }
-  };
+  // const uploadVideo = async () => {
+  //   try {
+  //     const data = new FormData();
+  //     data.append("file", video[0].file);
+  //     data.append("upload_preset", "dfgjapGJOIJDFOAISJDASPIDOasdsdl");
+  //     data.append(
+  //       "cloud_name",
+  //       "asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h"
+  //     );
+  //     const res = await axios.post(
+  //       "https://api.cloudinary.com/v1_1/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/video/upload",
+  //       data
+  //     );
+  //     return res.data.secure_url;
+  //   } catch (error) {
+  //     // console.log(error);
+  //   }
+  // };
 
   const createStorie = async () => {
     try {
@@ -87,13 +87,13 @@ const AddStorie = ({ jwt, onAdd }) => {
         postCreate.text = text;
       }
 
-      if (image) {
-        postCreate.image = await uploadImage();
-      }
+      // if (image) {
+      //   postCreate.image = await uploadImage();
+      // }
 
-      if (video) {
-        postCreate.video = await uploadVideo();
-      }
+      // if (video) {
+      //   postCreate.video = await uploadVideo();
+      // }
 
       if (privacy) {
         postCreate.privacy = privacy;
@@ -111,8 +111,8 @@ const AddStorie = ({ jwt, onAdd }) => {
       });
       if (res.data.success) {
         setText("");
-        setImage("");
-        setVideo("");
+        // setImage("");
+        // setVideo("");
         setPrivacy("onlyMe");
         setArchive("no");
         toast.success(res.data.message);
@@ -151,7 +151,7 @@ const AddStorie = ({ jwt, onAdd }) => {
               </Grid>
             </Typography>
           </CardContent>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <h4>Upload Image</h4>
             <FilePond
               files={image}
@@ -174,7 +174,7 @@ const AddStorie = ({ jwt, onAdd }) => {
               name="files"
               labelIdle='Drag & Drop your files or <span className="filepond--label-action">Browse</span>'
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">privacy</InputLabel>

@@ -46,44 +46,44 @@ const Settings = () => {
   const [place, setPlace] = useState(user.place);
   const [biography, setBiography] = useState(user.biography);
   const [hobby, setHobby] = useState(user.hobby);
-  const [profileImage, setProfileImage] = useState(user.profileImage);
-  const [backgroundImage, setBackgroundImage] = useState(user.backgroundImage);
-  const uploadProfileImage = async () => {
-    try {
-      const data = new FormData();
-      data.append("file", profileImage[0].file);
-      data.append("upload_preset", "dfgjapGJOIJDFOAISJDASPIDOasdsdl");
-      data.append(
-        "cloud_name",
-        "asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h"
-      );
-      const res = await axios.post(
-        "https://api.cloudinary.com/v1_1/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload",
-        data
-      );
-      return res.data.secure_url;
-    } catch (error) {
-      // console.log(error);
-    }
-  };
-  const uploadBackgroundImage = async () => {
-    try {
-      const data = new FormData();
-      data.append("file", backgroundImage[0].file);
-      data.append("upload_preset", "dfgjapGJOIJDFOAISJDASPIDOasdsdl");
-      data.append(
-        "cloud_name",
-        "asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h"
-      );
-      const res = await axios.post(
-        "https://api.cloudinary.com/v1_1/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload",
-        data
-      );
-      return res.data.secure_url;
-    } catch (error) {
-      // console.log(error);
-    }
-  };
+  // const [profileImage, setProfileImage] = useState(user.profileImage);
+  // const [backgroundImage, setBackgroundImage] = useState(user.backgroundImage);
+  // const uploadProfileImage = async () => {
+  //   try {
+  //     const data = new FormData();
+  //     data.append("file", profileImage[0].file);
+  //     data.append("upload_preset", "dfgjapGJOIJDFOAISJDASPIDOasdsdl");
+  //     data.append(
+  //       "cloud_name",
+  //       "asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h"
+  //     );
+  //     const res = await axios.post(
+  //       "https://api.cloudinary.com/v1_1/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload",
+  //       data
+  //     );
+  //     return res.data.secure_url;
+  //   } catch (error) {
+  //     // console.log(error);
+  //   }
+  // };
+  // const uploadBackgroundImage = async () => {
+  //   try {
+  //     const data = new FormData();
+  //     data.append("file", backgroundImage[0].file);
+  //     data.append("upload_preset", "dfgjapGJOIJDFOAISJDASPIDOasdsdl");
+  //     data.append(
+  //       "cloud_name",
+  //       "asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h"
+  //     );
+  //     const res = await axios.post(
+  //       "https://api.cloudinary.com/v1_1/asfjaisfjpashfa9hf9aphf9wa8dhfp8awhdasihfpa9h/image/upload",
+  //       data
+  //     );
+  //     return res.data.secure_url;
+  //   } catch (error) {
+  //     // console.log(error);
+  //   }
+  // };
   const updateUser = async () => {
     try {
       if (firstName && lastName && userName) {
@@ -100,12 +100,12 @@ const Settings = () => {
         if (hobby) {
           postData.hobby = hobby;
         }
-        if (profileImage) {
-          postData.profileImage = await uploadProfileImage();
-        }
-        if (backgroundImage) {
-          postData.backgroundImage = await uploadBackgroundImage();
-        }
+        // if (profileImage) {
+        //   postData.profileImage = await uploadProfileImage();
+        // }
+        // if (backgroundImage) {
+        //   postData.backgroundImage = await uploadBackgroundImage();
+        // }
         const res = await axios.put("/api/user/update", postData, {
           headers: {
             "Content-Type": "application/json",
@@ -284,7 +284,7 @@ const Settings = () => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <h4>Upload Profile Image</h4>
             <FilePond
               files={profileImage}
@@ -307,7 +307,7 @@ const Settings = () => {
               name="files"
               labelIdle='Drag & Drop your files or <span className="filepond--label-action">Browse</span>'
             />
-          </Grid>
+          </Grid> */}
         </Grid>
         <Button
           type="submit"

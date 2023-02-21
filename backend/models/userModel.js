@@ -70,12 +70,14 @@ const userSchema = mongoose.Schema(
     },
     profileImage: {
       type: String,
-      default: "",
+      default:
+        "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80",
       trim: true,
     },
     backgroundImage: {
       type: String,
-      default: "",
+      default:
+        "https://images.unsplash.com/photo-1518235506717-e1ed3306a89b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
       trim: true,
     },
     birthDate: {
