@@ -1,5 +1,5 @@
 # squareapp-social-media-web-app
-![image](https://github.com/khmaladze/squareapp-social-media-web-app/assets/91429684/f01bab82-7f3f-47c8-bde2-f76d4e0d00f1)
+![pr5](https://github.com/user-attachments/assets/e674b245-5bf9-43b6-ab26-70d066cbefab)
 
 # Description
 it's old project and everything is not perfect. 
